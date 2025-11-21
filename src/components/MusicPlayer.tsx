@@ -1,36 +1,12 @@
-import { useState, useRef, useEffect } from "react";
 import { Play, Pause } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { useMusic } from "@/context/MusicContext";
 
 const MusicPlayer = () => {
-    const [isPlaying, setIsPlaying] = useState(false);
-    const audioRef = useRef<HTMLAudioElement | null>(null);
+    const { isPlaying, togglePlay } = useMusic();
 
-    useEffect(() => {
-        audioRef.current = new Audio("/audio/timeless.flac");
-        audioRef.current.loop = true;
 
-        return () => {
-            if (audioRef.current) {
-                audioRef.current.pause();
-                audioRef.current = null;
-            }
-        };
-    }, []);
-
-    const togglePlay = () => {
-        if (audioRef.current) {
-            if (isPlaying) {
-                audioRef.current.pause();
-            } else {
-                audioRef.current.play().catch((error) => {
-                    console.error("Audio playback failed:", error);
-                });
-            }
-            setIsPlaying(!isPlaying);
-        }
-    };
 
     return (
         <div className="flex items-center gap-4 bg-background/50 backdrop-blur-md border border-white/10 rounded-full px-4 py-2 shadow-lg">
