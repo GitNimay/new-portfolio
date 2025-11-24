@@ -52,6 +52,13 @@ const certifications = [
     year: "2025",
     description: "Foundational skills in deploying and managing containerized applications",
     link: "https://drive.google.com/drive/u/0/folders/1_clr45J0Kw7c_dWpdiVBDHP26RuOuptg?ths=true"
+  },
+  {
+    title: "DevOps Short Course",
+    issuer: "IT Masters & Charles Sturt University",
+    year: "2025",
+    description: "Completed an industry-aligned DevOps program with a strong 90.00 grade. Gained hands-on exposure to CI/CD concepts, automation workflows, and modern DevOps practices. Earned certification under the guidance of Brenton Burchmore.",
+    link: "https://drive.google.com/drive/folders/1_clr45J0Kw7c_dWpdiVBDHP26RuOuptg?usp=sharing"
   }
 ];
 
@@ -63,17 +70,16 @@ const Skills = () => {
     <section id="skills" className="py-20 px-6">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">Skills & Certifications</h2>
-        
+
         {/* Skills */}
         <div className="mb-16">
           <h3 className="text-2xl font-bold mb-6 text-primary">Technical Skills</h3>
           <div ref={skillsRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {skillCategories.map((category, index) => (
-              <Card 
-                key={index} 
-                className={`p-6 bg-card border-border hover:border-primary/50 transition-all duration-700 hover:scale-105 hover:shadow-lg hover:shadow-primary/10 ${
-                  skillsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}
+              <Card
+                key={index}
+                className={`p-6 bg-card border-border hover:border-primary/50 transition-all duration-700 hover:scale-105 hover:shadow-lg hover:shadow-primary/10 ${skillsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                  }`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
                 <div className="flex items-center gap-3 mb-4">
@@ -97,11 +103,10 @@ const Skills = () => {
           <h3 className="text-2xl font-bold mb-6 text-primary">Certifications</h3>
           <div ref={certsRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {certifications.map((cert, index) => (
-              <Card 
-                key={index} 
-                className={`p-6 bg-card border-border hover:border-primary/50 transition-all duration-700 hover:scale-105 hover:shadow-xl hover:shadow-primary/20 ${
-                  certsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}
+              <Card
+                key={index}
+                className={`p-6 bg-card border-border hover:border-primary/50 transition-all duration-700 hover:scale-105 hover:shadow-xl hover:shadow-primary/20 ${certsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                  }`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
                 <div className="flex items-start gap-3 mb-3">
@@ -112,8 +117,8 @@ const Skills = () => {
                   </div>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">{cert.description}</p>
-                <Button 
-                  asChild 
+                <Button
+                  asChild
                   size="sm"
                   className="w-full"
                 >
