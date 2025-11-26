@@ -28,7 +28,7 @@ const projects = [
       "Enabled real-time candidate assessment and report generation"
     ],
     tags: ["React.js", "AI/ML", "Firebase", "Cloudinary", "Gemini"],
-    link: "https://interviewxpert-ai.netlify.app/"
+    link: "https://intarview-expert-landing-page.netlify.app"
   }
 ];
 
@@ -41,11 +41,10 @@ const Projects = () => {
         <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">Projects</h2>
         <div ref={ref} className="grid md:grid-cols-2 gap-6">
           {projects.map((project, index) => (
-            <Card 
-              key={index} 
-              className={`p-6 bg-card border-border hover:border-primary/50 transition-all duration-700 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/20 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-              }`}
+            <Card
+              key={index}
+              className={`p-6 bg-card border-border hover:border-primary/50 transition-all duration-700 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/20 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                }`}
               style={{ transitionDelay: `${index * 150}ms` }}
             >
               <div className="flex items-start gap-4 mb-4">
@@ -57,9 +56,9 @@ const Projects = () => {
                   <p className="text-sm text-primary">{project.type} • {project.period}</p>
                 </div>
               </div>
-              
+
               <p className="text-foreground mb-4">{project.description}</p>
-              
+
               <ul className="space-y-2 mb-4">
                 {project.highlights.map((highlight, i) => (
                   <li key={i} className="text-sm text-muted-foreground flex items-start">
@@ -68,7 +67,7 @@ const Projects = () => {
                   </li>
                 ))}
               </ul>
-              
+
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.tags.map((tag, i) => (
                   <span key={i} className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full">
@@ -76,9 +75,9 @@ const Projects = () => {
                   </span>
                 ))}
               </div>
-              
-              <Button 
-                asChild 
+
+              <Button
+                asChild
                 className="w-full"
               >
                 <a href={project.link} target="_blank" rel="noopener noreferrer">
