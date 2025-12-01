@@ -15,7 +15,7 @@ const projects = [
       "Designed Kanban pipelines, charts, and sales tools"
     ],
     tags: ["React", "TypeScript", "Tailwind CSS", "Supabase", "Real-time"],
-    link: "#"
+    link: "https://lumino-crm.netlify.app/"
   },
   {
     title: "Jenkins CI/CD Pipeline",
