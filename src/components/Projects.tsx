@@ -5,6 +5,19 @@ import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const projects = [
   {
+    title: "Lumino CRM - Real-time Sales Dashboard",
+    period: "November 2025 - December 2025",
+    type: "Personal Project",
+    description: "Modern CRM with real-time collaboration and glassmorphism UI",
+    highlights: [
+      "Built responsive SPA with React, TypeScript, Tailwind, and dark mode",
+      "Implemented real-time sync and notifications via Supabase",
+      "Designed Kanban pipelines, charts, and sales tools"
+    ],
+    tags: ["React", "TypeScript", "Tailwind CSS", "Supabase", "Real-time"],
+    link: "#"
+  },
+  {
     title: "Jenkins CI/CD Pipeline",
     period: "October 2025 - November 2025",
     type: "Personal Project",
@@ -43,7 +56,7 @@ const Projects = () => {
           {projects.map((project, index) => (
             <Card
               key={index}
-              className={`p-6 bg-card border-border hover:border-primary/50 transition-all duration-700 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/20 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              className={`h-full flex flex-col p-6 bg-card border-border hover:border-primary/50 transition-all duration-700 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/20 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                 }`}
               style={{ transitionDelay: `${index * 150}ms` }}
             >
@@ -78,7 +91,7 @@ const Projects = () => {
 
               <Button
                 asChild
-                className="w-full"
+                className="w-full mt-auto"
               >
                 <a href={project.link} target="_blank" rel="noopener noreferrer">
                   View Project <ExternalLink className="w-4 h-4" />
