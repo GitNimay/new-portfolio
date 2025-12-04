@@ -15,7 +15,7 @@ const projects = [
       "Designed Kanban pipelines, charts, and sales tools"
     ],
     tags: ["React", "TypeScript", "Tailwind CSS", "Supabase", "Real-time"],
-    link: "https://lumino-crm.netlify.app/"
+    link: "https://lumino-crm-vc.vercel.app/"
   },
   {
     title: "Jenkins CI/CD Pipeline",
@@ -41,7 +41,7 @@ const projects = [
       "Enabled real-time candidate assessment and report generation"
     ],
     tags: ["React.js", "AI/ML", "Firebase", "Cloudinary", "Gemini"],
-    link: "https://intarview-expert-landing-page.netlify.app"
+    link: "https://landing-page-interview-expert.vercel.app/"
   }
 ];
 
