@@ -5,6 +5,19 @@ import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const projects = [
   {
+    title: "SaaS Validator - AI-Powered Startup Blueprint",
+    period: "December 2025 - Present",
+    type: "Personal Project",
+    description: "Interactive platform for validating and architecting SaaS ideas using AI agents",
+    highlights: [
+      "Built AI-driven project generation pipeline with Google Gemini and animated UI",
+      "Developed interactive node-based architecture diagrams using React Flow",
+      "Implemented real-time diagrams, charts, and drag-and-drop roadmaps"
+    ],
+    tags: ["React", "TypeScript", "Tailwind CSS", "Google GenAI", "Supabase", "React Flow"],
+    link: "https://saa-s-val-lp.vercel.app/"
+  },
+  {
     title: "Lumino CRM - Real-time Sales Dashboard",
     period: "November 2025 - December 2025",
     type: "Personal Project",
