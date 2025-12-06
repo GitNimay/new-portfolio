@@ -34,16 +34,13 @@ const Contact = () => {
         setIsSubmitting(true);
 
         try {
-            const formData = new FormData();
-            formData.append("form-name", "contact");
-            formData.append("name", data.name);
-            formData.append("email", data.email);
-            formData.append("message", data.message);
-
-            const response = await fetch("/", {
+            const response = await fetch("https://formspree.io/f/xqarljdd", {
                 method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: new URLSearchParams(formData as any).toString(),
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify(data),
             });
 
             if (!response.ok) {
@@ -94,10 +91,7 @@ const Contact = () => {
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
                             className="space-y-6"
-                            data-netlify="true"
-                            name="contact"
                         >
-                            <input type="hidden" name="form-name" value="contact" />
                             <div className="grid md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
                                     <label htmlFor="name" className="text-sm font-medium flex items-center gap-2 text-foreground/80">
