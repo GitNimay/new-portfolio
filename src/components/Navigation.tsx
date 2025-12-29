@@ -65,7 +65,7 @@ const Navigation = () => {
 
                 {/* Mobile Menu */}
                 {isOpen && (
-                    <div className="md:hidden mt-4 py-4 border-t border-border animate-fade-in">
+                    <div className="md:hidden mt-4 py-4 border-t border-border bg-background/95 backdrop-blur-md rounded-lg animate-in fade-in slide-in-from-top-5 duration-300">
                         {navItems.map((item) => (
                             <button
                                 key={item.href}
