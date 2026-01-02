@@ -3,12 +3,17 @@ import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import profileImage from "@/assets/download.jpg";
 
+const email = "nimesh.kulkarni2004@gmail.com";
+const obscuredEmail = email.replace(/([a-z0-9._-]+)@([a-z0-9._-]+\.[a-z]+)/gi, (match, user, domain) => {
+  return user.replace(/./g, '*') + '@' + domain;
+});
+
 const Hero = () => {
   const { ref: imageRef, isVisible: imageVisible } = useScrollAnimation();
   const { ref: contentRef, isVisible: contentVisible } = useScrollAnimation();
 
   return (
-    <section className="min-h-screen flex items-center justify-center px-6 py-20">
+    <section className="min-h-screen flex items-center justify-center px-6 py-20" id="home" aria-labelledby="hero-title">
       <div className="max-w-6xl w-full">
         <div className="flex flex-col md:flex-row items-center gap-12">
           {/* Profile Image */}
@@ -22,6 +27,7 @@ const Hero = () => {
                 src={profileImage}
                 alt="Nimesh Kulkarni Profile"
                 className="w-full h-full object-cover"
+                loading="lazy"
               />
             </div>
           </div>
@@ -32,7 +38,7 @@ const Hero = () => {
             className={`flex-1 text-center md:text-left transition-all duration-1000 delay-200 ${contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
               }`}
           >
-            <h1 className="text-5xl md:text-7xl font-bold mb-4 text-foreground animate-fade-in">
+            <h1 id="hero-title" className="text-5xl md:text-7xl font-bold mb-4 text-foreground animate-fade-in">
               Nimesh Kulkarni
             </h1>
             <p className="text-xl md:text-2xl text-primary mb-6">
@@ -45,32 +51,54 @@ const Hero = () => {
             </p>
 
             {/* Contact Links */}
-            <div className="flex flex-wrap gap-4 justify-center md:justify-start mb-8">
+            <nav className="flex flex-wrap gap-4 justify-center md:justify-start mb-8" aria-label="Contact links">
               <Button variant="outline" size="lg" asChild className="transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/20">
-                <a href="mailto:nimesh.kulkarni2004@gmail.com" className="flex items-center gap-2">
+                <a
+                  href={`mailto:${email}`}
+                  className="flex items-center gap-2"
+                  aria-label="Send email to Nimesh Kulkarni"
+                >
                   <Mail className="w-4 h-4" />
-                  Email
+                  <span className="hidden sm:inline">Email</span>
                 </a>
               </Button>
               <Button variant="outline" size="lg" asChild className="transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/20">
-                <a href="https://drive.google.com/file/d/1IQliZDS4lBg8EX1JfefYlmytioWiIqMc/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                <a
+                  href="https://drive.google.com/file/d/1IQliZDS4lBg8EX1JfefYlmytioWiIqMc/view?usp=sharing"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2"
+                  aria-label="View CV/Resume"
+                >
                   <FileText className="w-4 h-4" />
-                  CV
+                  <span className="hidden sm:inline">CV</span>
                 </a>
               </Button>
               <Button variant="outline" size="lg" asChild className="transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/20">
-                <a href="https://www.linkedin.com/in/nimesh-kulkarni-526401266/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                <a
+                  href="https://www.linkedin.com/in/nimesh-kulkarni-526401266/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2"
+                  aria-label="Visit LinkedIn profile"
+                >
                   <Linkedin className="w-4 h-4" />
-                  LinkedIn
+                  <span className="hidden sm:inline">LinkedIn</span>
                 </a>
               </Button>
               <Button variant="outline" size="lg" asChild className="transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/20">
-                <a href="https://github.com/GitNimay" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                <a
+                  href="https://github.com/GitNimay"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2"
+                  aria-label="Visit GitHub profile"
+                >
                   <Github className="w-4 h-4" />
-                  GitHub
+                  <span className="hidden sm:inline">GitHub</span>
                 </a>
               </Button>
-            </div>
+            </nav>
           </div>
         </div>
       </div>

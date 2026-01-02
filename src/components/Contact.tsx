@@ -17,6 +17,33 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
+const RATE_LIMIT_KEY = 'contactFormSubmissions';
+const MAX_SUBMISSIONS = 3;
+const RATE_LIMIT_WINDOW = 3600000;
+
+const checkRateLimit = (): boolean => {
+    try {
+        const submissions = JSON.parse(
+            localStorage.getItem(RATE_LIMIT_KEY) || '[]'
+        );
+        const recent = submissions.filter((time: number) =>
+            Date.now() - time < RATE_LIMIT_WINDOW
+        );
+
+        if (recent.length >= MAX_SUBMISSIONS) {
+            return false;
+        }
+
+        localStorage.setItem(
+            RATE_LIMIT_KEY,
+            JSON.stringify([...recent, Date.now()])
+        );
+        return true;
+    } catch {
+        return true;
+    }
+};
+
 const Contact = () => {
     const { ref, isVisible } = useScrollAnimation();
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,6 +58,13 @@ const Contact = () => {
     });
 
     const onSubmit = async (data: FormValues) => {
+        if (!checkRateLimit()) {
+            toast.error("Too many submissions", {
+                description: "Please wait 1 hour before submitting again.",
+            });
+            return;
+        }
+
         setIsSubmitting(true);
 
         try {
@@ -47,14 +81,12 @@ const Contact = () => {
                 throw new Error("Network response was not ok");
             }
 
-            console.log("Form submitted:", data);
             toast.success("Message sent successfully!", {
                 description: "Thanks for reaching out. I'll get back to you soon.",
             });
 
             form.reset();
         } catch (error) {
-            console.error("Form submission error:", error);
             toast.error("Something went wrong.", {
                 description: "Please try again later or email me directly.",
             });

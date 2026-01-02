@@ -1,20 +1,24 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AnimatedLogo from "@/components/AnimatedLogo";
 import MusicPlayer from "@/components/MusicPlayer";
+import { useTheme } from "@/hooks/use-theme";
+import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
 
 const navItems = [
-    { label: "Home", href: "#home" },
-    { label: "Experience", href: "#experience" },
-    { label: "Projects", href: "#projects" },
-    { label: "Skills", href: "#skills" },
-    { label: "Education", href: "#education" }
+    { label: "Home", href: "home" },
+    { label: "Experience", href: "experience" },
+    { label: "Projects", href: "projects" },
+    { label: "Skills", href: "skills" },
+    { label: "Education", href: "education" }
 ];
 
 const Navigation = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const { theme, toggleTheme } = useTheme();
+    const { scrollTo } = useSmoothScroll();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -24,12 +28,9 @@ const Navigation = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const scrollToSection = (href: string) => {
-        const element = document.querySelector(href);
-        if (element) {
-            element.scrollIntoView({ behavior: "smooth" });
-            setIsOpen(false);
-        }
+    const scrollToSection = (id: string) => {
+        scrollTo(id);
+        setIsOpen(false);
     };
 
     return (
@@ -49,6 +50,15 @@ const Navigation = () => {
                                 {item.label}
                             </button>
                         ))}
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={toggleTheme}
+                            aria-label="Toggle theme"
+                            className="hover:bg-primary/20"
+                        >
+                            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                        </Button>
                         <MusicPlayer />
                     </div>
 
@@ -58,6 +68,7 @@ const Navigation = () => {
                         size="icon"
                         className="md:hidden"
                         onClick={() => setIsOpen(!isOpen)}
+                        aria-label="Toggle menu"
                     >
                         {isOpen ? <X /> : <Menu />}
                     </Button>
@@ -75,7 +86,15 @@ const Navigation = () => {
                                 {item.label}
                             </button>
                         ))}
-                        <div className="mt-4 flex justify-center">
+                        <div className="mt-4 flex items-center justify-center gap-4">
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={toggleTheme}
+                                aria-label="Toggle theme"
+                            >
+                                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                            </Button>
                             <MusicPlayer />
                         </div>
                     </div>

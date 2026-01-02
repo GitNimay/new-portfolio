@@ -12,7 +12,7 @@ export const MusicProvider = ({ children }: { children: React.ReactNode }) => {
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     useEffect(() => {
-        audioRef.current = new Audio("/audio/timeless.flac");
+        audioRef.current = new Audio("/audio/timeless.mp3");
         audioRef.current.loop = true;
 
         return () => {
@@ -28,8 +28,8 @@ export const MusicProvider = ({ children }: { children: React.ReactNode }) => {
             if (isPlaying) {
                 audioRef.current.pause();
             } else {
-                audioRef.current.play().catch((error) => {
-                    console.error("Audio playback failed:", error);
+                audioRef.current.play().catch(() => {
+                    // Silent fail - audio autoplay policies prevent playback without user interaction
                 });
             }
             setIsPlaying(!isPlaying);

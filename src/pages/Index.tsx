@@ -5,20 +5,24 @@ import Projects from "@/components/Projects";
 import Skills from "@/components/Skills";
 import Education from "@/components/Education";
 import Contact from "@/components/Contact";
+import SEO from "@/components/SEO";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background" id="home">
+      <SEO />
       <Navigation />
-      <Hero />
-      <Experience />
-      <Projects />
-      <Skills />
-      <Education />
-      <Contact />
+      <main>
+        <Hero />
+        <Experience />
+        <Projects />
+        <Skills />
+        <Education />
+        <Contact />
+      </main>
 
       {/* Footer */}
-      <footer className="py-8 px-6 border-t border-border">
+      <footer className="py-8 px-6 border-t border-border" role="contentinfo">
         <div className="max-w-6xl mx-auto text-center text-muted-foreground">
           <p>© 2025 Nimesh Kulkarni. All rights reserved.</p>
         </div>
