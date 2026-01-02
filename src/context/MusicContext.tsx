@@ -12,7 +12,7 @@ export const MusicProvider = ({ children }: { children: React.ReactNode }) => {
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
     useEffect(() => {
-        audioRef.current = new Audio("/audio/timeless.mp3");
+        audioRef.current = new Audio("/audio/timeless.flac");
         audioRef.current.loop = true;
 
         return () => {
