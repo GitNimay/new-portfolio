@@ -37,10 +37,13 @@ const Navigation = () => {
         <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/95 backdrop-blur-sm border-b border-border shadow-lg" : "bg-transparent"}`}>
             <div className="max-w-6xl mx-auto px-6 py-4">
                 <div className="flex items-center justify-between">
-                    <AnimatedLogo />
+                    {/* Left - Logo */}
+                    <div className="flex-1 flex justify-start">
+                        <AnimatedLogo />
+                    </div>
 
-                    {/* Desktop Menu */}
-                    <div className="hidden md:flex items-center gap-8">
+                    {/* Center - Desktop Menu */}
+                    <div className="hidden md:flex items-center justify-center gap-8">
                         {navItems.map((item) => (
                             <button
                                 key={item.href}
@@ -50,6 +53,10 @@ const Navigation = () => {
                                 {item.label}
                             </button>
                         ))}
+                    </div>
+
+                    {/* Right - Controls */}
+                    <div className="hidden md:flex flex-1 items-center justify-end gap-4">
                         <Button
                             variant="ghost"
                             size="icon"
