@@ -78,7 +78,7 @@ const Skills = () => {
             {skillCategories.map((category, index) => (
               <Card
                 key={index}
-                className={`p-6 bg-card border-border hover:border-primary/50 transition-all duration-700 hover:scale-105 hover:shadow-lg hover:shadow-primary/10 ${skillsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                className={`p-6 bg-card border-border hover:border-primary/50 transition-all duration-700 hover:scale-105 hover:shadow-lg hover:shadow-primary/10 will-change-transform ${skillsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                   }`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
@@ -105,7 +105,7 @@ const Skills = () => {
             {certifications.map((cert, index) => (
               <Card
                 key={index}
-                className={`p-6 bg-card border-border hover:border-primary/50 transition-all duration-700 hover:scale-105 hover:shadow-xl hover:shadow-primary/20 ${certsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                className={`p-6 bg-card border-border hover:border-primary/50 transition-all duration-700 hover:scale-105 hover:shadow-xl hover:shadow-primary/20 will-change-transform ${certsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                   }`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >

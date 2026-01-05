@@ -19,7 +19,7 @@ const Hero = () => {
           {/* Profile Image */}
           <div
             ref={imageRef}
-            className={`relative transition-all duration-1000 ${imageVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            className={`relative transition-all duration-1000 will-change-transform ${imageVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
               }`}
           >
             <div className="w-64 h-80 rounded-[50%] border-4 border-primary/30 overflow-hidden transition-transform duration-500 hover:scale-105 hover:border-primary/50">
@@ -27,7 +27,7 @@ const Hero = () => {
                 src={profileImage}
                 alt="Nimesh Kulkarni Profile"
                 className="w-full h-full object-cover"
-                loading="lazy"
+                loading="eager"
               />
             </div>
           </div>
@@ -35,7 +35,7 @@ const Hero = () => {
           {/* Content */}
           <div
             ref={contentRef}
-            className={`flex-1 text-center md:text-left transition-all duration-1000 delay-200 ${contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            className={`flex-1 text-center md:text-left transition-all duration-1000 delay-200 will-change-transform ${contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
               }`}
           >
             <h1 id="hero-title" className="text-5xl md:text-7xl font-bold mb-4 text-foreground animate-fade-in">
