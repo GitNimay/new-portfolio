@@ -40,7 +40,7 @@ const BlogDetail = () => {
     );
   }
 
-  const diagram = blogDiagrams['aiops-mlops'];
+  const diagram = slug ? blogDiagrams[slug] : undefined;
 
   const renderContent = () => {
     const sections = post.content.split(/\n##\s+/);
