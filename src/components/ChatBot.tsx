@@ -288,7 +288,7 @@ const ChatBot = () => {
 
             {/* Chat Window */}
             <div
-                className={`fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 w-[380px] max-w-[calc(100vw-32px)] transition-all duration-300 ${isOpen
+                className={`fixed bottom-4 right-4 md:bottom-24 md:right-6 z-50 w-[90vw] md:w-[380px] max-w-[450px] transition-all duration-300 ${isOpen
                     ? "scale-100 opacity-100 translate-y-0"
                     : "scale-95 opacity-0 translate-y-4 pointer-events-none"
                     }`}

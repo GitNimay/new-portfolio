@@ -17,48 +17,48 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 import ChatBot from "./components/ChatBot";
 
 const PageSkeleton = () => (
-  <div className="min-h-screen bg-background flex items-center justify-center">
-    <div className="max-w-6xl w-full px-6">
-      <Skeleton className="h-screen w-full" />
+    <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="max-w-6xl w-full px-6">
+            <Skeleton className="h-screen w-full" />
+        </div>
     </div>
-  </div>
 );
 
 const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 1,
-      refetchOnWindowFocus: false,
+    defaultOptions: {
+        queries: {
+            retry: 1,
+            refetchOnWindowFocus: false,
+        },
     },
-  },
 });
 
 const App = () => (
-  <ErrorBoundary>
-    <QueryClientProvider client={queryClient}>
-      <HelmetProvider>
-        <MusicProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-              <BrowserRouter>
-               <Suspense fallback={<PageSkeleton />}>
-                 <Routes>
-                   <Route path="/" element={<Index />} />
-                    <Route path="/blogs" element={<BlogListing />} />
-                    <Route path="/blogs/:slug" element={<BlogDetail />} />
-                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                   <Route path="*" element={<NotFound />} />
-                 </Routes>
-               </Suspense>
-             </BrowserRouter>
-            <Analytics />
-            <ChatBot />
-          </TooltipProvider>
-        </MusicProvider>
-      </HelmetProvider>
-    </QueryClientProvider>
-  </ErrorBoundary>
+    <ErrorBoundary>
+        <QueryClientProvider client={queryClient}>
+            <HelmetProvider>
+                <MusicProvider>
+                    <TooltipProvider>
+                        <Toaster />
+                        <Sonner />
+                        <BrowserRouter>
+                            <Suspense fallback={<PageSkeleton />}>
+                                <Routes>
+                                    <Route path="/" element={<Index />} />
+                                    <Route path="/blogs" element={<BlogListing />} />
+                                    <Route path="/blogs/:slug" element={<BlogDetail />} />
+                                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                                    <Route path="*" element={<NotFound />} />
+                                </Routes>
+                            </Suspense>
+                        </BrowserRouter>
+                        <Analytics />
+                        <ChatBot />
+                    </TooltipProvider>
+                </MusicProvider>
+            </HelmetProvider>
+        </QueryClientProvider>
+    </ErrorBoundary>
 );
 
 export default App;
