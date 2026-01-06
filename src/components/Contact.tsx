@@ -96,7 +96,7 @@ const Contact = () => {
     };
 
     return (
-        <section className="py-20 px-6 relative overflow-hidden" id="contact">
+        <section className="py-16 md:py-24 px-4 md:px-6 relative overflow-hidden" id="contact">
             {/* Background Elements */}
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl -z-10 animate-pulse" />
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl -z-10 animate-pulse delay-1000" />
@@ -116,9 +116,9 @@ const Contact = () => {
                         </p>
                     </div>
 
-                    <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+                    <div className="bg-card/30 backdrop-blur-lg border border-border rounded-2xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
                         {/* Glass Shine Effect */}
-                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
 
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
@@ -134,7 +134,7 @@ const Contact = () => {
                                         id="name"
                                         placeholder="John Doe"
                                         {...form.register("name")}
-                                        className={`bg-black/20 border-white/10 focus:border-primary/50 transition-all duration-300 ${form.formState.errors.name ? "border-destructive" : ""
+                                        className={`bg-secondary/50 border-input focus:border-primary/50 transition-all duration-300 ${form.formState.errors.name ? "border-destructive" : ""
                                             }`}
                                     />
                                     {form.formState.errors.name && (
@@ -152,7 +152,7 @@ const Contact = () => {
                                         type="email"
                                         placeholder="john@example.com"
                                         {...form.register("email")}
-                                        className={`bg-black/20 border-white/10 focus:border-primary/50 transition-all duration-300 ${form.formState.errors.email ? "border-destructive" : ""
+                                        className={`bg-secondary/50 border-input focus:border-primary/50 transition-all duration-300 ${form.formState.errors.email ? "border-destructive" : ""
                                             }`}
                                     />
                                     {form.formState.errors.email && (
@@ -170,7 +170,7 @@ const Contact = () => {
                                     id="message"
                                     placeholder="Tell me about your project..."
                                     {...form.register("message")}
-                                    className={`min-h-[150px] bg-black/20 border-white/10 focus:border-primary/50 transition-all duration-300 resize-none ${form.formState.errors.message ? "border-destructive" : ""
+                                    className={`min-h-[150px] bg-secondary/50 border-input focus:border-primary/50 transition-all duration-300 resize-none ${form.formState.errors.message ? "border-destructive" : ""
                                         }`}
                                 />
                                 {form.formState.errors.message && (

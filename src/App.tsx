@@ -12,6 +12,7 @@ import { Analytics } from "@vercel/analytics/react";
 
 const Index = lazy(() => import("./pages/Index"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+import ChatBot from "./components/ChatBot";
 
 const PageSkeleton = () => (
   <div className="min-h-screen bg-background flex items-center justify-center">
@@ -48,6 +49,7 @@ const App = () => (
               </Suspense>
             </BrowserRouter>
             <Analytics />
+            <ChatBot />
           </TooltipProvider>
         </MusicProvider>
       </HelmetProvider>

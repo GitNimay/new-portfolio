@@ -62,9 +62,9 @@ const Projects = () => {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="projects" className="py-20 px-6 bg-secondary/30" aria-labelledby="projects-heading">
+    <section id="projects" className="py-16 md:py-24 px-4 md:px-6 bg-secondary/30" aria-labelledby="projects-heading">
       <div className="max-w-6xl mx-auto">
-        <h2 id="projects-heading" className="text-4xl md:text-5xl font-bold mb-12 text-center">Projects</h2>
+        <h2 id="projects-heading" className="text-3xl md:text-5xl font-bold mb-12 text-center">Projects</h2>
         <div ref={ref} className="grid md:grid-cols-2 gap-6" role="list" aria-label="Portfolio projects">
           {projects.map((project, index) => (
             <Card

@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: 'build',
     sourcemap: mode === 'development',
+    cssCodeSplit: true,
     rollupOptions: {
       output: {
         manualChunks: {
@@ -16,7 +17,8 @@ export default defineConfig(({ mode }) => ({
           'vendor-forms': ['react-hook-form', 'zod', '@hookform/resolvers'],
         }
       }
-    }
+    },
+    chunkSizeWarningLimit: 1000,
   },
   server: {
     port: 3000,

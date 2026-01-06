@@ -3,26 +3,39 @@ import { useEffect, useState } from 'react';
 type Theme = 'dark' | 'light';
 
 export const useTheme = () => {
+  const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState<Theme>(() => {
-    const savedTheme = localStorage.getItem('theme') as Theme | null;
-    if (savedTheme) {
-      return savedTheme;
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme') as Theme | null;
+      if (savedTheme) {
+        return savedTheme;
+      }
+      return 'light';
     }
-
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    return prefersDark ? 'dark' : 'light';
+    return 'light';
   });
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    
     const root = document.documentElement;
     root.classList.remove('dark', 'light');
     root.classList.add(theme);
     localStorage.setItem('theme', theme);
-  }, [theme]);
+    
+    // Ensure body is visible
+    if (document.body) {
+      document.body.classList.add('theme-loaded');
+    }
+  }, [theme, mounted]);
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
-  return { theme, toggleTheme };
+  return { theme, toggleTheme, mounted };
 };

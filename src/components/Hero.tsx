@@ -13,7 +13,7 @@ const Hero = () => {
   const { ref: contentRef, isVisible: contentVisible } = useScrollAnimation();
 
   return (
-    <section className="min-h-screen flex items-center justify-center px-6 py-20" id="home" aria-labelledby="hero-title">
+    <section className="min-h-screen flex items-center justify-center px-4 md:px-6 py-16 md:py-24" id="home" aria-labelledby="hero-title">
       <div className="max-w-6xl w-full">
         <div className="flex flex-col md:flex-row items-center gap-12">
           {/* Profile Image */}
@@ -22,7 +22,7 @@ const Hero = () => {
             className={`relative transition-all duration-1000 ${imageVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
               }`}
           >
-            <div className="w-64 h-80 rounded-[50%] border-4 border-primary/30 overflow-hidden transition-transform duration-500 hover:scale-105 hover:border-primary/50">
+            <div className="w-48 h-60 md:w-64 md:h-80 rounded-[50%] border-4 border-primary/30 overflow-hidden transition-transform duration-500 hover:scale-105 hover:border-primary/50">
               <img
                 src={profileImage}
                 alt="Nimesh Kulkarni Profile"
@@ -38,7 +38,7 @@ const Hero = () => {
             className={`flex-1 text-center md:text-left transition-all duration-1000 delay-200 ${contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
               }`}
           >
-            <h1 id="hero-title" className="text-5xl md:text-7xl font-bold mb-4 text-foreground animate-fade-in">
+            <h1 id="hero-title" className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 text-foreground animate-fade-in">
               Nimesh Kulkarni
             </h1>
             <p className="text-xl md:text-2xl text-primary mb-6">
@@ -52,7 +52,7 @@ const Hero = () => {
 
             {/* Contact Links */}
             <nav className="flex flex-wrap gap-4 justify-center md:justify-start mb-8" aria-label="Contact links">
-              <Button variant="outline" size="lg" asChild className="transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/20">
+              <Button variant="outline" size="lg" asChild className="transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/50 hover:bg-primary/10 hover:text-primary dark:hover:bg-accent dark:hover:text-accent-foreground">
                 <a
                   href={`mailto:${email}`}
                   className="flex items-center gap-2"
@@ -62,7 +62,7 @@ const Hero = () => {
                   <span className="hidden sm:inline">Email</span>
                 </a>
               </Button>
-              <Button variant="outline" size="lg" asChild className="transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/20">
+              <Button variant="outline" size="lg" asChild className="transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/50 hover:bg-primary/10 hover:text-primary dark:hover:bg-accent dark:hover:text-accent-foreground">
                 <a
                   href="https://drive.google.com/file/d/1IQliZDS4lBg8EX1JfefYlmytioWiIqMc/view?usp=sharing"
                   target="_blank"
@@ -74,7 +74,7 @@ const Hero = () => {
                   <span className="hidden sm:inline">CV</span>
                 </a>
               </Button>
-              <Button variant="outline" size="lg" asChild className="transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/20">
+              <Button variant="outline" size="lg" asChild className="transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/50 hover:bg-primary/10 hover:text-primary dark:hover:bg-accent dark:hover:text-accent-foreground">
                 <a
                   href="https://www.linkedin.com/in/nimesh-kulkarni-526401266/"
                   target="_blank"
@@ -86,7 +86,7 @@ const Hero = () => {
                   <span className="hidden sm:inline">LinkedIn</span>
                 </a>
               </Button>
-              <Button variant="outline" size="lg" asChild className="transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/20">
+              <Button variant="outline" size="lg" asChild className="transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/50 hover:bg-primary/10 hover:text-primary dark:hover:bg-accent dark:hover:text-accent-foreground">
                 <a
                   href="https://github.com/GitNimay"
                   target="_blank"
