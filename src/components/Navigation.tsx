@@ -1,34 +1,17 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AnimatedLogo from "@/components/AnimatedLogo";
-import MusicPlayer from "@/components/MusicPlayer";
 import { useTheme } from "@/hooks/use-theme";
-import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
-import { Link } from "react-router-dom";
-
-type NavItem = {
-    label: string;
-    href: string;
-    external?: boolean;
-};
-
-const navItems: NavItem[] = [
-    { label: "Home", href: "home" },
-    { label: "Experience", href: "experience" },
-    { label: "Projects", href: "projects" },
-    { label: "Skills", href: "skills" },
-    { label: "Education", href: "education" },
-    { label: "Blogs", href: "/blogs", external: true }
-];
+import BottomNavbar from "@/components/BottomNavbar";
 
 const Navigation = () => {
-    const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const { theme, toggleTheme } = useTheme();
-    const { scrollTo } = useSmoothScroll();
+    const [mounted, setMounted] = useState(false);
+    const { theme, toggleTheme, resolvedTheme } = useTheme();
 
     useEffect(() => {
+        setMounted(true);
         const handleScroll = () => {
             setScrolled(window.scrollY > 50);
         };
@@ -36,107 +19,44 @@ const Navigation = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const scrollToSection = (id: string) => {
-        scrollTo(id);
-        setIsOpen(false);
-    };
+    // Prevent hydration mismatch by using resolvedTheme only after mount if needed, 
+    // but here we just want to avoid showing the wrong icon. 
+    // resolvedTheme is undefined on server, so 'dark' fallback is okay for initial state if strictly needed,
+    // but usually better to wait for mount to show toggle to avoid flicker.
+    // For this specific snippets, let's keep it simple.
+    const currentTheme = mounted ? resolvedTheme : "dark";
 
     return (
-        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/95 backdrop-blur-sm border-b border-border shadow-lg" : "bg-transparent"}`}>
-            <div className="max-w-6xl mx-auto px-4 md:px-6 py-4">
-                <div className="flex items-center relative">
-                    {/* Left - Logo */}
-                    <div className="flex-1 flex justify-start z-10">
-                        <AnimatedLogo />
-                    </div>
+        <>
+            <nav className="fixed top-0 left-0 right-0 z-40 transition-all duration-300 bg-transparent pointer-events-none">
+                <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 pointer-events-auto">
+                    <div className="flex items-center justify-between">
+                        {/* Logo */}
+                        <div className="flex-shrink-0 z-50">
+                            <AnimatedLogo />
+                        </div>
 
-                    {/* Center - Desktop Menu */}
-                    <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center justify-center gap-8">
-                        {navItems.map((item) => (
-                            item.external ? (
-                                <Link
-                                    key={item.href}
-                                    to={item.href}
-                                    className="text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
-                                >
-                                    {item.label}
-                                </Link>
-                            ) : (
-                                <button
-                                    key={item.href}
-                                    onClick={() => scrollToSection(item.href)}
-                                    className="text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
-                                >
-                                    {item.label}
-                                </button>
-                            )
-                        ))}
-                    </div>
+                        {/* Center Navbar */}
+                        <div className="flex-1 flex justify-center z-50">
+                            <BottomNavbar />
+                        </div>
 
-                    {/* Right - Controls */}
-                    <div className="hidden md:flex flex-1 items-center justify-end gap-4 z-10">
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={toggleTheme}
-                            aria-label="Toggle theme"
-                            className="hover:bg-primary/20"
-                        >
-                            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                        </Button>
-                        <MusicPlayer />
-                    </div>
-
-                    {/* Mobile Menu Button */}
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className="md:hidden"
-                        onClick={() => setIsOpen(!isOpen)}
-                        aria-label="Toggle menu"
-                    >
-                        {isOpen ? <X /> : <Menu />}
-                    </Button>
-                </div>
-
-                {/* Mobile Menu */}
-                {isOpen && (
-                    <div className="md:hidden mt-4 py-4 border-t border-border animate-fade-in">
-                        {navItems.map((item) => (
-                            item.external ? (
-                                <Link
-                                    key={item.href}
-                                    to={item.href}
-                                    onClick={() => setIsOpen(false)}
-                                    className="block w-full text-left py-2 text-muted-foreground hover:text-primary transition-all duration-300 hover:translate-x-2"
-                                >
-                                    {item.label}
-                                </Link>
-                            ) : (
-                                <button
-                                    key={item.href}
-                                    onClick={() => scrollToSection(item.href)}
-                                    className="block w-full text-left py-2 text-muted-foreground hover:text-primary transition-all duration-300 hover:translate-x-2"
-                                >
-                                    {item.label}
-                                </button>
-                            )
-                        ))}
-                        <div className="mt-4 flex items-center justify-center gap-4">
+                        {/* Theme Toggle */}
+                        <div className="flex items-center gap-4 z-50 flex-shrink-0">
                             <Button
                                 variant="ghost"
                                 size="icon"
                                 onClick={toggleTheme}
                                 aria-label="Toggle theme"
+                                className="rounded-full hover:bg-primary/20 transition-colors bg-background/80 backdrop-blur-sm border border-border/50"
                             >
-                                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                                {currentTheme === 'dark' ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-slate-600" />}
                             </Button>
-                            <MusicPlayer />
                         </div>
                     </div>
-                )}
-            </div>
-        </nav>
+                </div>
+            </nav>
+        </>
     );
 };
 
