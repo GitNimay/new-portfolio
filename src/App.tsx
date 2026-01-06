@@ -11,6 +11,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Analytics } from "@vercel/analytics/react";
 
 const Index = lazy(() => import("./pages/Index"));
+const BlogListing = lazy(() => import("./pages/BlogListing"));
+const BlogDetail = lazy(() => import("./pages/BlogDetail"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 import ChatBot from "./components/ChatBot";
 
@@ -39,15 +41,17 @@ const App = () => (
           <TooltipProvider>
             <Toaster />
             <Sonner />
-            <BrowserRouter>
-              <Suspense fallback={<PageSkeleton />}>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Suspense>
-            </BrowserRouter>
+              <BrowserRouter>
+               <Suspense fallback={<PageSkeleton />}>
+                 <Routes>
+                   <Route path="/" element={<Index />} />
+                    <Route path="/blogs" element={<BlogListing />} />
+                    <Route path="/blogs/:slug" element={<BlogDetail />} />
+                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                   <Route path="*" element={<NotFound />} />
+                 </Routes>
+               </Suspense>
+             </BrowserRouter>
             <Analytics />
             <ChatBot />
           </TooltipProvider>

@@ -5,13 +5,21 @@ import AnimatedLogo from "@/components/AnimatedLogo";
 import MusicPlayer from "@/components/MusicPlayer";
 import { useTheme } from "@/hooks/use-theme";
 import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
+import { Link } from "react-router-dom";
 
-const navItems = [
+type NavItem = {
+    label: string;
+    href: string;
+    external?: boolean;
+};
+
+const navItems: NavItem[] = [
     { label: "Home", href: "home" },
     { label: "Experience", href: "experience" },
     { label: "Projects", href: "projects" },
     { label: "Skills", href: "skills" },
-    { label: "Education", href: "education" }
+    { label: "Education", href: "education" },
+    { label: "Blogs", href: "/blogs", external: true }
 ];
 
 const Navigation = () => {
@@ -45,13 +53,23 @@ const Navigation = () => {
                     {/* Center - Desktop Menu */}
                     <div className="hidden md:flex items-center justify-center gap-8">
                         {navItems.map((item) => (
-                            <button
-                                key={item.href}
-                                onClick={() => scrollToSection(item.href)}
-                                className="text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
-                            >
-                                {item.label}
-                            </button>
+                            item.external ? (
+                                <Link
+                                    key={item.href}
+                                    to={item.href}
+                                    className="text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+                                >
+                                    {item.label}
+                                </Link>
+                            ) : (
+                                <button
+                                    key={item.href}
+                                    onClick={() => scrollToSection(item.href)}
+                                    className="text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+                                >
+                                    {item.label}
+                                </button>
+                            )
                         ))}
                     </div>
 
@@ -85,13 +103,24 @@ const Navigation = () => {
                 {isOpen && (
                     <div className="md:hidden mt-4 py-4 border-t border-border animate-fade-in">
                         {navItems.map((item) => (
-                            <button
-                                key={item.href}
-                                onClick={() => scrollToSection(item.href)}
-                                className="block w-full text-left py-2 text-muted-foreground hover:text-primary transition-all duration-300 hover:translate-x-2"
-                            >
-                                {item.label}
-                            </button>
+                            item.external ? (
+                                <Link
+                                    key={item.href}
+                                    to={item.href}
+                                    onClick={() => setIsOpen(false)}
+                                    className="block w-full text-left py-2 text-muted-foreground hover:text-primary transition-all duration-300 hover:translate-x-2"
+                                >
+                                    {item.label}
+                                </Link>
+                            ) : (
+                                <button
+                                    key={item.href}
+                                    onClick={() => scrollToSection(item.href)}
+                                    className="block w-full text-left py-2 text-muted-foreground hover:text-primary transition-all duration-300 hover:translate-x-2"
+                                >
+                                    {item.label}
+                                </button>
+                            )
                         ))}
                         <div className="mt-4 flex items-center justify-center gap-4">
                             <Button

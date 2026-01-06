@@ -295,7 +295,7 @@ const ChatBot = () => {
             >
                 <div
                     className="rounded-2xl overflow-hidden shadow-2xl border backdrop-blur-2xl bg-background/60 dark:bg-background/60 border-primary/10 shadow-black/10 dark:shadow-black/20"
-                    style={{ maxHeight: "70vh" }}
+                    style={{ maxHeight: "calc(100vh - 100px)" }}
                 >
                     {/* Header */}
                     <div
