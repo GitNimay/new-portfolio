@@ -9,6 +9,8 @@ import { MusicProvider } from "./context/MusicContext";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Analytics } from "@vercel/analytics/react";
+import { MagicBackgroundProvider } from "./context/MagicBackgroundContext";
+import { MagicThemeHandler } from "./components/MagicThemeHandler";
 
 const Index = lazy(() => import("./pages/Index"));
 const BlogListing = lazy(() => import("./pages/BlogListing"));
@@ -38,23 +40,26 @@ const App = () => (
         <QueryClientProvider client={queryClient}>
             <HelmetProvider>
                 <MusicProvider>
-                    <TooltipProvider>
-                        <Toaster />
-                        <Sonner />
-                        <BrowserRouter>
-                            <Suspense fallback={<PageSkeleton />}>
-                                <Routes>
-                                    <Route path="/" element={<Index />} />
-                                    <Route path="/blogs" element={<BlogListing />} />
-                                    <Route path="/blogs/:slug" element={<BlogDetail />} />
-                                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                                    <Route path="*" element={<NotFound />} />
-                                </Routes>
-                            </Suspense>
-                        </BrowserRouter>
-                        <Analytics />
-                        <ChatBot />
-                    </TooltipProvider>
+                    <MagicBackgroundProvider>
+                        <MagicThemeHandler />
+                        <TooltipProvider>
+                            <Toaster />
+                            <Sonner />
+                            <BrowserRouter>
+                                <Suspense fallback={<PageSkeleton />}>
+                                    <Routes>
+                                        <Route path="/" element={<Index />} />
+                                        <Route path="/blogs" element={<BlogListing />} />
+                                        <Route path="/blogs/:slug" element={<BlogDetail />} />
+                                        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                                        <Route path="*" element={<NotFound />} />
+                                    </Routes>
+                                </Suspense>
+                            </BrowserRouter>
+                            <Analytics />
+                            <ChatBot />
+                        </TooltipProvider>
+                    </MagicBackgroundProvider>
                 </MusicProvider>
             </HelmetProvider>
         </QueryClientProvider>

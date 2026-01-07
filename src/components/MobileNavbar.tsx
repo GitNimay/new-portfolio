@@ -12,11 +12,13 @@ import {
     X,
     Sun,
     Moon,
-    Award
+    Award,
+    Sparkles
 } from "lucide-react";
 import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
 import { useTheme } from "@/hooks/use-theme";
 import { cn } from "@/lib/utils";
+import { useMagicBackground } from "@/context/MagicBackgroundContext";
 
 const navItems = [
     { label: "Home", href: "home", icon: Home },
@@ -37,6 +39,7 @@ const MobileNavbar = ({ isOpen, onClose }: MobileNavbarProps) => {
     const [activeTab, setActiveTab] = useState("home");
     const { scrollTo } = useSmoothScroll();
     const { theme, toggleTheme } = useTheme();
+    const { isMagicActive, toggleMagic } = useMagicBackground();
 
     // Prevent body scroll when menu is open
     useEffect(() => {
@@ -139,14 +142,36 @@ const MobileNavbar = ({ isOpen, onClose }: MobileNavbarProps) => {
                             })}
                         </div>
 
-                        <div className="mt-8 pt-8 border-t border-border flex items-center justify-between">
-                            <span className="font-medium text-muted-foreground">Theme</span>
-                            <button
-                                onClick={toggleTheme}
-                                className="p-2 rounded-full hover:bg-muted transition-colors border border-border"
-                            >
-                                {theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-slate-600" />}
-                            </button>
+                        <div className="mt-8 pt-8 border-t border-border space-y-4">
+                            {/* Magic Background Toggle */}
+                            <div className="flex items-center justify-between">
+                                <span className="font-medium text-muted-foreground">Magic Background</span>
+                                <button
+                                    onClick={toggleMagic}
+                                    className={cn(
+                                        "p-2 rounded-full transition-all duration-300 border",
+                                        isMagicActive
+                                            ? "bg-gradient-to-r from-orange-500/30 to-amber-500/30 border-orange-400/50 shadow-lg shadow-orange-500/25"
+                                            : "hover:bg-muted border-border"
+                                    )}
+                                >
+                                    <Sparkles className={cn(
+                                        "w-5 h-5 transition-colors duration-300",
+                                        isMagicActive ? "text-orange-400" : "text-amber-500"
+                                    )} />
+                                </button>
+                            </div>
+
+                            {/* Theme Toggle */}
+                            <div className="flex items-center justify-between">
+                                <span className="font-medium text-muted-foreground">Theme</span>
+                                <button
+                                    onClick={toggleTheme}
+                                    className="p-2 rounded-full hover:bg-muted transition-colors border border-border"
+                                >
+                                    {theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-slate-600" />}
+                                </button>
+                            </div>
                         </div>
 
                         <div className="mt-auto">

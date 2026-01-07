@@ -2,6 +2,7 @@ import { Award, Code, Cloud, Container, Settings, Shield, ExternalLink } from "l
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
+import { useMagicBackground } from "@/context/MagicBackgroundContext";
 
 const skillCategories = [
   {
@@ -65,10 +66,11 @@ const certifications = [
 const Skills = () => {
   const { ref: skillsRef, isVisible: skillsVisible } = useScrollAnimation();
   const { ref: certsRef, isVisible: certsVisible } = useScrollAnimation();
+  const { isMagicActive } = useMagicBackground();
 
   return (
     <section id="skills" className="py-16 md:py-24 px-4 md:px-6">
-      <div className="max-w-6xl mx-auto">
+      <div className={`max-w-6xl mx-auto transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl" : ""}`}>
         <h2 className="text-3xl md:text-5xl font-bold mb-12 text-center">Skills & Certifications</h2>
 
         {/* Skills */}
@@ -78,8 +80,7 @@ const Skills = () => {
             {skillCategories.map((category, index) => (
               <Card
                 key={index}
-                className={`p-6 bg-card border-border hover:border-primary/50 transition-all duration-700 hover:scale-105 hover:shadow-lg hover:shadow-primary/10 ${skillsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                  }`}
+                className={`p-6 border-border hover:border-primary/50 transition-all duration-700 hover:scale-105 hover:shadow-lg hover:shadow-primary/10 ${skillsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${isMagicActive ? "bg-white/5 backdrop-blur-md border-white/10" : "bg-card"}`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
                 <div className="flex items-center gap-3 mb-4">
@@ -105,8 +106,7 @@ const Skills = () => {
             {certifications.map((cert, index) => (
               <Card
                 key={index}
-                className={`p-6 bg-card border-border hover:border-primary/50 transition-all duration-700 hover:scale-105 hover:shadow-xl hover:shadow-primary/20 ${certsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                  }`}
+                className={`p-6 border-border hover:border-primary/50 transition-all duration-700 hover:scale-105 hover:shadow-xl hover:shadow-primary/20 ${certsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${isMagicActive ? "bg-white/5 backdrop-blur-md border-white/10" : "bg-card"}`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
                 <div className="flex items-start gap-3 mb-3">

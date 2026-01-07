@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { sendChatMessage, detectContactIntent, ChatMessage } from "@/lib/geminiChat";
+import { useMagicBackground } from "@/context/MagicBackgroundContext";
 
 const presetQuestions = [
     { label: "Projects", query: "Tell me about your projects with links" },
@@ -28,6 +29,7 @@ const welcomeMessages = [
 
 const ChatBot = () => {
     const { theme } = useTheme();
+    const { isMagicActive } = useMagicBackground();
 
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -223,7 +225,10 @@ const ChatBot = () => {
                             setWelcomeDismissed(true);
                             setIsOpen(true);
                         }}
-                        className="relative px-4 py-2.5 rounded-2xl cursor-pointer backdrop-blur-xl border transition-all duration-300 hover:scale-[1.02] bg-card/95 dark:bg-card/95 border-primary/20 dark:border-primary/20 text-foreground shadow-lg shadow-black/10 dark:shadow-black/30"
+                        className={`relative px-4 py-2.5 rounded-2xl cursor-pointer border transition-all duration-300 hover:scale-[1.02] border-primary/20 dark:border-primary/20 text-foreground shadow-lg shadow-black/10 dark:shadow-black/30 ${isMagicActive
+                            ? "bg-card/95 backdrop-blur-xl"
+                            : "bg-card/95 dark:bg-card/95 backdrop-blur-xl"
+                            }`}
                     >
                         <div className="text-sm font-medium whitespace-nowrap min-w-[120px] text-center">
                             <AnimatePresence mode="wait">
@@ -273,11 +278,14 @@ const ChatBot = () => {
                 aria-label="Open chat assistant"
             >
                 <div
-                    className="relative flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 group-hover:scale-105 bg-card border border-primary/30 shadow-lg shadow-primary/10 group-hover:border-primary/50 group-hover:shadow-primary/20"
+                    className={`relative flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 group-hover:scale-105 bg-card border shadow-lg ${isMagicActive
+                        ? "border-orange-400/50 shadow-orange-500/25"
+                        : "border-primary/30 shadow-primary/10 group-hover:border-primary/50 group-hover:shadow-primary/20"
+                        }`}
                 >
                     {/* Chat Icon */}
                     <MessageSquare
-                        className="w-5 h-5 text-primary transition-transform duration-300 group-hover:scale-110"
+                        className={`w-5 h-5 transition-transform duration-300 group-hover:scale-110 ${isMagicActive ? "text-orange-400" : "text-primary"}`}
                         strokeWidth={1.5}
                     />
 
@@ -288,18 +296,24 @@ const ChatBot = () => {
 
             {/* Chat Window */}
             <div
-                className={`fixed bottom-4 right-4 md:bottom-24 md:right-6 z-50 w-[90vw] md:w-[380px] max-w-[450px] transition-all duration-300 ${isOpen
+                className={`fixed bottom-20 right-4 md:bottom-24 md:right-6 z-[60] w-[calc(100vw-2rem)] md:w-[380px] max-w-[450px] transition-all duration-300 ${isOpen
                     ? "scale-100 opacity-100 translate-y-0"
                     : "scale-95 opacity-0 translate-y-4 pointer-events-none"
                     }`}
             >
                 <div
-                    className="rounded-2xl overflow-hidden shadow-2xl border backdrop-blur-2xl bg-background/60 dark:bg-background/60 border-primary/10 shadow-black/10 dark:shadow-black/20"
+                    className={`rounded-2xl overflow-hidden shadow-2xl border border-primary/10 shadow-black/10 dark:shadow-black/20 ${isMagicActive
+                        ? "bg-background/80 backdrop-blur-md"
+                        : "bg-background/60 dark:bg-background/60 backdrop-blur-2xl"
+                        }`}
                     style={{ maxHeight: "calc(100vh - 100px)" }}
                 >
                     {/* Header */}
                     <div
-                        className="flex items-center justify-between px-4 py-3 border-b backdrop-blur-sm border-border bg-muted/30 dark:bg-white/5"
+                        className={`flex items-center justify-between px-4 py-3 border-b border-border ${isMagicActive
+                            ? "bg-muted dark:bg-background backdrop-blur-none"
+                            : "backdrop-blur-sm bg-muted/30 dark:bg-white/5"
+                            }`}
                     >
                         <div className="flex items-center gap-3">
                             <div className="flex items-center justify-center w-8 h-8 rounded-full border bg-card border-primary/30">
@@ -440,7 +454,10 @@ const ChatBot = () => {
 
                     {/* Input */}
                     {!showContactForm && (
-                        <div className="px-4 py-3 border-t backdrop-blur-md border-border bg-muted/30 dark:bg-white/5">
+                        <div className={`px-4 py-3 border-t border-border ${isMagicActive
+                            ? "bg-muted dark:bg-background backdrop-blur-none"
+                            : "backdrop-blur-md bg-muted/30 dark:bg-white/5"
+                            }`}>
                             <form
                                 onSubmit={(e) => {
                                     e.preventDefault();

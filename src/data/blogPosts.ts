@@ -73,6 +73,64 @@ const gitOpsEdges = [
   { id: 'e7-8', source: '7', target: '8', animated: true },
 ];
 
+// Intelligent Automation Pipeline Diagram
+const intelligentOpsNodes = [
+  { id: '1', type: 'input', data: { label: 'Metrics & Logs' }, position: { x: 250, y: 0 } },
+  { id: '2', data: { label: 'Data Aggregation' }, position: { x: 250, y: 100 } },
+  { id: '3', data: { label: 'AI/ML Engine' }, position: { x: 250, y: 200 } },
+  { id: '4', data: { label: 'Anomaly Detection' }, position: { x: 100, y: 300 } },
+  { id: '5', data: { label: 'Predictive Analysis' }, position: { x: 400, y: 300 } },
+  { id: '6', data: { label: 'Decision Engine' }, position: { x: 250, y: 400 } },
+  { id: '7', data: { label: 'Auto-Scaling' }, position: { x: 100, y: 500 } },
+  { id: '8', data: { label: 'Self-Healing' }, position: { x: 250, y: 500 } },
+  { id: '9', data: { label: 'Alert Routing' }, position: { x: 400, y: 500 } },
+  { id: '10', type: 'output', data: { label: 'Ops Dashboard' }, position: { x: 250, y: 600 } },
+];
+
+const intelligentOpsEdges = [
+  { id: 'e1-2', source: '1', target: '2', animated: true },
+  { id: 'e2-3', source: '2', target: '3', animated: true },
+  { id: 'e3-4', source: '3', target: '4', animated: true },
+  { id: 'e3-5', source: '3', target: '5', animated: true },
+  { id: 'e4-6', source: '4', target: '6' },
+  { id: 'e5-6', source: '5', target: '6' },
+  { id: 'e6-7', source: '6', target: '7', animated: true },
+  { id: 'e6-8', source: '6', target: '8', animated: true },
+  { id: 'e6-9', source: '6', target: '9', animated: true },
+  { id: 'e7-10', source: '7', target: '10' },
+  { id: 'e8-10', source: '8', target: '10' },
+  { id: 'e9-10', source: '9', target: '10' },
+];
+
+// Event-Driven Architecture Diagram
+const eventDrivenNodes = [
+  { id: '1', type: 'input', data: { label: 'Event Sources' }, position: { x: 250, y: 0 } },
+  { id: '2', data: { label: 'Event Router' }, position: { x: 250, y: 100 } },
+  { id: '3', data: { label: 'Message Queue' }, position: { x: 100, y: 200 } },
+  { id: '4', data: { label: 'Event Stream' }, position: { x: 400, y: 200 } },
+  { id: '5', data: { label: 'Lambda Function' }, position: { x: 50, y: 320 } },
+  { id: '6', data: { label: 'K8s Worker' }, position: { x: 200, y: 320 } },
+  { id: '7', data: { label: 'Stream Processor' }, position: { x: 350, y: 320 } },
+  { id: '8', data: { label: 'Analytics Engine' }, position: { x: 500, y: 320 } },
+  { id: '9', data: { label: 'State Store' }, position: { x: 250, y: 440 } },
+  { id: '10', type: 'output', data: { label: 'Output Actions' }, position: { x: 250, y: 540 } },
+];
+
+const eventDrivenEdges = [
+  { id: 'e1-2', source: '1', target: '2', animated: true },
+  { id: 'e2-3', source: '2', target: '3', animated: true },
+  { id: 'e2-4', source: '2', target: '4', animated: true },
+  { id: 'e3-5', source: '3', target: '5', animated: true },
+  { id: 'e3-6', source: '3', target: '6', animated: true },
+  { id: 'e4-7', source: '4', target: '7', animated: true },
+  { id: 'e4-8', source: '4', target: '8', animated: true },
+  { id: 'e5-9', source: '5', target: '9' },
+  { id: 'e6-9', source: '6', target: '9' },
+  { id: 'e7-9', source: '7', target: '9' },
+  { id: 'e8-9', source: '8', target: '9' },
+  { id: 'e9-10', source: '9', target: '10', animated: true },
+];
+
 export const blogPosts: BlogPost[] = [
   {
     id: '1',
@@ -82,6 +140,7 @@ export const blogPosts: BlogPost[] = [
     date: '2024-01-06',
     readTime: '12 min',
     tags: ['AI', 'DevOps', 'AIOps', 'MLOps', 'Automation'],
+    image: '/src/assets/devops-aiops-mlops.png',
     content: `## The Evolution of DevOps
 
 In the rapidly evolving landscape of software development and operations, we stand at a pivotal moment where artificial intelligence is fundamentally reshaping how we build, deploy, and maintain systems. Traditional DevOps practices, while revolutionary in their time, are now being augmented and in some cases replaced by intelligent automation systems.
@@ -119,8 +178,6 @@ Key aspects of MLOps include:
 
 The true power of these technologies emerges when they work together. AIOps can monitor the infrastructure running ML models, while MLOps ensures the models themselves are performing optimally. This creates a powerful feedback loop where both the systems and the models continuously improve.
 
-Consider a recommendation system in an e-commerce platform. MLOps manages the ML models that make recommendations, monitoring for concept drift as user behavior changes. AIOps monitors the underlying infrastructure, detecting issues like increased latency or resource constraints. When AIOps identifies a performance degradation, it can trigger MLOps to scale model serving infrastructure or trigger model retraining if the degradation is due to model performance.
-
 ## Building Self-Healing Systems
 
 The ultimate goal of combining AIOps and MLOps is to create self-healing systems that can detect, diagnose, and resolve issues without human intervention. These systems operate on three levels:
@@ -129,58 +186,14 @@ The ultimate goal of combining AIOps and MLOps is to create self-healing systems
 The system continuously monitors all aspects of the infrastructure and applications. AIOps algorithms analyze metrics, logs, and traces in real-time, identifying anomalies that might indicate problems.
 
 **Level 2: Diagnosis**
-When an anomaly is detected, the system uses correlation and causal inference to understand the root cause. It might analyze patterns across multiple systems, trace dependencies, and even use ML models trained on historical incidents.
+When an anomaly is detected, the system uses correlation and causal inference to understand the root cause.
 
 **Level 3: Remediation**
-Once the problem is understood, the system takes action. This could range from simple fixes like restarting a service or scaling resources, to more complex actions like rolling back a deployment, reconfiguring load balancers, or triggering model retraining.
-
-## Practical Implementation
-
-Implementing AIOps and MLOps requires careful planning and the right tooling. Here are key considerations:
-
-**Start with observability**: Before adding AI to your operations, ensure you have comprehensive monitoring and logging. You need data for your AI to analyze.
-
-**Define clear boundaries**: Decide what decisions can be automated and what requires human intervention. Start with low-risk, high-frequency tasks.
-
-**Build feedback loops**: Your systems need to learn from their actions. Ensure you have mechanisms to capture the outcomes of automated decisions and use them to improve your models.
-
-**Maintain human oversight**: Even the most sophisticated AI systems can make mistakes. Build guardrails and ensure humans can intervene when needed.
-
-**Gradual rollout**: Start with read-only AI that provides recommendations. Move to semi-automated systems that require approval. Only then consider fully automated actions.
-
-## Challenges and Considerations
-
-While the benefits are substantial, implementing AIOps and MLOps comes with challenges:
-
-**Data quality**: AI models are only as good as the data they're trained on. Inconsistent or biased monitoring data can lead to poor decision-making.
-
-**Model explainability**: For critical systems, you need to understand why your AI made a particular decision. Black-box models may not be acceptable in all contexts.
-
-**Integration complexity**: AIOps and MLOps tools need to integrate with existing systems, which can be complex and time-consuming.
-
-**Skills gap**: These technologies require expertise in both DevOps and machine learning, a combination that's still relatively rare in the industry.
-
-**Cost**: Implementing these systems often requires significant investment in tools, infrastructure, and talent.
-
-## The Future of Intelligent Operations
-
-As we look ahead, several trends are shaping the future of AIOps and MLOps:
-
-**Generative AI for operations**: Large language models are being applied to log analysis, incident documentation, and even code generation for remediation scripts.
-
-**Federated learning**: Privacy-preserving ML techniques are enabling organizations to train models on distributed data without centralizing sensitive information.
-
-**Edge computing**: AI-powered operations are moving closer to the edge, enabling faster response times and reduced bandwidth usage.
-
-**Democratization**: Tools are becoming more accessible, allowing smaller organizations to implement sophisticated AI-powered operations without dedicated ML teams.
+Once the problem is understood, the system takes action. This could range from simple fixes like restarting a service or scaling resources, to more complex actions like rolling back a deployment.
 
 ## Conclusion
 
-The convergence of AI, AIOps, and MLOps represents a fundamental shift in how we approach operations. No longer are operations teams reactive responders to incidents—they're architects of intelligent systems that can predict and prevent problems before they occur.
-
-Success in this new landscape requires a mindset shift. Organizations need to embrace experimentation, invest in their teams, and build a culture of continuous learning. The journey to intelligent operations is ongoing, but those who embrace it will be well-positioned to compete in an increasingly complex digital world.
-
-The future of operations isn't just about automation—it's about building systems that learn, adapt, and improve. It's about creating organizations that can move faster, more reliably, and with greater confidence than ever before. Welcome to the age of intelligent operations.`
+The convergence of AI, AIOps, and MLOps represents a fundamental shift in how we approach operations. No longer are operations teams reactive responders to incidents—they're architects of intelligent systems that can predict and prevent problems before they occur.`
   },
   {
     id: '2',
@@ -190,9 +203,10 @@ The future of operations isn't just about automation—it's about building syste
     date: new Date().toISOString().split('T')[0],
     readTime: '10 min',
     tags: ['Automations', 'Cloud', 'DevOps', 'GitOps', 'IaC'],
+    image: '/src/assets/gitops-cloud-automation.png',
     content: `## The Journey from ClickOps to GitOps
 
-Cloud computing revolutionized how we deploy and manage applications, but the methods for interacting with the cloud have evolved significantly. In the early days, "ClickOps"—manually clicking through the cloud provider's console—was the norm. Today, we stand at the forefront of the GitOps era, where the entire state of our infrastructure is declared in Git and automatically reconciled by intelligent agents. This post explores that journey, the technical challenges faced at each stage, and why GitOps is the future of platform engineering.
+Cloud computing revolutionized how we deploy and manage applications, but the methods for interacting with the cloud have evolved significantly. In the early days, "ClickOps"—manually clicking through the cloud provider's console—was the norm. Today, we stand at the forefront of the GitOps era, where the entire state of our infrastructure is declared in Git and automatically reconciled by intelligent agents.
 
 ## The Perils of ClickOps
 
@@ -201,7 +215,7 @@ Cloud computing revolutionized how we deploy and manage applications, but the me
 **Why ClickOps Fails at Scale:**
 *   **Lack of Auditability:** Who changed that security group rule? When? Why?
 *   **Drift:** The actual state of the infrastructure inevitably drifts from what the team believes it to be.
-*   **Immutability Impossible:** Reproducing an environment (e.g., creating a staging environment that mirrors production) is a manual, error-prone process.
+*   **Immutability Impossible:** Reproducing an environment is a manual, error-prone process.
 *   **Disaster Recovery:** In the event of a catastrophic failure, rebuilding the infrastructure manually is slow and risky.
 
 ## Level 1: Infrastructure as Code (IaC)
@@ -213,29 +227,9 @@ Infrastructure as Code (IaC) was the first major leap forward. Tools like Terraf
 *   **Reproducibility:** Spin up identical environments with a single command.
 *   **Review Process:** Infrastructure changes go through the same Pull Request (PR) review process as application code.
 
-**Code Example: Terraform**
-
-\`\`\`hcl
-resource "aws_s3_bucket" "example" {
-  bucket = "my-tf-test-bucket"
-
-  tags = {
-    Name        = "My bucket"
-    Environment = "Dev"
-  }
-}
-
-resource "aws_s3_bucket_acl" "example" {
-  bucket = "my-tf-test-bucket"
-  acl    = "private"
-}
-\`\`\`
-
-However, standard IaC has a limitation: it relies on a "push" model. A CI pipeline (or a developer's laptop) runs \`terraform apply\` to push changes to the cloud. This leaves a gap: what happens if someone changes something in the console *after* the Terraform run? The state in Git and the state in the cloud drift apart until the next apply.
-
 ## Level 2: GitOps - The Pull Model
 
-GitOps closes the loop. It is an operational framework that takes DevOps best practices used for application development, such as version control, collaboration, compliance, and CI/CD, and applies them to infrastructure automation.
+GitOps closes the loop. It is an operational framework that takes DevOps best practices used for application development and applies them to infrastructure automation.
 
 **Core Principles of GitOps:**
 1.  **Declarative:** The entire system is described declaratively.
@@ -243,70 +237,200 @@ GitOps closes the loop. It is an operational framework that takes DevOps best pr
 3.  **Automated Delivery:** Approved changes can be automatically applied to the system.
 4.  **Software Agents:** Software agents ensure correctness and alert on divergence.
 
-**How it Works:**
-
-Instead of a CI pipeline pushing changes (e.g., \`kubectl apply\`), a GitOps controller (like ArgoCD or Flux) runs inside the cluster. It constantly monitors the Git repository. When it detects a change in the repo, it pulls the new manifest and applies it. Crucially, if the state in the cluster changes (e.g., someone deletes a deployment manually), the controller detects the drift and reverts it back to the state defined in Git.
-
-## Technical Deep Dive: ArgoCD
-
-ArgoCD is a popular declarative, GitOps continuous delivery tool for Kubernetes.
-
-**Application Definition:**
-
-An ArgoCD Application CRD (Custom Resource Definition) connects a Git repository to a Kubernetes cluster.
-
-\`\`\`yaml
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: guestbook
-  namespace: argocd
-spec:
-  project: default
-  source:
-    repoURL: https://github.com/argoproj/argocd-example-apps.git
-    targetRevision: HEAD
-    path: guestbook
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: guestbook
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-\`\`\`
-
-**The Sync Loop:**
-
-1.  **Phase 1: Comparison.** ArgoCD compares the live state in the cluster with the desired state in Git.
-2.  **Phase 2: Sync.** If there is a difference (OutofSync), ArgoCD applies the manifests from Git.
-3.  **Phase 3: Health.** ArgoCD checks the health of the resources (e.g., are the pods running?).
-
-## Architecture: The GitOps Pipeline
-
-The architecture diagram below illustrates a typical GitOps workflow.
-
-1.  **Developer** pushes code to the application repository.
-2.  **CI Pipeline** builds the container image and pushes it to the registry.
-3.  **CI Pipeline** (or a separate process) updates the *Infrastructure Repository* (Kubernetes manifests or Helm charts) with the new image tag.
-4.  **GitOps Controller** detects the change in the Infrastructure Repository.
-5.  **GitOps Controller** synchronizes the cluster state to match the repository.
-
-This separation of Application Code and Infrastructure Config is a best practice in GitOps to ensure clean separation of concerns and security boundaries.
-
 ## Security & Governance
 
 GitOps naturally enhances security.
 
-*   **Access Control:** Developers don't need direct access to the cluster (\`kubectl\` access). They only need access to the Git repository.
+*   **Access Control:** Developers don't need direct access to the cluster. They only need access to the Git repository.
 *   **Audit Trail:** The Git commit history serves as a perfect audit log for compliance.
-*   **Policy as Code:** Tools like OPA (Open Policy Agent) or Kyverno can validate manifests before they are applied, ensuring compliance with organizational standards.
+*   **Policy as Code:** Tools like OPA (Open Policy Agent) or Kyverno can validate manifests before they are applied.
 
 ## Conclusion
 
-Transitioning to GitOps is more than just a tool change; it's a culture shift. It demands discipline in how we manage configuration and treat our infrastructure. However, the benefits—reliability, security, and velocity—are undeniable. By treating infrastructure as software and using Git as the single source of truth, we eliminate the "works on my machine" problem and create robust, self-healing cloud environments.
+Transitioning to GitOps is more than just a tool change; it's a culture shift. It demands discipline in how we manage configuration and treat our infrastructure. However, the benefits—reliability, security, and velocity—are undeniable.
 
 The future of cloud automation is here, and it is declarative, versioned, and automated. It is GitOps.`
+  },
+  {
+    id: '3',
+    title: 'Intelligent Automation in IT Operations: The AI-Powered Future',
+    slug: 'intelligent-automation-it-ops',
+    summary: 'Discover how AI-powered automation is transforming IT operations. From predictive scaling to self-healing systems, learn how intelligent automation reduces downtime and enhances operational efficiency.',
+    date: '2024-01-08',
+    readTime: '8 min',
+    tags: ['AI', 'AIOps', 'Automation', 'DevOps', 'Machine Learning'],
+    image: '/src/assets/intelligent-automation-ops.png',
+    content: `## The Rise of Intelligent Operations
+
+Traditional IT operations rely heavily on reactive approaches—waiting for alerts, manually diagnosing issues, and deploying fixes. This model breaks down at scale. Modern infrastructure generates millions of data points per minute, making it impossible for human operators to process everything effectively.
+
+Intelligent automation changes this paradigm by leveraging AI and machine learning to anticipate, detect, and resolve issues autonomously.
+
+## Core Components of Intelligent Ops
+
+**1. Unified Data Collection**
+
+The foundation of intelligent automation is comprehensive observability. This means aggregating metrics, logs, and traces from every layer of your stack into a unified data lake. Tools like Prometheus, Grafana Loki, and OpenTelemetry provide the data backbone.
+
+**2. AI/ML Analysis Engine**
+
+At the heart of intelligent ops sits the ML engine. It performs:
+- **Anomaly Detection:** Identifying unusual patterns that deviate from established baselines
+- **Predictive Analytics:** Forecasting resource needs before capacity issues arise
+- **Correlation Analysis:** Linking related events across distributed systems
+
+**3. Decision Engine**
+
+The decision engine translates analysis into action. Using predefined runbooks and learned patterns, it determines appropriate responses to detected conditions.
+
+## Practical Use Cases
+
+**Predictive Auto-Scaling**
+
+Instead of scaling reactively based on CPU thresholds, intelligent systems analyze traffic patterns, time-of-day trends, and historical data to scale infrastructure *before* demand spikes. This reduces latency and optimizes costs.
+
+**Self-Healing Infrastructure**
+
+When anomalies are detected, the system can automatically:
+- Restart failed pods or services
+- Reroute traffic away from degraded nodes
+- Trigger rollback to stable versions
+- Scale horizontally to handle load
+
+**Intelligent Alert Routing**
+
+AI reduces alert fatigue by:
+- Deduplicating related alerts
+- Prioritizing based on business impact
+- Routing to the appropriate on-call engineer
+- Suppressing noise during known maintenance windows
+
+## Implementation Architecture
+
+The architecture follows a clear flow from data collection through intelligent processing to automated actions:
+
+1. **Metrics & Logs** → Collected from all systems
+2. **Data Aggregation** → Normalized and correlated
+3. **AI/ML Engine** → Analyzes patterns and anomalies
+4. **Decision Engine** → Determines appropriate actions
+5. **Automated Response** → Executes scaling, healing, or alerting
+
+## Benefits and ROI
+
+Organizations implementing intelligent automation report:
+- **40-60% reduction** in mean time to resolution (MTTR)
+- **30-50% decrease** in incident volume
+- **Significant cost savings** through optimized resource utilization
+
+## Getting Started
+
+Start small with these steps:
+1. Establish comprehensive observability
+2. Implement basic anomaly detection
+3. Create automated runbooks for common issues
+4. Gradually expand ML-driven decision making
+
+The journey to intelligent operations is iterative. Each automation reduces operational burden and frees teams to focus on innovation rather than firefighting.`
+  },
+  {
+    id: '4',
+    title: 'Event-Driven Automation Architecture: Building Reactive Systems',
+    slug: 'event-driven-automation-architecture',
+    summary: 'Learn how to architect event-driven automation systems using message queues, serverless functions, and stream processing. Build reactive infrastructure that responds instantly to operational events.',
+    date: '2024-01-08',
+    readTime: '8 min',
+    tags: ['Automation', 'Serverless', 'Event-Driven', 'Kubernetes', 'AWS Lambda'],
+    image: '/src/assets/event-driven-automation.png',
+    content: `## Why Event-Driven Architecture?
+
+Traditional request-response architectures create tight coupling between services. Event-driven architecture (EDA) decouples producers from consumers, enabling systems that are more scalable, resilient, and maintainable.
+
+For automation, EDA provides the foundation for responsive systems that react to changes in real-time—perfect for DevOps and platform engineering.
+
+## Core Concepts
+
+**Events vs Commands**
+
+- **Events** describe something that happened: "DeploymentCompleted", "PodCrashed"
+- **Commands** request an action: "RestartService", "ScaleUp"
+
+Good event-driven automation uses events as triggers for commands.
+
+**Message Queues vs Event Streams**
+
+- **Message Queues** (SQS, RabbitMQ): Point-to-point delivery, guaranteed processing
+- **Event Streams** (Kafka, Kinesis): Publish-subscribe, replay capability, ordered delivery
+
+Choose based on your reliability and processing requirements.
+
+## Architecture Components
+
+**1. Event Sources**
+
+Events originate from various sources:
+- Infrastructure changes (Kubernetes events, cloud provider events)
+- Application logs and metrics
+- CI/CD pipeline events
+- External webhooks
+
+**2. Event Router**
+
+The router receives all events and directs them to appropriate processors. AWS EventBridge or Apache Kafka serve this role effectively. Your event handler receives events and routes them based on event type—triggering rollbacks for deployment failures or scaling actions for high CPU events.
+
+**3. Event Processors**
+
+Processors handle specific event types:
+- **Lambda Functions:** Lightweight, stateless processing
+- **Kubernetes Jobs:** Container-based batch processing
+- **Stream Processors:** Real-time analytics with Flink or Spark
+
+**4. State Store**
+
+Event-driven systems are often stateless, but automation requires state:
+- DynamoDB or Redis for operational state
+- S3 for event archives and audit trails
+
+## Example: Automated Incident Response
+
+Here is a complete event-driven incident response flow:
+
+1. **Prometheus Alert** fires → Creates event
+2. **Event Router** receives alert event
+3. **Lambda Function** enriches with context
+4. **Decision Logic** evaluates severity
+5. **Automation Actions:** Create ticket, notify team, or auto-remediate
+
+## Benefits for Operations
+
+**Loose Coupling**
+
+Components can be updated, scaled, and replaced independently. A failure in one processor does not cascade.
+
+**Audit Trail**
+
+Every event is logged, providing complete visibility into system behavior and automation decisions.
+
+**Scalability**
+
+Event processing scales horizontally. Burst traffic is absorbed by the queue, preventing overload.
+
+## Implementation Best Practices
+
+1. **Design Events First:** Define your event schema before building processors
+2. **Idempotent Handlers:** Ensure processors handle duplicate events gracefully
+3. **Dead Letter Queues:** Capture failed events for debugging
+4. **Observability:** Trace events through the entire pipeline
+
+## Getting Started
+
+Begin with a simple use case:
+1. Pick one operational task to automate
+2. Define the triggering event
+3. Build a simple Lambda/Function handler
+4. Add monitoring and error handling
+5. Iterate and expand
+
+Event-driven automation is a mindset shift. Once adopted, teams find themselves naturally thinking in events and building more resilient, responsive systems.`
   }
 ];
 
@@ -322,5 +446,13 @@ export const blogDiagrams: Record<string, DiagramConfig> = {
   'automating-cloud-infrastructure-gitops': {
     nodes: gitOpsNodes,
     edges: gitOpsEdges
+  },
+  'intelligent-automation-it-ops': {
+    nodes: intelligentOpsNodes,
+    edges: intelligentOpsEdges
+  },
+  'event-driven-automation-architecture': {
+    nodes: eventDrivenNodes,
+    edges: eventDrivenEdges
   }
 };

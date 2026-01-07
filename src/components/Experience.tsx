@@ -1,6 +1,7 @@
 import { Briefcase } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
+import { useMagicBackground } from "@/context/MagicBackgroundContext";
 
 const experiences = [
   {
@@ -17,16 +18,17 @@ const experiences = [
 
 const Experience = () => {
   const { ref, isVisible } = useScrollAnimation();
+  const { isMagicActive } = useMagicBackground();
 
   return (
     <section id="experience" className="py-16 md:py-24 px-4 md:px-6">
-      <div className="max-w-6xl mx-auto">
+      <div className={`max-w-6xl mx-auto transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl" : ""}`}>
         <h2 className="text-3xl md:text-5xl font-bold mb-12 text-center">Experience</h2>
         <div ref={ref} className="space-y-6">
           {experiences.map((exp, index) => (
             <Card
               key={index}
-              className={`p-6 bg-card border-border hover:border-primary/50 transition-all duration-700 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
+              className={`p-6 border-border hover:border-primary/50 transition-all duration-700 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'} ${isMagicActive ? "bg-white/5 backdrop-blur-md border-white/10" : "bg-card"
                 }`}
               style={{ transitionDelay: `${index * 150}ms` }}
             >

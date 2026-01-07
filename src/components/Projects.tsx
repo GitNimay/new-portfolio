@@ -2,6 +2,7 @@ import { Code2, ExternalLink } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
+import { useMagicBackground } from "@/context/MagicBackgroundContext";
 
 const projects = [
   {
@@ -73,17 +74,18 @@ const projects = [
 
 const Projects = () => {
   const { ref, isVisible } = useScrollAnimation();
+  const { isMagicActive } = useMagicBackground();
 
   return (
-    <section id="projects" className="py-16 md:py-24 px-4 md:px-6 bg-secondary/30" aria-labelledby="projects-heading">
-      <div className="max-w-6xl mx-auto">
+    <section id="projects" className={`py-16 md:py-24 px-4 md:px-6 ${isMagicActive ? "" : "bg-secondary/30"}`} aria-labelledby="projects-heading">
+      <div className={`max-w-6xl mx-auto transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl" : ""}`}>
         <h2 id="projects-heading" className="text-3xl md:text-5xl font-bold mb-12 text-center">Projects</h2>
         <div ref={ref} className="grid md:grid-cols-2 gap-6" role="list" aria-label="Portfolio projects">
           {projects.map((project, index) => (
             <Card
               key={index}
               role="listitem"
-              className={`h-full flex flex-col p-6 bg-card border-border hover:border-primary/50 transition-all duration-700 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/20 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              className={`h-full flex flex-col p-6 border-border hover:border-primary/50 transition-all duration-700 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/20 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${isMagicActive ? "bg-white/5 backdrop-blur-md border-white/10" : "bg-card"
                 }`}
               style={{ transitionDelay: `${index * 150}ms` }}
             >

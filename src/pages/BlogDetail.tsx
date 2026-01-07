@@ -9,11 +9,13 @@ import { ReactFlow, Background, Controls, Node, Edge } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { useEffect, useState } from "react";
+import { useMagicBackground } from "@/context/MagicBackgroundContext";
 
 const BlogDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const post = blogPosts.find((p) => p.slug === slug);
   const [isLoaded, setIsLoaded] = useState(false);
+  const { isMagicActive } = useMagicBackground();
 
   const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
   const { ref: contentRef, isVisible: contentVisible } = useScrollAnimation();
@@ -58,7 +60,7 @@ const BlogDetail = () => {
               </p>
             ))}
             {diagram && (
-              <Card className="my-8 border-border bg-card hover:shadow-xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-1">
+              <Card className={`my-8 transition-all duration-500 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 ${isMagicActive ? "bg-white/5 backdrop-blur-md border-white/10" : "border-border bg-card"}`}>
                 <CardContent className="p-6">
                   <h3 className="text-lg font-semibold mb-4 text-center bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                     Architecture Diagram
@@ -81,8 +83,8 @@ const BlogDetail = () => {
       }
 
       return (
-        <section 
-          key={index} 
+        <section
+          key={index}
           className={`mb-10 transition-all duration-1000 ${contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
           style={{ animationDelay: `${index * 100}ms` }}
@@ -111,8 +113,8 @@ const BlogDetail = () => {
   };
 
   return (
-    <div className={`min-h-screen bg-background ${isLoaded ? 'animate-fade-in' : ''}`}>
-      <header className="border-b border-border bg-background/95 backdrop-blur-sm sticky top-0 z-50 transition-all duration-300">
+    <div className={`min-h-screen ${isLoaded ? 'animate-fade-in' : ''} ${isMagicActive ? "bg-transparent" : "bg-background"}`}>
+      <header className={`border-b sticky top-0 z-50 transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border-white/10" : "border-border bg-background/95 backdrop-blur-sm"}`}>
         <div className="max-w-6xl mx-auto px-4 md:px-6 py-4">
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
@@ -136,8 +138,8 @@ const BlogDetail = () => {
         </div>
       </header>
 
-      <article className="max-w-4xl mx-auto px-4 md:px-6 py-12 overflow-visible">
-        <div 
+      <article className={`max-w-4xl mx-auto px-4 md:px-6 py-12 overflow-visible transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl my-8" : ""}`}>
+        <div
           ref={headerRef}
           className={`mb-8 transition-all duration-1000 ${headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
@@ -146,19 +148,19 @@ const BlogDetail = () => {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to all posts
           </Link>
-          
+
           <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight animate-gradient bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
             {post.title}
           </h1>
-          
+
           <div className="flex flex-wrap items-center gap-4 mb-6 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
               <Calendar className="w-4 h-4" />
               <time dateTime={post.date}>
-                {new Date(post.date).toLocaleDateString('en-US', { 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
+                {new Date(post.date).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
                 })}
               </time>
             </div>
@@ -170,8 +172,8 @@ const BlogDetail = () => {
 
           <div className="flex flex-wrap gap-2 mb-8">
             {post.tags.map((tag, index) => (
-              <Badge 
-                key={tag} 
+              <Badge
+                key={tag}
                 variant="secondary"
                 className="hover:bg-primary/20 hover:text-primary hover:border-primary/30 transition-all duration-300 cursor-default"
                 style={{ animationDelay: `${index * 50}ms` }}
@@ -186,14 +188,14 @@ const BlogDetail = () => {
           {renderContent()}
         </div>
 
-        <div 
+        <div
           ref={footerRef}
           className={`mt-16 pt-8 border-t border-border transition-all duration-1000 ${footerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
         >
           <Link to="/blogs">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="lg"
               className="group transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 hover:text-primary"
             >

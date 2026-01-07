@@ -5,6 +5,7 @@ import profileImage from "@/assets/download.jpg";
 import heroVideo from "@/assets/hero-video.mp4";
 import { useState, useEffect } from "react";
 import { TextScramble } from "@/components/ui/text-scramble";
+import { useMagicBackground } from "@/context/MagicBackgroundContext";
 
 const email = "nimesh.kulkarni2004@gmail.com";
 const obscuredEmail = email.replace(/([a-z0-9._-]+)@([a-z0-9._-]+\.[a-z]+)/gi, (match, user, domain) => {
@@ -17,12 +18,13 @@ const Hero = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [showGreeting, setShowGreeting] = useState(false);
   const [greetingMessage, setGreetingMessage] = useState("");
+  const { isMagicActive } = useMagicBackground();
 
   useEffect(() => {
     const greetings = [
-      "What’s up",
+      "What's up",
       "How are you",
-      "How’s it going",
+      "How's it going",
       "How you doing",
       "All good?",
       "Yo",

@@ -8,6 +8,7 @@ import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useMagicBackground } from "@/context/MagicBackgroundContext";
 
 const formSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters"),
@@ -47,6 +48,7 @@ const checkRateLimit = (): boolean => {
 const Contact = () => {
     const { ref, isVisible } = useScrollAnimation();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const { isMagicActive } = useMagicBackground();
 
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
@@ -101,7 +103,7 @@ const Contact = () => {
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl -z-10 animate-pulse" />
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl -z-10 animate-pulse delay-1000" />
 
-            <div className="max-w-4xl mx-auto">
+            <div className={`max-w-4xl mx-auto transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl" : ""}`}>
                 <div
                     ref={ref}
                     className={`transition-all duration-1000 transform ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
@@ -116,7 +118,7 @@ const Contact = () => {
                         </p>
                     </div>
 
-                    <div className="bg-card/30 backdrop-blur-lg border border-border rounded-2xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+                    <div className={`rounded-2xl p-8 md:p-12 shadow-2xl relative overflow-hidden transition-all duration-500 ${isMagicActive ? "bg-white/5 backdrop-blur-md border border-white/10" : "bg-card/30 backdrop-blur-lg border border-border"}`}>
                         {/* Glass Shine Effect */}
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
 

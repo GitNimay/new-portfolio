@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
-import { Moon, Sun, Menu } from "lucide-react";
+import { Moon, Sun, Menu, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AnimatedLogo from "@/components/AnimatedLogo";
 import { useTheme } from "@/hooks/use-theme";
 import BottomNavbar from "@/components/BottomNavbar";
 import MobileNavbar from "@/components/MobileNavbar";
 import Playlist from "@/components/Playlist";
+import { useMagicBackground } from "@/context/MagicBackgroundContext";
 
 const Navigation = () => {
     const [scrolled, setScrolled] = useState(false);
     const [mounted, setMounted] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { theme, toggleTheme, resolvedTheme } = useTheme();
+    const { isMagicActive, toggleMagic } = useMagicBackground();
 
     useEffect(() => {
         setMounted(true);
@@ -45,11 +47,39 @@ const Navigation = () => {
                         </div>
 
                         {/* Right Actions */}
-                        <div className="flex items-center gap-3 z-50 flex-shrink-0 mr-2 md:mr-0">
+                        <div className="flex items-center gap-2 md:gap-3 z-50 flex-shrink-0 mr-1 md:mr-0">
                             {/* Mobile Playlist Trigger (Visible only on mobile) */}
                             <div className="md:hidden">
                                 <Playlist />
                             </div>
+
+                            {/* Mobile Magic Button */}
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={toggleMagic}
+                                aria-label="Toggle magic background"
+                                className={`md:hidden h-8 w-8 rounded-full transition-all duration-300 backdrop-blur-sm border ${isMagicActive
+                                    ? 'bg-gradient-to-r from-orange-500/30 to-amber-500/30 border-orange-400/50 shadow-md shadow-orange-500/25'
+                                    : 'bg-background/80 border-border/50 hover:bg-primary/20 animate-magic-sparkle'
+                                    }`}
+                            >
+                                <Sparkles className={`w-4 h-4 transition-colors duration-300 ${isMagicActive ? 'text-orange-400' : 'text-amber-500 animate-magic-icon-spin'}`} />
+                            </Button>
+
+                            {/* Desktop Magic Button */}
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={toggleMagic}
+                                aria-label="Toggle magic background"
+                                className={`hidden md:flex rounded-full transition-all duration-300 backdrop-blur-sm border ${isMagicActive
+                                    ? 'bg-gradient-to-r from-orange-500/30 to-amber-500/30 border-orange-400/50 shadow-lg shadow-orange-500/25 animate-pulse-glow'
+                                    : 'bg-background/80 border-border/50 hover:bg-primary/20 animate-magic-sparkle'
+                                    }`}
+                            >
+                                <Sparkles className={`w-5 h-5 transition-colors duration-300 ${isMagicActive ? 'text-orange-400' : 'text-amber-500 animate-magic-icon-spin'}`} />
+                            </Button>
 
                             {/* Theme Toggle */}
                             <Button
@@ -68,9 +98,9 @@ const Navigation = () => {
                                 size="icon"
                                 onClick={() => setIsMenuOpen(true)}
                                 aria-label="Open menu"
-                                className="md:hidden rounded-full hover:bg-primary/20 transition-colors bg-background/80 backdrop-blur-sm border border-border/50"
+                                className="md:hidden h-8 w-8 rounded-full hover:bg-primary/20 transition-colors bg-background/80 backdrop-blur-sm border border-border/50"
                             >
-                                <Menu className="w-5 h-5" />
+                                <Menu className="w-4 h-4" />
                             </Button>
                         </div>
                     </div>

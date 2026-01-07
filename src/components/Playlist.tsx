@@ -9,7 +9,7 @@ const Playlist = () => {
     const { isPlaying, togglePlay, songs, currentSongIndex, playSong } = useMusic();
 
     return (
-        <div className="relative h-[52px] flex items-center">
+        <div className="relative h-8 md:h-[52px] flex items-center">
             <AnimatePresence>
                 {isPlaylistOpen && (
                     <motion.div
@@ -80,7 +80,7 @@ const Playlist = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 300, damping: 26, delay: 0.1 }}
                 className={cn(
-                    "h-full flex items-center gap-1 pl-2 pr-4 rounded-full bg-background/80 backdrop-blur-xl border border-border shadow-2xl transition-all duration-300 hover:brightness-110",
+                    "h-8 md:h-full flex items-center gap-0.5 md:gap-1 pl-1.5 md:pl-2 pr-2 md:pr-4 rounded-full bg-background/80 backdrop-blur-xl border border-border shadow-2xl transition-all duration-300 hover:brightness-110",
                     isPlaylistOpen ? "bg-primary text-primary-foreground border-primary" : "hover:bg-background/90"
                 )}
             >
@@ -90,23 +90,23 @@ const Playlist = () => {
                         togglePlay();
                     }}
                     className={cn(
-                        "p-2 rounded-full hover:bg-black/10 transition-colors",
+                        "p-1 md:p-2 rounded-full hover:bg-black/10 transition-colors",
                         isPlaylistOpen ? "hover:bg-white/20" : "hover:bg-primary/10"
                     )}
                 >
-                    {isPlaying ? <Pause className="w-5 h-5 fill-current text-foreground" /> : <Play className="w-5 h-5 fill-current text-foreground" />}
+                    {isPlaying ? <Pause className="w-4 h-4 md:w-5 md:h-5 fill-current text-foreground" /> : <Play className="w-4 h-4 md:w-5 md:h-5 fill-current text-foreground" />}
                 </button>
 
                 <button
                     onClick={() => setIsPlaylistOpen(!isPlaylistOpen)}
-                    className="flex items-center gap-2 h-full pl-1"
+                    className="flex items-center gap-1 md:gap-2 h-full pl-0.5 md:pl-1"
                 >
                     <div className="flex flex-col items-start leading-none min-w-[60px] max-w-[100px] hidden sm:flex">
                         <span className={cn("text-xs font-bold truncate w-full text-left", isPlaylistOpen ? "text-primary-foreground" : "text-muted-foreground")}>
                             {songs[currentSongIndex]?.title || "Select Song"}
                         </span>
                     </div>
-                    <ChevronDown className={cn("w-4 h-4 transition-transform duration-300 opacity-70", isPlaylistOpen && "rotate-180 text-primary-foreground", !isPlaylistOpen && "text-muted-foreground")} />
+                    <ChevronDown className={cn("w-3 h-3 md:w-4 md:h-4 transition-transform duration-300 opacity-70", isPlaylistOpen && "rotate-180 text-primary-foreground", !isPlaylistOpen && "text-muted-foreground")} />
                 </button>
             </motion.div>
         </div>
