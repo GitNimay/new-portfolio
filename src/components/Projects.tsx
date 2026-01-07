@@ -5,6 +5,19 @@ import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const projects = [
   {
+    title: "Personal Portfolio",
+    period: "January 2026 - Present",
+    type: "Personal Project",
+    description: "Modern developer portfolio showcasing skills, projects, and professional journey with interactive elements.",
+    highlights: [
+      "Designed with a focus on immersive UI/UX using glassmorphism and animations",
+      "Integrated smart AI chatbot for specific portfolio-related queries",
+      "Optimized for performance and responsiveness across all devices"
+    ],
+    tags: ["React", "TypeScript", "Tailwind CSS", "Vite", "Shadcn UI"],
+    link: "https://nimesh-portfolio-iota.vercel.app/"
+  },
+  {
     title: "SaaS Validator - AI-Powered Startup Blueprint",
     period: "December 2025 - Present",
     type: "Personal Project",

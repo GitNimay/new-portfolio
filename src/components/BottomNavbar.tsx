@@ -8,6 +8,7 @@ import {
     Cpu,
     GraduationCap,
     BookOpen,
+    Award,
 } from "lucide-react";
 import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
 import { cn } from "@/lib/utils";
@@ -18,6 +19,7 @@ const navItems = [
     { label: "Experience", href: "experience", icon: Briefcase },
     { label: "Projects", href: "projects", icon: FolderGit2 },
     { label: "Skills", href: "skills", icon: Cpu },
+    { label: "Volunteer", href: "volunteer-achievements", icon: Award },
     { label: "Education", href: "education", icon: GraduationCap },
     { label: "Blogs", href: "/blogs", icon: BookOpen, external: true }
 ];

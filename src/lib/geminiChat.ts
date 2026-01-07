@@ -70,7 +70,7 @@ function generateLocalResponse(message: string): string {
     }
 
     // Default response
-    return "I can help you learn about Nimesh's **projects**, **skills**, **experience**, **education**, or **certifications**. What would you like to know?";
+    return "I'm currently unable to access my real-time knowledge base, but I can tell you about Nimesh's **projects**, **skills**, **experience**, or **certifications**. What would you like to know?";
 }
 
 export async function sendChatMessage(
@@ -86,46 +86,48 @@ export async function sendChatMessage(
     }
 
     try {
-        // Build conversation history for Gemini
-        const contents = [
-            {
-                role: "user",
+        const requestBody = {
+            system_instruction: {
                 parts: [{ text: systemPrompt }]
             },
-            {
-                role: "model",
-                parts: [{ text: "Understood! I'm ready to help visitors learn about Nimesh Kulkarni. I'll keep my responses short, precise, and always include relevant links when discussing projects. How can I help you today?" }]
+            contents: [
+                ...messages.map(msg => ({
+                    role: msg.role === "user" ? "user" : "model",
+                    parts: [{ text: msg.content }]
+                })),
+                {
+                    role: "user",
+                    parts: [{ text: userMessage }]
+                }
+            ],
+            tools: [{
+                google_search_retrieval: {
+                    dynamic_retrieval_config: {
+                        mode: "MODE_DYNAMIC",
+                        dynamic_threshold: 0.7,
+                    }
+                }
+            }],
+            generationConfig: {
+                temperature: 0.7,
+                topK: 40,
+                topP: 0.95,
+                maxOutputTokens: 8000,
             },
-            ...messages.map(msg => ({
-                role: msg.role === "user" ? "user" : "model",
-                parts: [{ text: msg.content }]
-            })),
-            {
-                role: "user",
-                parts: [{ text: userMessage }]
-            }
-        ];
+            safetySettings: [
+                { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+                { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+                { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+                { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+            ],
+        };
 
         const response = await fetch(API_URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                contents,
-                generationConfig: {
-                    temperature: 0.7,
-                    topK: 40,
-                    topP: 0.95,
-                    maxOutputTokens: 8000,
-                },
-                safetySettings: [
-                    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-                    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-                    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-                    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-                ],
-            }),
+            body: JSON.stringify(requestBody),
         });
 
         // Handle rate limiting with retry

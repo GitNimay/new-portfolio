@@ -63,7 +63,7 @@ const ChatBot = () => {
         if (isOpen && messages.length === 0) {
             setMessages([{
                 role: "assistant",
-                content: "Hi! 👋 I'm Nimesh's AI assistant powered by **Gemini 2.5 Flash**. I can provide dynamic, context-aware answers about his **projects**, **skills**, **experience**, and **certifications**. What would you like to know?"
+                content: "Hi! 👋 I'm Nimesh's AI assistant powered by **Gemini 2.5 Flash**. I can answer questions about his **projects**, **skills**, and **experience**, or help you with **real-time general queries**. What would you like to know?"
             }]);
         }
     }, [isOpen, messages.length]);
