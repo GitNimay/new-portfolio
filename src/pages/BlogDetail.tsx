@@ -40,7 +40,7 @@ const BlogDetail = () => {
     );
   }
 
-  const diagram = blogDiagrams['aiops-mlops'];
+  const diagram = slug ? blogDiagrams[slug] : undefined;
 
   const renderContent = () => {
     const sections = post.content.split(/\n##\s+/);
@@ -61,7 +61,7 @@ const BlogDetail = () => {
               <Card className="my-8 border-border bg-card hover:shadow-xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-1">
                 <CardContent className="p-6">
                   <h3 className="text-lg font-semibold mb-4 text-center bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                    AIOps & MLOps Integration Flow
+                    Architecture Diagram
                   </h3>
                   <div style={{ width: '100%', height: '500px' }}>
                     <ReactFlow
