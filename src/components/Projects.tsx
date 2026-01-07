@@ -1,8 +1,13 @@
 import { Code2, ExternalLink } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { useMagicBackground } from "@/context/MagicBackgroundContext";
+import { useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
@@ -73,21 +78,64 @@ const projects = [
 ];
 
 const Projects = () => {
-  const { ref, isVisible } = useScrollAnimation();
   const { isMagicActive } = useMagicBackground();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  useGSAP(() => {
+    const cards = gsap.utils.toArray<HTMLElement>(".project-card");
+
+    // Heading Animation
+    gsap.from(headingRef.current, {
+      opacity: 0,
+      y: -30,
+      duration: 1,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 80%",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    // Cards Stagger Animation
+    gsap.fromTo(cards,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        stagger: 0.2,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 75%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+  }, { scope: containerRef });
 
   return (
     <section id="projects" className={`py-16 md:py-24 px-4 md:px-6 ${isMagicActive ? "" : "bg-secondary/30"}`} aria-labelledby="projects-heading">
-      <div className={`max-w-6xl mx-auto transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl" : ""}`}>
-        <h2 id="projects-heading" className="text-3xl md:text-5xl font-bold mb-12 text-center">Projects</h2>
-        <div ref={ref} className="grid md:grid-cols-2 gap-6" role="list" aria-label="Portfolio projects">
+      <div
+        ref={containerRef}
+        className={`max-w-6xl mx-auto transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl" : ""}`}
+      >
+        <h2
+          ref={headingRef}
+          id="projects-heading"
+          className="text-3xl md:text-5xl font-bold mb-12 text-center"
+        >
+          Projects
+        </h2>
+        <div className="grid md:grid-cols-2 gap-6" role="list" aria-label="Portfolio projects">
           {projects.map((project, index) => (
             <Card
               key={index}
               role="listitem"
-              className={`h-full flex flex-col p-6 border-border hover:border-primary/50 transition-all duration-700 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/20 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${isMagicActive ? "bg-white/5 backdrop-blur-md border-white/10" : "bg-card"
+              className={`project-card h-full flex flex-col p-6 border-border hover:border-primary/50 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/20 ${isMagicActive ? "bg-white/5 backdrop-blur-md border-white/10" : "bg-card"
                 }`}
-              style={{ transitionDelay: `${index * 150}ms` }}
             >
               <div className="flex items-start gap-4 mb-4">
                 <div className="p-3 bg-primary/10 rounded-lg">

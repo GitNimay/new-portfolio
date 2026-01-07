@@ -85,11 +85,9 @@ const BlogDetail = () => {
       return (
         <section
           key={index}
-          className={`mb-10 transition-all duration-1000 ${contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-          style={{ animationDelay: `${index * 100}ms` }}
+          className="mb-10"
         >
-          <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
             {title.trim()}
           </h2>
           {paragraphs.map((para, pIndex) => {
@@ -102,7 +100,7 @@ const BlogDetail = () => {
               );
             }
             return (
-              <p key={pIndex} className="text-lg leading-relaxed mb-6 text-muted-foreground hover:text-foreground transition-colors duration-300">
+              <p key={pIndex} className="text-base md:text-lg leading-relaxed mb-6 text-muted-foreground hover:text-foreground transition-colors duration-300">
                 {para}
               </p>
             );
@@ -138,7 +136,7 @@ const BlogDetail = () => {
         </div>
       </header>
 
-      <article className={`max-w-4xl mx-auto px-4 md:px-6 py-12 overflow-visible transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl my-8" : ""}`}>
+      <article className={`max-w-4xl mx-auto px-4 md:px-6 py-12 overflow-visible transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border border-white/10 rounded-3xl p-6 md:p-12 shadow-2xl my-8" : ""}`}>
         <div
           ref={headerRef}
           className={`mb-8 transition-all duration-1000 ${headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
@@ -149,7 +147,7 @@ const BlogDetail = () => {
             Back to all posts
           </Link>
 
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight animate-gradient bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+          <h1 className="text-3xl md:text-5xl font-bold mb-6 leading-tight animate-gradient bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
             {post.title}
           </h1>
 
@@ -184,7 +182,7 @@ const BlogDetail = () => {
           </div>
         </div>
 
-        <div ref={contentRef} className="prose prose-lg dark:prose-invert max-w-none overflow-visible">
+        <div ref={contentRef} className="prose prose-base md:prose-lg dark:prose-invert max-w-none overflow-visible">
           {renderContent()}
         </div>
 

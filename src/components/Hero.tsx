@@ -1,24 +1,59 @@
 import { Mail, FileText, Linkedin, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import profileImage from "@/assets/download.jpg";
 import heroVideo from "@/assets/hero-video.mp4";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { TextScramble } from "@/components/ui/text-scramble";
 import { useMagicBackground } from "@/context/MagicBackgroundContext";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 const email = "nimesh.kulkarni2004@gmail.com";
-const obscuredEmail = email.replace(/([a-z0-9._-]+)@([a-z0-9._-]+\.[a-z]+)/gi, (match, user, domain) => {
-  return user.replace(/./g, '*') + '@' + domain;
-});
 
 const Hero = () => {
-  const { ref: imageRef, isVisible: imageVisible } = useScrollAnimation();
-  const { ref: contentRef, isVisible: contentVisible } = useScrollAnimation();
   const [isHovered, setIsHovered] = useState(false);
   const [showGreeting, setShowGreeting] = useState(false);
   const [greetingMessage, setGreetingMessage] = useState("");
   const { isMagicActive } = useMagicBackground();
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const socialRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    const tl = gsap.timeline();
+
+    // Image Setup & Entrance
+    tl.fromTo(imageRef.current,
+      { scale: 0, rotation: -10, opacity: 0 },
+      { scale: 1, rotation: 0, opacity: 1, duration: 1.5, ease: "elastic.out(1, 0.5)" }
+    );
+
+
+
+    // Content Entrance (Staggered)
+    // Note: targeting standard HTML elements inside contentRef
+    const contentElements = contentRef.current?.children;
+    if (contentElements) {
+      tl.fromTo(contentElements,
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, stagger: 0.2, duration: 1, ease: "power3.out" },
+        "-=1" // Overlap with image animation
+      );
+    }
+
+    // Social Buttons Entrance
+    const socialButtons = socialRef.current?.children;
+    if (socialButtons) {
+      tl.fromTo(socialButtons,
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, stagger: 0.1, duration: 0.5, ease: "back.out(1.7)" },
+        "-=0.5"
+      );
+    }
+
+  }, { scope: containerRef });
 
   useEffect(() => {
     const greetings = [
@@ -33,24 +68,18 @@ const Hero = () => {
     ];
     let currentIndex = 0;
 
-    // Function to show greeting
     const showNextGreeting = () => {
       setGreetingMessage(greetings[currentIndex]);
       setShowGreeting(true);
 
-      // Hide after 5 seconds
       setTimeout(() => {
         setShowGreeting(false);
       }, 5000);
 
-      // Update index for next time
       currentIndex = (currentIndex + 1) % greetings.length;
     };
 
-    // Initial greeting after 1 second
     const initialTimeout = setTimeout(showNextGreeting, 1000);
-
-    // Loop every 8 seconds (5s visible + 3s gap)
     const interval = setInterval(showNextGreeting, 8000);
 
     return () => {
@@ -60,29 +89,30 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="min-h-screen flex items-center justify-center px-4 md:px-6 py-16 md:py-24" id="home" aria-labelledby="hero-title">
+    <section
+      ref={containerRef}
+      className="min-h-screen flex items-center justify-center px-4 md:px-6 py-16 md:py-24 overflow-hidden"
+      id="home"
+      aria-labelledby="hero-title"
+    >
       <div className="max-w-6xl w-full">
         <div className="flex flex-col md:flex-row items-center gap-12">
-          {/* Profile Image */}
-          <div
-            ref={imageRef}
-            className={`relative transition-all duration-1000 ${imageVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-              }`}
-          >
+          {/* Profile Image Section */}
+          <div className="relative z-10 perspective-1000">
             {/* Greeting Popup */}
             <div
               className={`absolute -top-6 -right-0 z-20 transition-all duration-700 ease-in-out transform ${showGreeting ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-90 pointer-events-none'
                 }`}
             >
-              <div className="bg-popover/90 backdrop-blur-sm text-popover-foreground px-5 py-2.5 rounded-2xl shadow-xl border border-border/50 relative animate-in fade-in zoom-in duration-500">
+              <div className="bg-popover/90 backdrop-blur-sm text-popover-foreground px-5 py-2.5 rounded-2xl shadow-xl border border-border/50 relative">
                 <TextScramble className="text-sm font-medium whitespace-nowrap tracking-wide">{greetingMessage}</TextScramble>
-                {/* Speech Bubble Tail */}
                 <div className="absolute -bottom-2 left-4 w-4 h-4 bg-popover/90 border-b border-r border-border/50 transform rotate-45 backdrop-blur-sm"></div>
               </div>
             </div>
 
             <div
-              className="w-48 h-60 md:w-64 md:h-80 rounded-[50%] border-4 border-primary/30 overflow-hidden transition-transform duration-500 hover:scale-105 hover:border-primary/50 relative"
+              ref={imageRef}
+              className="w-48 h-60 md:w-64 md:h-80 rounded-[50%] border-4 border-primary/30 overflow-hidden shadow-2xl relative cursor-pointer"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
@@ -103,29 +133,35 @@ const Hero = () => {
                 />
               )}
             </div>
+
+            {/* Decorative Elements (Optional - can be added via CSS or GSAP too) */}
+            <div className={`absolute inset-0 -z-10 bg-primary/20 blur-3xl rounded-full opacity-50 ${isMagicActive ? 'animate-pulse' : ''}`}></div>
           </div>
 
-          {/* Content */}
+          {/* Content Section */}
           <div
             ref={contentRef}
-            className={`flex-1 text-center md:text-left transition-all duration-1000 delay-200 ${contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-              }`}
+            className="flex-1 text-center md:text-left"
           >
-            <h1 id="hero-title" className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 text-foreground animate-fade-in">
+            <h1 id="hero-title" className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 text-foreground">
               Nimesh Kulkarni
             </h1>
-            <p className="text-xl md:text-2xl text-primary mb-6">
+            <p className="text-xl md:text-2xl text-primary mb-6 block">
               DevOps Engineer
             </p>
-            <p className="text-lg text-muted-foreground mb-8 max-w-2xl">
+            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto md:mx-0">
               Driven DevOps engineer with hands-on experience in CI/CD, containerization,
               cloud infrastructure, and automation. Skilled in Docker, Jenkins, Git/GitHub,
               Linux, AWS, and infrastructure-as-code workflows.
             </p>
 
             {/* Contact Links */}
-            <nav className="flex flex-wrap gap-4 justify-center md:justify-start mb-8" aria-label="Contact links">
-              <Button variant="outline" size="lg" asChild className="transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/50 hover:bg-primary/10 hover:text-primary dark:hover:bg-accent dark:hover:text-accent-foreground">
+            <nav
+              ref={socialRef}
+              className="flex flex-wrap gap-4 justify-center md:justify-start mb-8"
+              aria-label="Contact links"
+            >
+              <Button variant="outline" size="lg" asChild className="hover:scale-110 transition-transform duration-200">
                 <a
                   href={`mailto:${email}`}
                   className="flex items-center gap-2"
@@ -135,7 +171,7 @@ const Hero = () => {
                   <span className="hidden sm:inline">Email</span>
                 </a>
               </Button>
-              <Button variant="outline" size="lg" asChild className="transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/50 hover:bg-primary/10 hover:text-primary dark:hover:bg-accent dark:hover:text-accent-foreground">
+              <Button variant="outline" size="lg" asChild className="hover:scale-110 transition-transform duration-200">
                 <a
                   href="https://drive.google.com/file/d/1IQliZDS4lBg8EX1JfefYlmytioWiIqMc/view?usp=sharing"
                   target="_blank"
@@ -147,7 +183,7 @@ const Hero = () => {
                   <span className="hidden sm:inline">CV</span>
                 </a>
               </Button>
-              <Button variant="outline" size="lg" asChild className="transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/50 hover:bg-primary/10 hover:text-primary dark:hover:bg-accent dark:hover:text-accent-foreground">
+              <Button variant="outline" size="lg" asChild className="hover:scale-110 transition-transform duration-200">
                 <a
                   href="https://www.linkedin.com/in/nimesh-kulkarni-526401266/"
                   target="_blank"
@@ -159,7 +195,7 @@ const Hero = () => {
                   <span className="hidden sm:inline">LinkedIn</span>
                 </a>
               </Button>
-              <Button variant="outline" size="lg" asChild className="transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/50 hover:bg-primary/10 hover:text-primary dark:hover:bg-accent dark:hover:text-accent-foreground">
+              <Button variant="outline" size="lg" asChild className="hover:scale-110 transition-transform duration-200">
                 <a
                   href="https://github.com/GitNimay"
                   target="_blank"

@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import {
     Home,
     Briefcase,
@@ -13,6 +12,8 @@ import {
 import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
 import { cn } from "@/lib/utils";
 import Playlist from "./Playlist";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 const navItems = [
     { label: "Home", href: "home", icon: Home },
@@ -29,6 +30,9 @@ const MOBILE_LABEL_WIDTH = 90;
 const BottomNavbar = () => {
     const [activeTab, setActiveTab] = useState("home");
     const { scrollTo } = useSmoothScroll();
+    const navRef = useRef<HTMLDivElement>(null);
+    const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
 
     const handleScroll = () => {
         const sections = navItems.map(item => item.href).filter(href => !href.startsWith("/"));
@@ -49,6 +53,73 @@ const BottomNavbar = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    useGSAP(() => {
+        // Initial Entry Animation
+        gsap.fromTo(navRef.current,
+            { y: -20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 1, ease: "power3.out" }
+        );
+
+        const icons = iconRefs.current.filter((el): el is HTMLDivElement => el !== null);
+
+        if (icons.length > 0) {
+            gsap.fromTo(icons,
+                { scale: 0, opacity: 0 },
+                {
+                    scale: 1,
+                    opacity: 1,
+                    duration: 0.5,
+                    stagger: 0.1,
+                    ease: "back.out(2)",
+                    delay: 0.3
+                }
+            );
+        }
+    }, { scope: navRef });
+
+    useGSAP(() => {
+        // Active Tab Animation
+        navItems.forEach((item, index) => {
+            const isActive = activeTab === item.href;
+            const labelEl = labelRefs.current[index];
+            const iconEl = iconRefs.current[index];
+
+            if (labelEl) {
+                gsap.to(labelEl, {
+                    width: isActive ? MOBILE_LABEL_WIDTH : 0,
+                    opacity: isActive ? 1 : 0,
+                    marginLeft: isActive ? 8 : 0,
+                    duration: 0.4,
+                    ease: "power2.out"
+                });
+            }
+
+            // Icon Animation for Blogs (Special Case)
+            if (item.label === "Blogs") {
+                if (isActive || item.label === "Blogs") { // Always animate blogs if that was the intention, or just when active
+                    // The original code animated Blogs icon continuously?
+                    // "animate={item.label === "Blogs" ? { rotate: ... } : {}}"
+                    // It seems it was always animating for "Blogs".
+                    // Let's recreate that separately.
+                }
+            }
+        });
+    }, [activeTab]);
+
+    useGSAP(() => {
+        // Continuous animation for Blogs icon
+        const blogsIndex = navItems.findIndex(i => i.label === "Blogs");
+        if (blogsIndex !== -1 && iconRefs.current[blogsIndex]) {
+            const el = iconRefs.current[blogsIndex];
+            const tl = gsap.timeline({ repeat: -1, repeatDelay: 3 });
+            tl.to(el, { rotate: -10, scale: 1.1, duration: 0.2 })
+                .to(el, { rotate: 10, scale: 1.1, duration: 0.2 })
+                .to(el, { rotate: -10, scale: 1.1, duration: 0.2 })
+                .to(el, { rotate: 10, scale: 1.1, duration: 0.2 })
+                .to(el, { rotate: 0, scale: 1, duration: 0.2 });
+        }
+    }, { scope: navRef });
+
     const handleNavClick = (href: string, external?: boolean) => {
         if (!external) {
             setActiveTab(href);
@@ -59,56 +130,28 @@ const BottomNavbar = () => {
     return (
         <div className="hidden md:flex items-center justify-center gap-4 px-4">
             {/* Main Navigation Dock */}
-            <motion.nav
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ type: "spring", stiffness: 300, damping: 26 }}
+            <nav
+                ref={navRef}
                 className="bg-background/80 backdrop-blur-sm border border-border rounded-full flex items-center p-2 shadow-2xl space-x-1 h-[52px]"
             >
-                {navItems.map((item) => {
+                {navItems.map((item, index) => {
                     const isActive = activeTab === item.href;
-                    // Common content for both Link and Button
+                    // Common content
                     const content = (
                         <>
-                            <motion.div
-                                animate={item.label === "Blogs" ? {
-                                    rotate: [0, -10, 10, -10, 10, 0],
-                                    scale: [1, 1.1, 1.1, 1.1, 1.1, 1],
-                                    filter: [
-                                        "drop-shadow(0 0 0px rgba(255, 215, 0, 0))",
-                                        "drop-shadow(0 0 4px rgba(255, 215, 0, 0.6))",
-                                        "drop-shadow(0 0 4px rgba(255, 215, 0, 0.6))",
-                                        "drop-shadow(0 0 4px rgba(255, 215, 0, 0.6))",
-                                        "drop-shadow(0 0 4px rgba(255, 215, 0, 0.6))",
-                                        "drop-shadow(0 0 0px rgba(255, 215, 0, 0))"
-                                    ]
-                                } : {}}
-                                transition={item.label === "Blogs" ? {
-                                    duration: 2,
-                                    repeat: Infinity,
-                                    repeatDelay: 3,
-                                    ease: "easeInOut"
-                                } : {}}
+                            <div
+                                ref={el => iconRefs.current[index] = el}
+                                className="transition-transform duration-200"
                             >
                                 <item.icon
                                     size={22}
                                     strokeWidth={2}
                                     className="transition-colors duration-200"
                                 />
-                            </motion.div>
-                            <motion.div
-                                initial={false}
-                                animate={{
-                                    width: isActive ? `${MOBILE_LABEL_WIDTH}px` : "0px",
-                                    opacity: isActive ? 1 : 0,
-                                    marginLeft: isActive ? "8px" : "0px",
-                                }}
-                                transition={{
-                                    width: { type: "spring", stiffness: 350, damping: 32 },
-                                    opacity: { duration: 0.19 },
-                                    marginLeft: { duration: 0.19 },
-                                }}
-                                className="overflow-hidden flex items-center"
+                            </div>
+                            <div
+                                ref={el => labelRefs.current[index] = el}
+                                className="overflow-hidden flex items-center w-0 opacity-0 ml-0" // Initial state for GSAP to pick up
                             >
                                 <span className={cn(
                                     "font-medium text-xs whitespace-nowrap select-none transition-opacity duration-200 overflow-hidden text-ellipsis",
@@ -116,7 +159,7 @@ const BottomNavbar = () => {
                                 )}>
                                     {item.label}
                                 </span>
-                            </motion.div>
+                            </div>
                         </>
                     );
 
@@ -146,7 +189,7 @@ const BottomNavbar = () => {
                         </button>
                     );
                 })}
-            </motion.nav>
+            </nav>
 
             <Playlist />
         </div>
