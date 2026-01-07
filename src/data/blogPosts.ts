@@ -52,6 +52,27 @@ const mlopsLifecycleEdges = [
   { id: 'e9-1', source: '9', target: '1', animated: true },
 ];
 
+const gitOpsNodes = [
+  { id: '1', type: 'input', data: { label: 'Developer (Push Code)' }, position: { x: 250, y: 0 } },
+  { id: '2', data: { label: 'Git Repository (Source of Truth)' }, position: { x: 250, y: 100 } },
+  { id: '3', data: { label: 'CI Pipeline (Test & Build)' }, position: { x: 250, y: 200 } },
+  { id: '4', data: { label: 'Container Registry' }, position: { x: 250, y: 300 } },
+  { id: '5', data: { label: 'Update Manifests (Git)' }, position: { x: 250, y: 400 } },
+  { id: '6', data: { label: 'GitOps Controller (Sync)' }, position: { x: 250, y: 500 } },
+  { id: '7', data: { label: 'Kubernetes Cluster' }, position: { x: 250, y: 600 } },
+  { id: '8', type: 'output', data: { label: 'Production Environment' }, position: { x: 250, y: 700 } },
+];
+
+const gitOpsEdges = [
+  { id: 'e1-2', source: '1', target: '2', animated: true },
+  { id: 'e2-3', source: '2', target: '3', animated: true },
+  { id: 'e3-4', source: '3', target: '4', animated: true },
+  { id: 'e4-5', source: '4', target: '5', animated: true },
+  { id: 'e5-6', source: '5', target: '6', animated: true },
+  { id: 'e6-7', source: '6', target: '7', animated: true },
+  { id: 'e7-8', source: '7', target: '8', animated: true },
+];
+
 export const blogPosts: BlogPost[] = [
   {
     id: '1',
@@ -160,6 +181,132 @@ The convergence of AI, AIOps, and MLOps represents a fundamental shift in how we
 Success in this new landscape requires a mindset shift. Organizations need to embrace experimentation, invest in their teams, and build a culture of continuous learning. The journey to intelligent operations is ongoing, but those who embrace it will be well-positioned to compete in an increasingly complex digital world.
 
 The future of operations isn't just about automation—it's about building systems that learn, adapt, and improve. It's about creating organizations that can move faster, more reliably, and with greater confidence than ever before. Welcome to the age of intelligent operations.`
+  },
+  {
+    id: '2',
+    title: 'Automating Cloud Infrastructure: From Manual ClickOps to GitOps',
+    slug: 'automating-cloud-infrastructure-gitops',
+    summary: 'A deep dive into the evolution of cloud infrastructure management, transitioning from manual console operations to Infrastructure as Code (IaC) and finally to GitOps for fully automated, reliable deployments.',
+    date: new Date().toISOString().split('T')[0],
+    readTime: '10 min',
+    tags: ['Automations', 'Cloud', 'DevOps', 'GitOps', 'IaC'],
+    content: `## The Journey from ClickOps to GitOps
+
+Cloud computing revolutionized how we deploy and manage applications, but the methods for interacting with the cloud have evolved significantly. In the early days, "ClickOps"—manually clicking through the cloud provider's console—was the norm. Today, we stand at the forefront of the GitOps era, where the entire state of our infrastructure is declared in Git and automatically reconciled by intelligent agents. This post explores that journey, the technical challenges faced at each stage, and why GitOps is the future of platform engineering.
+
+## The Perils of ClickOps
+
+"ClickOps" refers to the practice of managing cloud infrastructure through a Graphical User Interface (GUI). While intuitive for beginners, it scales poorly.
+
+**Why ClickOps Fails at Scale:**
+*   **Lack of Auditability:** Who changed that security group rule? When? Why?
+*   **Drift:** The actual state of the infrastructure inevitably drifts from what the team believes it to be.
+*   **Immutability Impossible:** Reproducing an environment (e.g., creating a staging environment that mirrors production) is a manual, error-prone process.
+*   **Disaster Recovery:** In the event of a catastrophic failure, rebuilding the infrastructure manually is slow and risky.
+
+## Level 1: Infrastructure as Code (IaC)
+
+Infrastructure as Code (IaC) was the first major leap forward. Tools like Terraform, AWS CloudFormation, and Pulumi allowed engineers to define their infrastructure in configuration files.
+
+**Benefits of IaC:**
+*   **Version Control:** Infrastructure definitions live in Git, providing a history of changes.
+*   **Reproducibility:** Spin up identical environments with a single command.
+*   **Review Process:** Infrastructure changes go through the same Pull Request (PR) review process as application code.
+
+**Code Example: Terraform**
+
+\`\`\`hcl
+resource "aws_s3_bucket" "example" {
+  bucket = "my-tf-test-bucket"
+
+  tags = {
+    Name        = "My bucket"
+    Environment = "Dev"
+  }
+}
+
+resource "aws_s3_bucket_acl" "example" {
+  bucket = "my-tf-test-bucket"
+  acl    = "private"
+}
+\`\`\`
+
+However, standard IaC has a limitation: it relies on a "push" model. A CI pipeline (or a developer's laptop) runs \`terraform apply\` to push changes to the cloud. This leaves a gap: what happens if someone changes something in the console *after* the Terraform run? The state in Git and the state in the cloud drift apart until the next apply.
+
+## Level 2: GitOps - The Pull Model
+
+GitOps closes the loop. It is an operational framework that takes DevOps best practices used for application development, such as version control, collaboration, compliance, and CI/CD, and applies them to infrastructure automation.
+
+**Core Principles of GitOps:**
+1.  **Declarative:** The entire system is described declaratively.
+2.  **Versioned & Immutable:** The desired system state is versioned in Git.
+3.  **Automated Delivery:** Approved changes can be automatically applied to the system.
+4.  **Software Agents:** Software agents ensure correctness and alert on divergence.
+
+**How it Works:**
+
+Instead of a CI pipeline pushing changes (e.g., \`kubectl apply\`), a GitOps controller (like ArgoCD or Flux) runs inside the cluster. It constantly monitors the Git repository. When it detects a change in the repo, it pulls the new manifest and applies it. Crucially, if the state in the cluster changes (e.g., someone deletes a deployment manually), the controller detects the drift and reverts it back to the state defined in Git.
+
+## Technical Deep Dive: ArgoCD
+
+ArgoCD is a popular declarative, GitOps continuous delivery tool for Kubernetes.
+
+**Application Definition:**
+
+An ArgoCD Application CRD (Custom Resource Definition) connects a Git repository to a Kubernetes cluster.
+
+\`\`\`yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: guestbook
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/argoproj/argocd-example-apps.git
+    targetRevision: HEAD
+    path: guestbook
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: guestbook
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+\`\`\`
+
+**The Sync Loop:**
+
+1.  **Phase 1: Comparison.** ArgoCD compares the live state in the cluster with the desired state in Git.
+2.  **Phase 2: Sync.** If there is a difference (OutofSync), ArgoCD applies the manifests from Git.
+3.  **Phase 3: Health.** ArgoCD checks the health of the resources (e.g., are the pods running?).
+
+## Architecture: The GitOps Pipeline
+
+The architecture diagram below illustrates a typical GitOps workflow.
+
+1.  **Developer** pushes code to the application repository.
+2.  **CI Pipeline** builds the container image and pushes it to the registry.
+3.  **CI Pipeline** (or a separate process) updates the *Infrastructure Repository* (Kubernetes manifests or Helm charts) with the new image tag.
+4.  **GitOps Controller** detects the change in the Infrastructure Repository.
+5.  **GitOps Controller** synchronizes the cluster state to match the repository.
+
+This separation of Application Code and Infrastructure Config is a best practice in GitOps to ensure clean separation of concerns and security boundaries.
+
+## Security & Governance
+
+GitOps naturally enhances security.
+
+*   **Access Control:** Developers don't need direct access to the cluster (\`kubectl\` access). They only need access to the Git repository.
+*   **Audit Trail:** The Git commit history serves as a perfect audit log for compliance.
+*   **Policy as Code:** Tools like OPA (Open Policy Agent) or Kyverno can validate manifests before they are applied, ensuring compliance with organizational standards.
+
+## Conclusion
+
+Transitioning to GitOps is more than just a tool change; it's a culture shift. It demands discipline in how we manage configuration and treat our infrastructure. However, the benefits—reliability, security, and velocity—are undeniable. By treating infrastructure as software and using Git as the single source of truth, we eliminate the "works on my machine" problem and create robust, self-healing cloud environments.
+
+The future of cloud automation is here, and it is declarative, versioned, and automated. It is GitOps.`
   }
 ];
 
@@ -171,5 +318,9 @@ export const blogDiagrams: Record<string, DiagramConfig> = {
   'mlops-lifecycle': {
     nodes: mlopsLifecycleNodes,
     edges: mlopsLifecycleEdges
+  },
+  'automating-cloud-infrastructure-gitops': {
+    nodes: gitOpsNodes,
+    edges: gitOpsEdges
   }
 };
