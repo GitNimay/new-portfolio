@@ -8,6 +8,8 @@ import { useMagicBackground } from "@/context/MagicBackgroundContext";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
+import { MatrixText } from "@/components/ui/matrix-text";
+
 const email = "nimesh.kulkarni2004@gmail.com";
 
 const Hero = () => {
@@ -144,7 +146,10 @@ const Hero = () => {
             className="flex-1 text-center md:text-left"
           >
             <h1 id="hero-title" className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 text-foreground">
-              Nimesh Kulkarni
+              <MatrixText
+                text="Nimesh Kulkarni"
+                className="justify-center md:justify-start"
+              />
             </h1>
             <p className="text-xl md:text-2xl text-primary mb-6 block">
               DevOps Engineer

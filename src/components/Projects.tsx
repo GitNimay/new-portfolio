@@ -83,12 +83,10 @@ const Projects = () => {
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   useGSAP(() => {
-    const cards = gsap.utils.toArray<HTMLElement>(".project-card");
-
     // Heading Animation
     gsap.from(headingRef.current, {
       opacity: 0,
-      y: -30,
+      y: -50,
       duration: 1,
       ease: "power3.out",
       scrollTrigger: {
@@ -98,88 +96,138 @@ const Projects = () => {
       }
     });
 
-    // Cards Stagger Animation
-    gsap.fromTo(cards,
-      { opacity: 0, y: 50 },
-      {
-        opacity: 1,
-        y: 0,
-        stagger: 0.2,
-        duration: 0.8,
-        ease: "power3.out",
+    // Stacking Cards Animation
+    // We want the cards to visually stack. CSS 'sticky' handles the positioning.
+    // GSAP handles the scaling/fading/blurring of the *previous* card as the new one comes in.
+    const cards = gsap.utils.toArray<HTMLElement>(".project-card-container");
+
+    cards.forEach((card, index) => {
+      // Scale down current card as the next one scrolls overlapping it
+      // triggers when the NEXT card hits the viewport
+      if (index === cards.length - 1) return; // Last card doesn't need to scale down for a next one
+
+      gsap.to(card, {
+        scale: 0.9, // More noticeable scale down to look like it's going away
+        opacity: 0, // Fade out completely so the background card disappears
+        filter: "blur(10px)", // Add blur for depth and to hide detail
+        // For mobile, maybe we want a subtler effect or faster transition?
         scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 75%",
+          trigger: cards[index + 1], // The NEXT card triggers this one's exit
+          start: "top bottom", // When next card top hits bottom of viewport (starts entering)
+          end: "top 0%", // Was "top 20%". Extending this to 0% (or even negative) makes it last until the next card is FULLY on top.
+          scrub: true,
           toggleActions: "play none none reverse"
         }
-      }
-    );
+      });
+    });
+
   }, { scope: containerRef });
 
   return (
     <section id="projects" className={`py-16 md:py-24 px-4 md:px-6 ${isMagicActive ? "" : "bg-secondary/30"}`} aria-labelledby="projects-heading">
       <div
         ref={containerRef}
-        className={`max-w-6xl mx-auto transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl" : ""}`}
+        className={`max-w-6xl mx-auto transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border border-white/10 rounded-3xl p-6 md:p-12 shadow-2xl" : ""}`}
       >
         <h2
           ref={headingRef}
           id="projects-heading"
-          className="text-3xl md:text-5xl font-bold mb-12 text-center"
+          className="text-3xl md:text-5xl font-bold mb-12 md:mb-16 text-center"
         >
           Projects
         </h2>
-        <div className="grid md:grid-cols-2 gap-6" role="list" aria-label="Portfolio projects">
+
+        {/* Adjusted gap for mobile (gap-8) vs desktop (gap-12) */}
+        <div className="flex flex-col gap-8 md:gap-12 relative" role="list" aria-label="Portfolio projects">
           {projects.map((project, index) => (
-            <Card
+            <div
               key={index}
-              role="listitem"
-              className={`project-card h-full flex flex-col p-6 border-border hover:border-primary/50 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/20 ${isMagicActive ? "bg-white/5 backdrop-blur-md border-white/10" : "bg-card"
-                }`}
+              className="project-card-container sticky top-20 md:top-32"
+              style={{
+                // Increase z-index so newer cards are on top of older ones
+                zIndex: index + 1,
+              }}
             >
-              <div className="flex items-start gap-4 mb-4">
-                <div className="p-3 bg-primary/10 rounded-lg">
-                  <Code2 className="w-6 h-6 text-primary" aria-hidden="true" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-2xl font-bold mb-1">{project.title}</h3>
-                  <p className="text-sm text-primary">{project.type} • {project.period}</p>
-                </div>
-              </div>
-
-              <p className="text-foreground mb-4">{project.description}</p>
-
-              <ul className="space-y-2 mb-4">
-                {project.highlights.map((highlight, i) => (
-                  <li key={i} className="text-sm text-muted-foreground flex items-start">
-                    <span className="text-primary mr-2" aria-hidden="true">•</span>
-                    <span>{highlight}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex flex-wrap gap-2 mb-4" role="list" aria-label={`Technologies used in ${project.title}`}>
-                {project.tags.map((tag, i) => (
-                  <span key={i} className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full" role="listitem">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              <Button
-                asChild
-                className="w-full mt-auto"
+              <Card
+                role="listitem"
+                // Magic Mode: Darker background, stronger blur, lighter border for "premium" feel
+                // Mobile: Adjusted padding (p-5) vs Desktop (p-8)
+                className={`project-card w-full flex flex-col md:flex-row p-5 md:p-8 gap-5 md:gap-6 border-border hover:border-primary/50 transition-all duration-300 shadow-xl md:shadow-2xl ${isMagicActive
+                  ? "bg-black/60 backdrop-blur-xl border-white/20" // Premium Magic Look
+                  : "bg-card/95 backdrop-blur-md"
+                  }`}
               >
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`View ${project.title} project`}
-                >
-                  View Project <ExternalLink className="w-4 h-4" aria-hidden="true" />
-                </a>
-              </Button>
-            </Card>
+                {/* Icon Section */}
+                <div className="shrink-0 hidden md:block">
+                  <div className="p-4 bg-primary/10 rounded-xl inline-flex">
+                    <Code2 className="w-8 h-8 text-primary" aria-hidden="true" />
+                  </div>
+                </div>
+
+                {/* Content Section */}
+                <div className="flex-1 flex flex-col">
+                  {/* Header: Title + tags */}
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 md:hidden bg-primary/10 rounded-lg inline-flex mt-1">
+                        <Code2 className="w-5 h-5 text-primary" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl md:text-3xl font-bold leading-tight">{project.title}</h3>
+                        <p className="text-sm md:text-base text-primary/80 font-medium mt-1">{project.type} • {project.period}</p>
+                      </div>
+                    </div>
+
+                    {/* Tags: wrapped, scrollable on very small if needed, but wrap is safer */}
+                    <div className="flex flex-wrap gap-2 mt-1 md:mt-0 pl-10 md:pl-0">
+                      {project.tags.slice(0, 3).map((tag, i) => (
+                        <span key={i} className="px-2.5 py-0.5 md:px-3 md:py-1 bg-primary/10 text-primary text-[10px] md:text-xs rounded-full whitespace-nowrap">
+                          {tag}
+                        </span>
+                      ))}
+                      {project.tags.length > 3 && (
+                        <span className="px-2.5 py-0.5 md:px-3 md:py-1 bg-primary/5 text-muted-foreground text-[10px] md:text-xs rounded-full">
+                          +{project.tags.length - 3}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-foreground/90 text-sm md:text-lg mb-4 md:mb-6 leading-relaxed pl-10 md:pl-0">
+                    {project.description}
+                  </p>
+
+                  {/* Highlights */}
+                  <ul className="space-y-2 mb-6 grid grid-cols-1 md:grid-cols-2 gap-x-4 pl-10 md:pl-0">
+                    {project.highlights.map((highlight, i) => (
+                      <li key={i} className="text-xs md:text-sm text-muted-foreground flex items-start">
+                        <span className="text-primary mr-2 mt-1 shrink-0" aria-hidden="true">•</span>
+                        <span>{highlight}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* CTA Button */}
+                  <div className="mt-auto pt-2 md:pt-0 pl-10 md:pl-0">
+                    <Button
+                      asChild
+                      className="w-full md:w-auto min-w-[140px] md:min-w-[200px]"
+                      size="default" // Default size on mobile, lg on desktop via className if needed but responsive size variant is better handled by utility classes or keeping it simple
+                    >
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`View ${project.title} project`}
+                      >
+                        View Project <ExternalLink className="w-4 h-4 ml-2" aria-hidden="true" />
+                      </a>
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            </div>
           ))}
         </div>
       </div>
