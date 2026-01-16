@@ -1,5 +1,6 @@
 import { Award, Code, Cloud, Container, Settings, Shield, ExternalLink } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { MagicCard } from "@/components/ui/magic-card";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { useMagicBackground } from "@/context/MagicBackgroundContext";
@@ -78,10 +79,11 @@ const Skills = () => {
           <h3 className="text-2xl font-bold mb-6 text-primary">Technical Skills</h3>
           <div ref={skillsRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {skillCategories.map((category, index) => (
-              <Card
+              <MagicCard
                 key={index}
-                className={`p-6 border-border hover:border-primary/50 transition-all duration-700 hover:scale-105 hover:shadow-lg hover:shadow-primary/10 ${skillsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${isMagicActive ? "bg-white/5 backdrop-blur-md border-white/10" : "bg-card"}`}
+                className={`p-6 border-border transition-all duration-700 ${skillsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${isMagicActive ? "bg-white/5 backdrop-blur-md border-white/10" : "bg-card"}`}
                 style={{ transitionDelay: `${index * 100}ms` }}
+                gradientColor={isMagicActive ? "#A07CFE" : "#262626"}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <category.icon className="w-5 h-5 text-primary" />
@@ -94,7 +96,7 @@ const Skills = () => {
                     </span>
                   ))}
                 </div>
-              </Card>
+              </MagicCard>
             ))}
           </div>
         </div>

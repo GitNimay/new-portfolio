@@ -42,6 +42,13 @@ All colors MUST be HSL.
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
 
+    /* Rainbow button colors */
+    --color-1: 0 100% 63%;
+    --color-2: 270 100% 63%;
+    --color-3: 210 100% 63%;
+    --color-4: 195 100% 63%;
+    --color-5: 90 100% 63%;
+
     --color-background: #ffffff;
     --color-foreground: #0f172a;
     --color-card: #ffffff;
@@ -85,6 +92,13 @@ All colors MUST be HSL.
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+
+    /* Rainbow button colors */
+    --color-1: 0 100% 63%;
+    --color-2: 270 100% 63%;
+    --color-3: 210 100% 63%;
+    --color-4: 195 100% 63%;
+    --color-5: 90 100% 63%;
 
     --color-background: #0f172a;
     --color-foreground: #f8fafc;
@@ -139,6 +153,9 @@ All colors MUST be HSL.
     --color-muted: #f8fafc;
     --color-border: #e2e8f0;
   }
+  .theme {
+    --animate-meteor: meteor 5s linear infinite;
+  }
 }
 
 @layer base {
@@ -180,9 +197,40 @@ All colors MUST be HSL.
   animation: shimmer 3s ease-in-out infinite;
 }
 
+/* Rainbow button animation */
+@keyframes rainbow {
+  0% {
+    background-position: 0%;
+  }
+
+  100% {
+    background-position: 200%;
+  }
+}
+
+.animate-rainbow {
+  animation: rainbow var(--speed, 2s) infinite linear;
+}
+
 /* Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
+}
+
+/* View Transitions for Theme Toggle */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Ensure dark mode view transition works */
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
 }
 
 /* Accessibility improvements */
@@ -756,5 +804,22 @@ html {
 @media (max-height: 500px) and (orientation: landscape) {
   .react-flow {
     min-height: 250px !important;
+  }
+}
+/* ---break---
+*/
+@theme inline {
+  @keyframes meteor {
+  0% {
+    transform: rotate(var(--angle)) translateX(0);
+    opacity: 1;
+    }
+  70% {
+    opacity: 1;
+    }
+  100% {
+    transform: rotate(var(--angle)) translateX(-500px);
+    opacity: 0;
+    }
   }
 }

@@ -9,6 +9,8 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 import { MatrixText } from "@/components/ui/matrix-text";
+import { BlurFade } from "@/components/ui/blur-fade";
+import { SparklesText } from "@/components/ui/sparkles-text";
 import { cn } from "@/lib/utils";
 
 
@@ -153,9 +155,13 @@ const Hero = () => {
                 className="justify-center md:justify-start"
               />
             </h1>
-            <p className="text-xl md:text-2xl text-primary mb-6 block">
-              DevOps Engineer
-            </p>
+            <BlurFade delay={0.3} direction="up">
+              <p className="text-xl md:text-2xl mb-6 block">
+                <SparklesText className="text-primary" sparklesCount={8}>
+                  DevOps Engineer
+                </SparklesText>
+              </p>
+            </BlurFade>
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto md:mx-0">
               Driven DevOps engineer with hands-on experience in CI/CD, containerization,
               cloud infrastructure, and automation. Skilled in Docker, Jenkins, Git/GitHub,
