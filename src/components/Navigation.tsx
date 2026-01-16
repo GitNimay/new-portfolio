@@ -7,6 +7,8 @@ import BottomNavbar from "@/components/BottomNavbar";
 import MobileNavbar from "@/components/MobileNavbar";
 import Playlist from "@/components/Playlist";
 import { useMagicBackground } from "@/context/MagicBackgroundContext";
+import { cn } from "@/lib/utils";
+
 
 const Navigation = () => {
     const [scrolled, setScrolled] = useState(false);
@@ -87,7 +89,10 @@ const Navigation = () => {
                                 size="icon"
                                 onClick={toggleTheme}
                                 aria-label="Toggle theme"
-                                className="hidden md:flex rounded-full hover:bg-primary/20 transition-colors bg-background/80 backdrop-blur-sm border border-border/50"
+                                className={cn(
+                                    "hidden md:flex rounded-full hover:bg-primary/20 transition-colors backdrop-blur-sm border border-border/50",
+                                    isMagicActive ? "bg-black/20 border-white/20" : "bg-background/80"
+                                )}
                             >
                                 {currentTheme === 'dark' ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-slate-600" />}
                             </Button>
@@ -98,7 +103,10 @@ const Navigation = () => {
                                 size="icon"
                                 onClick={() => setIsMenuOpen(true)}
                                 aria-label="Open menu"
-                                className="md:hidden h-8 w-8 rounded-full hover:bg-primary/20 transition-colors bg-background/80 backdrop-blur-sm border border-border/50"
+                                className={cn(
+                                    "md:hidden h-8 w-8 rounded-full hover:bg-primary/20 transition-colors backdrop-blur-sm border border-border/50",
+                                    isMagicActive ? "bg-black/20 border-white/20" : "bg-background/80"
+                                )}
                             >
                                 <Menu className="w-4 h-4" />
                             </Button>

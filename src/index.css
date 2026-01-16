@@ -471,64 +471,37 @@ html {
   animation: shimmer 1.5s ease-in-out;
 }
 
-/* Magic button sparkle animation - attention-grabbing effect */
-@keyframes magicSparkle {
-
-  0%,
-  100% {
-    box-shadow:
-      0 0 5px hsl(36 80% 55% / 0.4),
-      0 0 10px hsl(36 80% 55% / 0.2),
-      inset 0 0 5px hsl(36 80% 55% / 0.1);
-    transform: scale(1);
-  }
-
-  25% {
-    box-shadow:
-      0 0 8px hsl(25 90% 55% / 0.5),
-      0 0 15px hsl(25 90% 55% / 0.3),
-      inset 0 0 8px hsl(25 90% 55% / 0.15);
-    transform: scale(1.05);
-  }
-
-  50% {
-    box-shadow:
-      0 0 12px hsl(43 90% 60% / 0.6),
-      0 0 20px hsl(43 90% 60% / 0.35),
-      inset 0 0 10px hsl(43 90% 60% / 0.2);
-    transform: scale(1.08);
-  }
-
-  75% {
-    box-shadow:
-      0 0 8px hsl(30 85% 50% / 0.5),
-      0 0 15px hsl(30 85% 50% / 0.3),
-      inset 0 0 8px hsl(30 85% 50% / 0.15);
-    transform: scale(1.05);
-  }
-}
-
-@keyframes magicIconSpin {
+/* Magic button - minimal rotating border animation */
+@keyframes magicBorderRotate {
   0% {
-    transform: rotate(0deg);
+    background-position: 0% 50%;
   }
 
   100% {
-    transform: rotate(360deg);
+    background-position: 200% 50%;
   }
 }
 
 .animate-magic-sparkle {
-  animation: magicSparkle 2.5s ease-in-out infinite;
-  border-color: hsl(36 80% 55% / 0.6) !important;
+  position: relative;
+  border: 1.5px solid transparent !important;
+  background:
+    linear-gradient(hsl(var(--background)), hsl(var(--background))) padding-box,
+    linear-gradient(90deg,
+      hsl(36 70% 55% / 0.5),
+      hsl(43 80% 60% / 0.7),
+      hsl(36 70% 55% / 0.5)) border-box;
+  background-size: 100% 100%, 200% 100%;
+  animation: magicBorderRotate 2s linear infinite;
 }
 
 .animate-magic-sparkle:hover {
-  animation: magicSparkle 1.5s ease-in-out infinite;
+  animation: magicBorderRotate 1s linear infinite;
 }
 
 .animate-magic-icon-spin {
-  animation: magicIconSpin 8s linear infinite;
+  animation: none;
+  color: hsl(36 70% 55%);
 }
 
 /* ReactFlow Theme-aware Styles */

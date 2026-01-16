@@ -3,10 +3,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Music2, Play, Pause, ChevronDown } from "lucide-react";
 import { useMusic } from "@/context/MusicContext";
 import { cn } from "@/lib/utils";
+import { useMagicBackground } from "@/context/MagicBackgroundContext";
+
 
 const Playlist = () => {
     const [isPlaylistOpen, setIsPlaylistOpen] = useState(false);
     const { isPlaying, togglePlay, songs, currentSongIndex, playSong } = useMusic();
+    const { isMagicActive } = useMagicBackground();
+
 
     return (
         <div className="relative h-8 md:h-[52px] flex items-center">
@@ -16,7 +20,10 @@ const Playlist = () => {
                         initial={{ opacity: 0, y: -10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                        className="absolute top-full mt-4 right-0 w-72 bg-background/90 backdrop-blur-xl border border-border rounded-2xl shadow-2xl p-4 overflow-hidden z-50"
+                        className={cn(
+                            "absolute top-full mt-4 right-0 w-72 backdrop-blur-xl border border-border rounded-2xl shadow-2xl p-4 overflow-hidden z-50",
+                            isMagicActive ? "bg-black/40 border-white/20" : "bg-background/90"
+                        )}
                     >
                         <div className="flex items-center justify-between mb-4 pb-2 border-b border-border/50">
                             <h3 className="text-sm font-semibold flex items-center gap-2 text-foreground">
@@ -80,8 +87,10 @@ const Playlist = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 300, damping: 26, delay: 0.1 }}
                 className={cn(
-                    "h-8 md:h-full flex items-center gap-0.5 md:gap-1 pl-1.5 md:pl-2 pr-2 md:pr-4 rounded-full bg-background/80 backdrop-blur-xl border border-border shadow-2xl transition-all duration-300 hover:brightness-110",
-                    isPlaylistOpen ? "bg-primary text-primary-foreground border-primary" : "hover:bg-background/90"
+                    "h-8 md:h-full flex items-center gap-0.5 md:gap-1 pl-1.5 md:pl-2 pr-2 md:pr-4 rounded-full backdrop-blur-xl border border-border shadow-2xl transition-all duration-300 hover:brightness-110",
+                    isPlaylistOpen
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : (isMagicActive ? "bg-black/20 border-white/20 hover:bg-black/30" : "bg-background/80 hover:bg-background/90")
                 )}
             >
                 <button

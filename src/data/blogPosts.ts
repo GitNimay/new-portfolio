@@ -131,6 +131,26 @@ const eventDrivenEdges = [
   { id: 'e9-10', source: '9', target: '10', animated: true },
 ];
 
+const geminiCliNodes = [
+  { id: '1', type: 'input', data: { label: 'Developer Command' }, position: { x: 250, y: 0 } },
+  { id: '2', data: { label: 'Gemini CLI' }, position: { x: 250, y: 100 } },
+  { id: '3', data: { label: 'Gemini API (Reasoning)' }, position: { x: 100, y: 200 } },
+  { id: '4', data: { label: 'Context Analysis' }, position: { x: 400, y: 200 } },
+  { id: '5', data: { label: 'Generated Scripts/IaC' }, position: { x: 250, y: 300 } },
+  { id: '6', data: { label: 'Validation Layer' }, position: { x: 250, y: 400 } },
+  { id: '7', type: 'output', data: { label: 'Cloud Deployment' }, position: { x: 250, y: 500 } },
+];
+
+const geminiCliEdges = [
+  { id: 'e1-2', source: '1', target: '2', animated: true },
+  { id: 'e2-3', source: '2', target: '3', animated: true },
+  { id: 'e2-4', source: '2', target: '4', animated: true },
+  { id: 'e3-5', source: '3', target: '5', animated: true },
+  { id: 'e4-5', source: '4', target: '5', animated: true },
+  { id: 'e5-6', source: '5', target: '6', animated: true },
+  { id: 'e6-7', source: '6', target: '7', animated: true },
+];
+
 export const blogPosts: BlogPost[] = [
   {
     id: '1',
@@ -431,6 +451,48 @@ Begin with a simple use case:
 5. Iterate and expand
 
 Event-driven automation is a mindset shift. Once adopted, teams find themselves naturally thinking in events and building more resilient, responsive systems.`
+  },
+  {
+    id: '5',
+    title: 'DevOps Automation using Gemini CLI',
+    slug: 'devops-automation-gemini-cli',
+    summary: 'Unleash the power of AI in your DevOps workflows with the Gemini CLI. Learn how to automate tasks, generate infrastructure code, and troubleshoot pipelines using Google\'s advanced language models directly from your terminal.',
+    date: new Date().toISOString().split('T')[0],
+    readTime: '8 min',
+    tags: ['DevOps', 'Gemini', 'AI', 'CLI', 'Automation'],
+    image: '/src/assets/gemini-cli-devops.png',
+    content: `## The Next Frontier: Conversational DevOps
+
+The command line has always been the home of the DevOps engineer. But what if your command line could think, reason, and help you solve problems? Enter the **Gemini CLI**, a tool that brings the power of Google's Gemini models directly to your terminal.
+
+## Intelligent Automation
+
+Traditional automation scripts are brittle. They break when APIs change or when edge cases occur. Gemini CLI introduces "Intelligent Automation"—scripts that generated code on the fly based on high-level intent.
+
+![Gemini CLI Action](/src/assets/gemini-cli-devops.png)
+
+## How It Works
+
+As illustrated in the diagram above, the flow starts with a high-level developer intent. The CLI captures this, enriches it with local context (like your current project structure), and sends it to the Gemini API.
+
+The model reasons about the best way to achieve the goal—whether it's provisioning a GKE cluster or fixing a broken CI pipeline—and generates the necessary commands or configuration files.
+
+## Case Study: Instant Infrastructure
+
+Imagine typing:
+\`\`\`bash
+gemini infra "Create a highly available Redis cluster on AWS with monitoring"
+\`\`\`
+
+Instead of searching for Terraform modules, Gemini CLI:
+1.  Generates the Terraform HCL.
+2.  Validates it against best practices.
+3.  Explains the plan to you.
+4.  Applies it upon confirmation.
+
+## Conclusion
+
+This isn't just a productivity boost; it's a fundamental shift in how we interact with infrastructure. We are moving from imperative commands to intent-based operations.`
   }
 ];
 
@@ -454,5 +516,9 @@ export const blogDiagrams: Record<string, DiagramConfig> = {
   'event-driven-automation-architecture': {
     nodes: eventDrivenNodes,
     edges: eventDrivenEdges
+  },
+  'devops-automation-gemini-cli': {
+    nodes: geminiCliNodes,
+    edges: geminiCliEdges
   }
 };

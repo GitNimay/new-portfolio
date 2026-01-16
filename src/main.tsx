@@ -9,14 +9,15 @@ if (typeof window !== 'undefined') {
   const html = document.documentElement;
   const savedTheme = localStorage.getItem('vite-ui-theme');
 
-  const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  // Default to dark if no preference is saved
+  const defaultTheme = 'dark';
 
   html.classList.remove('light', 'dark');
 
   if (savedTheme && savedTheme !== 'system') {
     html.classList.add(savedTheme);
   } else {
-    html.classList.add(systemTheme);
+    html.classList.add(defaultTheme);
   }
 }
 
@@ -30,7 +31,7 @@ reportWebVitals((metric) => {
 });
 
 createRoot(document.getElementById("root")!).render(
-  <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme" enableSystem attribute="class">
+  <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme" enableSystem={false} attribute="class">
     <App />
   </ThemeProvider>
 );

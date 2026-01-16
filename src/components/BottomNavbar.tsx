@@ -11,7 +11,9 @@ import {
 } from "lucide-react";
 import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
 import { cn } from "@/lib/utils";
+import { useMagicBackground } from "@/context/MagicBackgroundContext";
 import Playlist from "./Playlist";
+
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -30,6 +32,7 @@ const MOBILE_LABEL_WIDTH = 90;
 const BottomNavbar = () => {
     const [activeTab, setActiveTab] = useState("home");
     const { scrollTo } = useSmoothScroll();
+    const { isMagicActive } = useMagicBackground();
     const navRef = useRef<HTMLDivElement>(null);
     const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
     const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -132,7 +135,10 @@ const BottomNavbar = () => {
             {/* Main Navigation Dock */}
             <nav
                 ref={navRef}
-                className="bg-background/80 backdrop-blur-sm border border-border rounded-full flex items-center p-2 shadow-2xl space-x-1 h-[52px]"
+                className={cn(
+                    "backdrop-blur-sm border border-border rounded-full flex items-center p-2 shadow-2xl space-x-1 h-[52px]",
+                    isMagicActive ? "bg-black/20 border-white/20" : "bg-background/80"
+                )}
             >
                 {navItems.map((item, index) => {
                     const isActive = activeTab === item.href;

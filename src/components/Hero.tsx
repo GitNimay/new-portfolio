@@ -9,6 +9,8 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 import { MatrixText } from "@/components/ui/matrix-text";
+import { cn } from "@/lib/utils";
+
 
 const email = "nimesh.kulkarni2004@gmail.com";
 
@@ -166,7 +168,10 @@ const Hero = () => {
               className="flex flex-wrap gap-4 justify-center md:justify-start mb-8"
               aria-label="Contact links"
             >
-              <Button variant="outline" size="lg" asChild className="hover:scale-110 transition-transform duration-200">
+              <Button variant="outline" size="lg" asChild className={cn(
+                "hover:scale-110 transition-transform duration-200",
+                isMagicActive ? "bg-black/20 border-white/20 hover:bg-black/40 text-white" : ""
+              )}>
                 <a
                   href={`mailto:${email}`}
                   className="flex items-center gap-2"
@@ -176,7 +181,10 @@ const Hero = () => {
                   <span className="hidden sm:inline">Email</span>
                 </a>
               </Button>
-              <Button variant="outline" size="lg" asChild className="hover:scale-110 transition-transform duration-200">
+              <Button variant="outline" size="lg" asChild className={cn(
+                "hover:scale-110 transition-transform duration-200",
+                isMagicActive ? "bg-black/20 border-white/20 hover:bg-black/40 text-white" : ""
+              )}>
                 <a
                   href="https://drive.google.com/file/d/1IQliZDS4lBg8EX1JfefYlmytioWiIqMc/view?usp=sharing"
                   target="_blank"
@@ -188,7 +196,10 @@ const Hero = () => {
                   <span className="hidden sm:inline">CV</span>
                 </a>
               </Button>
-              <Button variant="outline" size="lg" asChild className="hover:scale-110 transition-transform duration-200">
+              <Button variant="outline" size="lg" asChild className={cn(
+                "hover:scale-110 transition-transform duration-200",
+                isMagicActive ? "bg-black/20 border-white/20 hover:bg-black/40 text-white" : ""
+              )}>
                 <a
                   href="https://www.linkedin.com/in/nimesh-kulkarni-526401266/"
                   target="_blank"
@@ -200,7 +211,10 @@ const Hero = () => {
                   <span className="hidden sm:inline">LinkedIn</span>
                 </a>
               </Button>
-              <Button variant="outline" size="lg" asChild className="hover:scale-110 transition-transform duration-200">
+              <Button variant="outline" size="lg" asChild className={cn(
+                "hover:scale-110 transition-transform duration-200",
+                isMagicActive ? "bg-black/20 border-white/20 hover:bg-black/40 text-white" : ""
+              )}>
                 <a
                   href="https://github.com/GitNimay"
                   target="_blank"

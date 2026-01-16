@@ -127,7 +127,10 @@ const MobileNavbar = ({ isOpen, onClose }: MobileNavbarProps) => {
             <div
                 ref={backdropRef}
                 onClick={onClose}
-                className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 md:hidden"
+                className={cn(
+                    "fixed inset-0 backdrop-blur-sm z-40 md:hidden",
+                    isMagicActive ? "bg-black/40" : "bg-background/80"
+                )}
             />
 
             {/* Menu Content */}

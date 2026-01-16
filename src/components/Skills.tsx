@@ -70,7 +70,7 @@ const Skills = () => {
 
   return (
     <section id="skills" className="py-16 md:py-24 px-4 md:px-6">
-      <div className={`max-w-6xl mx-auto transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl" : ""}`}>
+      <div className={`max-w-6xl mx-auto transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border border-white/10 rounded-3xl p-6 md:p-12 shadow-2xl" : ""}`}>
         <h2 className="text-3xl md:text-5xl font-bold mb-12 text-center">Skills & Certifications</h2>
 
         {/* Skills */}
