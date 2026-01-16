@@ -5,10 +5,18 @@ import * as z from "zod";
 import { Send, User, Mail, MessageSquare, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useMagicBackground } from "@/context/MagicBackgroundContext";
+import { RainbowButton } from "@/components/ui/rainbow-button";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
 
 const formSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters"),
@@ -122,82 +130,95 @@ const Contact = () => {
                         {/* Glass Shine Effect */}
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
 
-                        <form
-                            onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-6"
-                        >
-                            <div className="grid md:grid-cols-2 gap-6">
-                                <div className="space-y-2">
-                                    <label htmlFor="name" className="text-sm font-medium flex items-center gap-2 text-foreground/80">
-                                        <User className="w-4 h-4 text-primary" />
-                                        Name
-                                    </label>
-                                    <Input
-                                        id="name"
-                                        placeholder="John Doe"
-                                        {...form.register("name")}
-                                        className={`bg-secondary/50 border-input focus:border-primary/50 transition-all duration-300 ${form.formState.errors.name ? "border-destructive" : ""
-                                            }`}
-                                    />
-                                    {form.formState.errors.name && (
-                                        <p className="text-xs text-destructive mt-1">{form.formState.errors.name.message}</p>
-                                    )}
-                                </div>
-
-                                <div className="space-y-2">
-                                    <label htmlFor="email" className="text-sm font-medium flex items-center gap-2 text-foreground/80">
-                                        <Mail className="w-4 h-4 text-primary" />
-                                        Email
-                                    </label>
-                                    <Input
-                                        id="email"
-                                        type="email"
-                                        placeholder="john@example.com"
-                                        {...form.register("email")}
-                                        className={`bg-secondary/50 border-input focus:border-primary/50 transition-all duration-300 ${form.formState.errors.email ? "border-destructive" : ""
-                                            }`}
-                                    />
-                                    {form.formState.errors.email && (
-                                        <p className="text-xs text-destructive mt-1">{form.formState.errors.email.message}</p>
-                                    )}
-                                </div>
-                            </div>
-
-                            <div className="space-y-2">
-                                <label htmlFor="message" className="text-sm font-medium flex items-center gap-2 text-foreground/80">
-                                    <MessageSquare className="w-4 h-4 text-primary" />
-                                    Message
-                                </label>
-                                <Textarea
-                                    id="message"
-                                    placeholder="Tell me about your project..."
-                                    {...form.register("message")}
-                                    className={`min-h-[150px] bg-secondary/50 border-input focus:border-primary/50 transition-all duration-300 resize-none ${form.formState.errors.message ? "border-destructive" : ""
-                                        }`}
-                                />
-                                {form.formState.errors.message && (
-                                    <p className="text-xs text-destructive mt-1">{form.formState.errors.message.message}</p>
-                                )}
-                            </div>
-
-                            <Button
-                                type="submit"
-                                className="w-full md:w-auto min-w-[200px] bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/25"
-                                disabled={isSubmitting}
+                        <Form {...form}>
+                            <form
+                                onSubmit={form.handleSubmit(onSubmit)}
+                                className="space-y-6"
                             >
-                                {isSubmitting ? (
-                                    <>
-                                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                        Sending...
-                                    </>
-                                ) : (
-                                    <>
-                                        <Send className="w-4 h-4 mr-2" />
-                                        Send Message
-                                    </>
-                                )}
-                            </Button>
-                        </form>
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <FormField
+                                        control={form.control}
+                                        name="name"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel className="text-sm font-medium flex items-center gap-2 text-foreground/80">
+                                                    <User className="w-4 h-4 text-primary" />
+                                                    Name
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        placeholder="John Doe"
+                                                        {...field}
+                                                        className="bg-secondary/50 border-input focus:border-primary/50 transition-all duration-300"
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+
+                                    <FormField
+                                        control={form.control}
+                                        name="email"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel className="text-sm font-medium flex items-center gap-2 text-foreground/80">
+                                                    <Mail className="w-4 h-4 text-primary" />
+                                                    Email
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        placeholder="john@example.com"
+                                                        {...field}
+                                                        className="bg-secondary/50 border-input focus:border-primary/50 transition-all duration-300"
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+
+                                <FormField
+                                    control={form.control}
+                                    name="message"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="text-sm font-medium flex items-center gap-2 text-foreground/80">
+                                                <MessageSquare className="w-4 h-4 text-primary" />
+                                                Message
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Textarea
+                                                    placeholder="Tell me about your project..."
+                                                    {...field}
+                                                    className="min-h-[150px] bg-secondary/50 border-input focus:border-primary/50 transition-all duration-300 resize-none"
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <RainbowButton
+                                    type="submit"
+                                    className="w-full md:w-auto min-w-[200px] transition-all duration-300 hover:scale-105"
+                                    disabled={isSubmitting}
+                                >
+                                    {isSubmitting ? (
+                                        <>
+                                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                            Sending...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Send className="w-4 h-4 mr-2" />
+                                            Send Message
+                                        </>
+                                    )}
+                                </RainbowButton>
+                            </form>
+                        </Form>
                     </div>
                 </div>
             </div>

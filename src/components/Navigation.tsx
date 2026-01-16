@@ -8,6 +8,7 @@ import MobileNavbar from "@/components/MobileNavbar";
 import Playlist from "@/components/Playlist";
 import { useMagicBackground } from "@/context/MagicBackgroundContext";
 import { cn } from "@/lib/utils";
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 
 
 const Navigation = () => {
@@ -84,18 +85,13 @@ const Navigation = () => {
                             </Button>
 
                             {/* Theme Toggle */}
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={toggleTheme}
-                                aria-label="Toggle theme"
+                            {/* Theme Toggle - Animated */}
+                            <AnimatedThemeToggler
                                 className={cn(
-                                    "hidden md:flex rounded-full hover:bg-primary/20 transition-colors backdrop-blur-sm border border-border/50",
+                                    "hidden md:flex items-center justify-center rounded-full w-10 h-10 hover:bg-primary/20 transition-colors backdrop-blur-sm border border-border/50",
                                     isMagicActive ? "bg-black/20 border-white/20" : "bg-background/80"
                                 )}
-                            >
-                                {currentTheme === 'dark' ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-slate-600" />}
-                            </Button>
+                            />
 
                             {/* Mobile Hamburger Menu Trigger */}
                             <Button

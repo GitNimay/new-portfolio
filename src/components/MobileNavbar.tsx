@@ -18,6 +18,7 @@ import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
 import { useTheme } from "@/hooks/use-theme";
 import { cn } from "@/lib/utils";
 import { useMagicBackground } from "@/context/MagicBackgroundContext";
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -216,12 +217,7 @@ const MobileNavbar = ({ isOpen, onClose }: MobileNavbarProps) => {
                     {/* Theme Toggle */}
                     <div className="flex items-center justify-between">
                         <span className="font-medium text-muted-foreground">Theme</span>
-                        <button
-                            onClick={toggleTheme}
-                            className="p-2 rounded-full hover:bg-muted transition-colors border border-border"
-                        >
-                            {theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-slate-600" />}
-                        </button>
+                        <AnimatedThemeToggler className="p-2 rounded-full hover:bg-muted transition-colors border border-border" />
                     </div>
                 </div>
 
