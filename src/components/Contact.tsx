@@ -17,6 +17,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import { sendAutoReplyEmail } from "@/services/brevo";
 
 const formSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters"),
@@ -26,32 +27,7 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-const RATE_LIMIT_KEY = 'contactFormSubmissions';
-const MAX_SUBMISSIONS = 3;
-const RATE_LIMIT_WINDOW = 3600000;
 
-const checkRateLimit = (): boolean => {
-    try {
-        const submissions = JSON.parse(
-            localStorage.getItem(RATE_LIMIT_KEY) || '[]'
-        );
-        const recent = submissions.filter((time: number) =>
-            Date.now() - time < RATE_LIMIT_WINDOW
-        );
-
-        if (recent.length >= MAX_SUBMISSIONS) {
-            return false;
-        }
-
-        localStorage.setItem(
-            RATE_LIMIT_KEY,
-            JSON.stringify([...recent, Date.now()])
-        );
-        return true;
-    } catch {
-        return true;
-    }
-};
 
 const Contact = () => {
     const { ref, isVisible } = useScrollAnimation();
@@ -67,18 +43,16 @@ const Contact = () => {
         },
     });
 
-    const onSubmit = async (data: FormValues) => {
-        if (!checkRateLimit()) {
-            toast.error("Too many submissions", {
-                description: "Please wait 1 hour before submitting again.",
-            });
-            return;
-        }
+    const GOOGLE_SHEETS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxRKgEGacAykPQt81OLsi1GBZLosroAXk1F_U2jTZgYp78vu9lbGbG46BebBLGNLSVl5A/exec";
 
+
+
+    const onSubmit = async (data: FormValues) => {
         setIsSubmitting(true);
 
         try {
-            const response = await fetch("https://formspree.io/f/xqarljdd", {
+            // Prepare all submissions
+            const formspreeRequest = fetch("https://formspree.io/f/xqarljdd", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -87,7 +61,26 @@ const Contact = () => {
                 body: JSON.stringify(data),
             });
 
-            if (!response.ok) {
+            const googleSheetsRequest = fetch(GOOGLE_SHEETS_WEB_APP_URL, {
+                method: "POST",
+                mode: "no-cors", // Important for Google Apps Script Web App
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+
+            // Send auto-reply email via Brevo
+            const emailRequest = sendAutoReplyEmail(data.email, data.name);
+
+            // Execute all requests without one blocking the others
+            const [formspreeResponse] = await Promise.all([
+                formspreeRequest,
+                googleSheetsRequest,
+                emailRequest
+            ]);
+
+            if (!formspreeResponse.ok) {
                 throw new Error("Network response was not ok");
             }
 
@@ -97,6 +90,7 @@ const Contact = () => {
 
             form.reset();
         } catch (error) {
+            console.error("Submission error:", error);
             toast.error("Something went wrong.", {
                 description: "Please try again later or email me directly.",
             });

@@ -1,0 +1,1 @@
+import{a as s}from"./vendor-ui-CScfDXL9.js";const f=(r=.1)=>{const t=s.useRef(null),[i,o]=s.useState(!1);return s.useEffect(()=>{const n=new IntersectionObserver(([c])=>{c.isIntersecting&&o(!0)},{threshold:r}),e=t.current;return e&&n.observe(e),()=>{e&&n.unobserve(e)}},[r]),{ref:t,isVisible:i}};export{f as u};

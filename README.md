@@ -67,7 +67,7 @@ Follow these steps to get the project running locally on your machine.
    ```
 
 4. **Open your browser:**
-   Visit `http://localhost:5173` to view the portfolio.
+   Visit `http://localhost:3000` to view the portfolio.
 
 ## 📂 Project Structure
 
