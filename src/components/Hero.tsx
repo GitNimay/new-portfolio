@@ -1,4 +1,4 @@
-import { Mail, FileText, Linkedin, Github } from "lucide-react";
+import { Mail, FileText, Linkedin, Github, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import profileImage from "@/assets/download.jpg";
 import heroVideo from "@/assets/hero-video.mp4";
@@ -235,6 +235,14 @@ const Hero = () => {
             </nav>
           </div>
         </div>
+      </div>
+
+      {/* Scroll Down Indicator */}
+      <div
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer z-20 animate-bounce"
+        onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+      >
+        <ChevronDown className="w-8 h-8 text-primary" />
       </div>
     </section>
   );

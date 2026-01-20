@@ -8,6 +8,7 @@ import {
     GraduationCap,
     BookOpen,
     Award,
+    Github,
 } from "lucide-react";
 import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
 import { cn } from "@/lib/utils";
@@ -20,6 +21,7 @@ import { useGSAP } from "@gsap/react";
 const navItems = [
     { label: "Home", href: "home", icon: Home },
     { label: "Experience", href: "experience", icon: Briefcase },
+    { label: "GitHub", href: "github-stats", icon: Github },
     { label: "Projects", href: "projects", icon: FolderGit2 },
     { label: "Skills", href: "skills", icon: Cpu },
     { label: "Volunteer", href: "volunteer-achievements", icon: Award },

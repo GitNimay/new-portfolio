@@ -7,6 +7,7 @@ import VolunteerAchievements from "@/components/VolunteerAchievements";
 import Education from "@/components/Education";
 import Contact from "@/components/Contact";
 import SEO from "@/components/SEO";
+import GitHubStats from "@/components/GitHubStats";
 import { useMagicBackground } from "@/context/MagicBackgroundContext";
 
 const Index = () => {
@@ -18,6 +19,7 @@ const Index = () => {
       <Navigation />
       <main>
         <Hero />
+        <GitHubStats />
         <Experience />
         <Projects />
         <Skills />
