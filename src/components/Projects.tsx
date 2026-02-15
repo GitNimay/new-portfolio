@@ -73,7 +73,7 @@ const projects = [
       "Enabled real-time candidate assessment and report generation"
     ],
     tags: ["React.js", "AI/ML", "Firebase", "Cloudinary", "Gemini"],
-    link: "https://interview-xpert-app.vercel.app/"
+    link: "https://interviewxpert.vercel.app"
   }
 ];
 
