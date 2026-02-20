@@ -184,7 +184,7 @@ const Hero = () => {
                   aria-label="Send email to Nimesh Kulkarni"
                 >
                   <Mail className="w-4 h-4" />
-                  <span className="hidden sm:inline">Email</span>
+                  <span>Email</span>
                 </a>
               </Button>
               <Button variant="outline" size="lg" asChild className={cn(
@@ -199,7 +199,7 @@ const Hero = () => {
                   aria-label="View CV/Resume"
                 >
                   <FileText className="w-4 h-4" />
-                  <span className="hidden sm:inline">CV</span>
+                  <span>CV</span>
                 </a>
               </Button>
               <Button variant="outline" size="lg" asChild className={cn(
@@ -214,7 +214,7 @@ const Hero = () => {
                   aria-label="Visit LinkedIn profile"
                 >
                   <Linkedin className="w-4 h-4" />
-                  <span className="hidden sm:inline">LinkedIn</span>
+                  <span>LinkedIn</span>
                 </a>
               </Button>
               <Button variant="outline" size="lg" asChild className={cn(
@@ -229,7 +229,7 @@ const Hero = () => {
                   aria-label="Visit GitHub profile"
                 >
                   <Github className="w-4 h-4" />
-                  <span className="hidden sm:inline">GitHub</span>
+                  <span>GitHub</span>
                 </a>
               </Button>
             </nav>
