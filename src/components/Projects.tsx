@@ -102,19 +102,19 @@ const Projects = () => {
     const cards = gsap.utils.toArray<HTMLElement>(".project-card-container");
 
     cards.forEach((card, index) => {
-      // Scale down current card as the next one scrolls overlapping it
-      // triggers when the NEXT card hits the viewport
-      if (index === cards.length - 1) return; // Last card doesn't need to scale down for a next one
+      if (index === cards.length - 1) return;
+
+      // Only apply heavy blur/scale on desktop (768px+)
+      const isMobile = window.innerWidth < 768;
 
       gsap.to(card, {
-        scale: 0.9, // More noticeable scale down to look like it's going away
-        opacity: 0, // Fade out completely so the background card disappears
-        filter: "blur(10px)", // Add blur for depth and to hide detail
-        // For mobile, maybe we want a subtler effect or faster transition?
+        scale: isMobile ? 0.95 : 0.9,
+        opacity: 0,
+        filter: isMobile ? "none" : "blur(10px)",
         scrollTrigger: {
-          trigger: cards[index + 1], // The NEXT card triggers this one's exit
-          start: "top bottom", // When next card top hits bottom of viewport (starts entering)
-          end: "top 0%", // Was "top 20%". Extending this to 0% (or even negative) makes it last until the next card is FULLY on top.
+          trigger: cards[index + 1],
+          start: "top bottom",
+          end: isMobile ? "top 30%" : "top 0%",
           scrub: true,
           toggleActions: "play none none reverse"
         }

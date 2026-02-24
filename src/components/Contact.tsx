@@ -101,9 +101,6 @@ const Contact = () => {
 
     return (
         <section className="py-16 md:py-24 px-4 md:px-6 relative overflow-hidden" id="contact">
-            {/* Background Elements */}
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl -z-10 animate-pulse" />
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl -z-10 animate-pulse delay-1000" />
 
             <div className={`max-w-4xl mx-auto transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border border-white/10 rounded-3xl p-6 md:p-12 shadow-2xl" : ""}`}>
                 <div

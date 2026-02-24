@@ -104,12 +104,12 @@ const VolunteerAchievements = () => {
                                 )}
                                 gradientColor={isMagicActive ? "#262626" : "#D9D9D955"}
                             >
-                                <div className="absolute inset-0 pointer-events-none">
+                                <div className="absolute inset-0 pointer-events-none hidden md:block">
                                     <Meteors number={20} />
                                 </div>
                                 <BorderBeam size={250} duration={12} delay={9} />
 
-                                <div className="p-8 relative z-10 flex flex-col h-full">
+                                <div className="p-5 md:p-8 relative z-10 flex flex-col h-full">
                                     <div className="flex justify-between items-start mb-6">
                                         <div className="p-3 bg-gradient-to-br from-yellow-500/20 to-red-500/20 rounded-xl border border-white/10">
                                             <item.icon className={cn("w-8 h-8", item.iconColor)} />
@@ -119,7 +119,7 @@ const VolunteerAchievements = () => {
                                         </Badge>
                                     </div>
 
-                                    <h3 className="text-3xl font-bold mb-2 text-white">{item.role}</h3>
+                                    <h3 className="text-2xl md:text-3xl font-bold mb-2 text-white">{item.role}</h3>
                                     <p className="text-lg text-primary font-medium mb-4">{item.company}</p>
 
                                     <p className="text-muted-foreground mb-6 text-base leading-relaxed flex-grow">

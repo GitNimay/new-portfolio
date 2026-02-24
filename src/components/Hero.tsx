@@ -239,7 +239,7 @@ const Hero = () => {
 
       {/* Scroll Down Indicator */}
       <div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer z-20 animate-bounce"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:flex flex-col items-center gap-2 cursor-pointer z-20 animate-bounce"
         onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
       >
         <ChevronDown className="w-8 h-8 text-primary" />

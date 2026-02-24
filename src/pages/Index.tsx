@@ -8,6 +8,7 @@ import Education from "@/components/Education";
 import Contact from "@/components/Contact";
 import SEO from "@/components/SEO";
 import GitHubStats from "@/components/GitHubStats";
+import SectionReveal from "@/components/SectionReveal";
 import { useMagicBackground } from "@/context/MagicBackgroundContext";
 
 const Index = () => {
@@ -19,21 +20,37 @@ const Index = () => {
       <Navigation />
       <main>
         <Hero />
-        <GitHubStats />
-        <Experience />
-        <Projects />
-        <Skills />
-        <VolunteerAchievements />
-        <Education />
-        <Contact />
+        <SectionReveal>
+          <GitHubStats />
+        </SectionReveal>
+        <SectionReveal>
+          <Experience />
+        </SectionReveal>
+        <SectionReveal>
+          <Projects />
+        </SectionReveal>
+        <SectionReveal>
+          <Skills />
+        </SectionReveal>
+        <SectionReveal>
+          <VolunteerAchievements />
+        </SectionReveal>
+        <SectionReveal>
+          <Education />
+        </SectionReveal>
+        <SectionReveal>
+          <Contact />
+        </SectionReveal>
       </main>
 
       {/* Footer */}
-      <footer className={`py-8 px-6 border-t transition-all duration-500 ${isMagicActive ? "border-white/10" : "border-border"}`} role="contentinfo">
-        <div className="max-w-6xl mx-auto text-center text-muted-foreground">
-          <p>© 2026 Nimesh Kulkarni. All rights reserved.</p>
-        </div>
-      </footer>
+      <SectionReveal>
+        <footer className={`py-8 px-6 border-t transition-all duration-500 ${isMagicActive ? "border-white/10" : "border-border"}`} role="contentinfo">
+          <div className="max-w-6xl mx-auto text-center text-muted-foreground">
+            <p>© 2026 Nimesh Kulkarni. All rights reserved.</p>
+          </div>
+        </footer>
+      </SectionReveal>
     </div>
   );
 };

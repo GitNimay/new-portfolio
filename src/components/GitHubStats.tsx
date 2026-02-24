@@ -152,7 +152,6 @@ const GitHubStats = () => {
                 throw new Error(data.errors[0]?.message || "GraphQL query failed");
             }
 
-            console.log('✅ GitHub Data Fetched:', data.data);
             return data.data;
         },
         staleTime: 0,
@@ -186,7 +185,6 @@ const GitHubStats = () => {
 
             const stars = allRepos.reduce((acc, repo) => acc + repo.stargazers_count, 0);
 
-            console.log(`✅ Stars: ${stars}`);
             return { stars };
         },
         staleTime: 0,
@@ -215,7 +213,7 @@ const GitHubStats = () => {
     ];
 
     return (
-        <section id="github-stats" className={`py-16 md:py-24 px-4 md:px-6 relative overflow-hidden ${isMagicActive ? "" : "bg-card/30"}`}>
+        <section id="github-stats" className={`py-16 md:py-24 px-4 md:px-6 relative overflow-hidden max-w-full ${isMagicActive ? "" : "bg-card/30"}`}>
             {/* Background override for "Magic Mode" is handled by the context/standard layout, 
                  but we ensure we aren't forcing the github dark mode anymore */}
 
@@ -351,8 +349,8 @@ const GitHubStats = () => {
                                                 {contributions.totalContributions} contributions in {selectedYear}
                                             </div>
                                         </div>
-                                        <div className="w-full overflow-x-auto scrollbar-hide">
-                                            <div className="inline-flex flex-col gap-1 min-w-max px-2">
+                                        <div className="w-full overflow-x-auto scrollbar-hide -mx-2 px-2">
+                                            <div className="inline-flex flex-col gap-1 min-w-max">
                                                 {/* Days of week labels */}
                                                 <div className="flex gap-1">
                                                     <div className="w-8"></div>

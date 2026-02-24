@@ -16,7 +16,7 @@ const Index = lazy(() => import("./pages/Index"));
 const BlogListing = lazy(() => import("./pages/BlogListing"));
 const BlogDetail = lazy(() => import("./pages/BlogDetail"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-import ChatBot from "./components/ChatBot";
+const ChatBot = lazy(() => import("./components/ChatBot"));
 
 const PageSkeleton = () => (
     <div className="min-h-screen bg-background flex items-center justify-center">
@@ -57,7 +57,9 @@ const App = () => (
                                 </Suspense>
                             </BrowserRouter>
                             <Analytics />
-                            <ChatBot />
+                            <Suspense fallback={null}>
+                                <ChatBot />
+                            </Suspense>
                         </TooltipProvider>
                     </MagicBackgroundProvider>
                 </MusicProvider>

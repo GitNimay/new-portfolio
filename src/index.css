@@ -2,9 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here.
-All colors MUST be HSL.
-*/
+/* Design System — All colors in HSL */
 
 @layer base {
   :root {
@@ -28,19 +26,6 @@ All colors MUST be HSL.
     --input: 240 6% 90%;
     --ring: 36 60% 45%;
     --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 10% 10%;
-    --sidebar-primary: 36 60% 45%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 5% 96%;
-    --sidebar-accent-foreground: 240 6% 10%;
-    --sidebar-border: 240 6% 90%;
-    --sidebar-ring: 36 60% 45%;
-    --chart-1: 173 58% 39%;
-    --chart-2: 12 76% 61%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
 
     /* Rainbow button colors */
     --color-1: 0 100% 63%;
@@ -48,15 +33,6 @@ All colors MUST be HSL.
     --color-3: 210 100% 63%;
     --color-4: 195 100% 63%;
     --color-5: 90 100% 63%;
-
-    --color-background: #ffffff;
-    --color-foreground: #0f172a;
-    --color-card: #ffffff;
-    --color-primary: #3b82f6;
-    --color-secondary: #64748b;
-    --color-accent: #f59e0b;
-    --color-muted: #f8fafc;
-    --color-border: #e2e8f0;
   }
 
   .dark {
@@ -79,19 +55,6 @@ All colors MUST be HSL.
     --border: 0 0% 20%;
     --input: 0 0% 20%;
     --ring: 36 30% 70%;
-    --sidebar-background: 0 0% 10%;
-    --sidebar-foreground: 36 20% 85%;
-    --sidebar-primary: 36 30% 70%;
-    --sidebar-primary-foreground: 0 0% 7%;
-    --sidebar-accent: 0 0% 15%;
-    --sidebar-accent-foreground: 36 20% 85%;
-    --sidebar-border: 0 0% 20%;
-    --sidebar-ring: 36 30% 70%;
-    --chart-1: 173 58% 39%;
-    --chart-2: 12 76% 61%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
 
     /* Rainbow button colors */
     --color-1: 0 100% 63%;
@@ -99,15 +62,6 @@ All colors MUST be HSL.
     --color-3: 210 100% 63%;
     --color-4: 195 100% 63%;
     --color-5: 90 100% 63%;
-
-    --color-background: #0f172a;
-    --color-foreground: #f8fafc;
-    --color-card: #1e293b;
-    --color-primary: #60a5fa;
-    --color-secondary: #94a3b8;
-    --color-accent: #fbbf24;
-    --color-muted: #1e293b;
-    --color-border: #334155;
   }
 
   .light {
@@ -130,29 +84,8 @@ All colors MUST be HSL.
     --border: 240 6% 90%;
     --input: 240 6% 90%;
     --ring: 36 60% 45%;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 10% 10%;
-    --sidebar-primary: 36 60% 45%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 5% 96%;
-    --sidebar-accent-foreground: 240 6% 10%;
-    --sidebar-border: 240 6% 90%;
-    --sidebar-ring: 36 60% 45%;
-    --chart-1: 173 58% 39%;
-    --chart-2: 12 76% 61%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-
-    --color-background: #ffffff;
-    --color-foreground: #0f172a;
-    --color-card: #ffffff;
-    --color-primary: #3b82f6;
-    --color-secondary: #64748b;
-    --color-accent: #f59e0b;
-    --color-muted: #f8fafc;
-    --color-border: #e2e8f0;
   }
+
   .theme {
     --animate-meteor: meteor 5s linear infinite;
   }
@@ -167,6 +100,9 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   h1,
@@ -179,42 +115,50 @@ All colors MUST be HSL.
   }
 }
 
-/* Custom animations for logo */
-@keyframes shimmer {
+/* ==============================
+   Apple-Like Smooth Scrolling
+   ============================== */
 
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-.animate-shimmer {
-  background-size: 200% 200%;
-  animation: shimmer 3s ease-in-out infinite;
-}
-
-/* Rainbow button animation */
-@keyframes rainbow {
-  0% {
-    background-position: 0%;
-  }
-
-  100% {
-    background-position: 200%;
-  }
-}
-
-.animate-rainbow {
-  animation: rainbow var(--speed, 2s) infinite linear;
-}
-
-/* Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+/* Section reveal — initial state before GSAP animates */
+.section-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  will-change: transform, opacity;
+}
+
+/* Touch optimization */
+button,
+a,
+[role="button"] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Disable heavy animations when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .section-reveal {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* View Transitions for Theme Toggle */
@@ -224,7 +168,6 @@ html {
   mix-blend-mode: normal;
 }
 
-/* Ensure dark mode view transition works */
 ::view-transition-old(root) {
   z-index: 1;
 }
@@ -233,7 +176,7 @@ html {
   z-index: 9999;
 }
 
-/* Accessibility improvements */
+/* Accessibility */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -255,74 +198,41 @@ html {
   white-space: normal;
 }
 
-/* Light mode specific improvements */
-.light .bg-card {
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  border-color: hsl(var(--border));
-}
+/* ==============================
+   Custom Animations
+   ============================== */
 
-.light .hover\:shadow-xl:hover {
-  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.15), 0 12px 24px -8px rgb(0 0 0 / 0.1);
-}
+/* Logo shimmer */
+@keyframes shimmer {
 
-.light .bg-secondary\/30 {
-  background-color: hsl(var(--secondary));
-}
-
-.light .text-muted-foreground {
-  color: hsl(var(--muted-foreground));
-}
-
-.light .border-border {
-  border-color: hsl(var(--border));
-}
-
-.light button,
-.light a {
-  -webkit-tap-highlight-color: transparent;
-}
-
-.light nav button,
-.light nav a {
-  color: hsl(215 25% 25%);
-  font-weight: 500;
-}
-
-.light nav button:hover,
-.light nav a:hover {
-  color: hsl(var(--primary));
-}
-
-.light section {
-  background-color: hsl(var(--background));
-}
-
-/* Siri Orb Animations */
-@keyframes siriOrbSpin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes siriOrbPulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
+  0%,
+  100% {
+    background-position: 0% 50%;
   }
 
   50% {
-    transform: scale(1.3);
-    opacity: 0;
+    background-position: 100% 50%;
+  }
+}
+
+.animate-shimmer {
+  background-size: 200% 200%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Rainbow button */
+@keyframes rainbow {
+  0% {
+    background-position: 0%;
   }
 
   100% {
-    transform: scale(1);
-    opacity: 0;
+    background-position: 200%;
   }
+}
+
+.animate-rainbow {
+  animation: rainbow var(--speed, 2s) infinite linear;
 }
 
 /* Chat animations */
@@ -368,6 +278,7 @@ html {
   word-break: break-word;
 }
 
+/* Gradient animation */
 @keyframes gradient {
 
   0%,
@@ -385,6 +296,7 @@ html {
   animation: gradient 3s ease-in-out infinite;
 }
 
+/* Slide up */
 @keyframes slideUp {
   from {
     opacity: 0;
@@ -401,7 +313,7 @@ html {
   animation: slideUp 0.8s ease-out forwards;
 }
 
-/* Staggered animation delay utility */
+/* Staggered animation delays */
 .stagger-1 {
   animation-delay: 0.1s;
 }
@@ -449,7 +361,7 @@ html {
   animation: pageTransition 0.5s ease-out forwards;
 }
 
-/* Text highlight animation */
+/* Text gradient animation */
 @keyframes textHighlight {
 
   0%,
@@ -485,16 +397,6 @@ html {
 }
 
 /* Shimmer effect on hover */
-@keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-
-  100% {
-    background-position: 1000px 0;
-  }
-}
-
 .hover-shimmer {
   position: relative;
   overflow: hidden;
@@ -519,7 +421,7 @@ html {
   animation: shimmer 1.5s ease-in-out;
 }
 
-/* Magic button - minimal rotating border animation */
+/* Magic button — rotating border */
 @keyframes magicBorderRotate {
   0% {
     background-position: 0% 50%;
@@ -552,7 +454,10 @@ html {
   color: hsl(36 70% 55%);
 }
 
-/* ReactFlow Theme-aware Styles */
+/* ==============================
+   ReactFlow Theme Styles
+   ============================== */
+
 .react-flow__node {
   background: hsl(var(--card));
   color: hsl(var(--card-foreground));
@@ -623,7 +528,7 @@ html {
   fill: hsl(var(--card-foreground));
 }
 
-/* Dark mode specific ReactFlow overrides */
+/* Dark mode ReactFlow */
 .dark .react-flow__node {
   background: hsl(0 0% 15%);
   color: hsl(36 20% 85%);
@@ -667,7 +572,7 @@ html {
   fill: hsl(36 20% 85%);
 }
 
-/* Light mode specific ReactFlow overrides */
+/* Light mode ReactFlow */
 .light .react-flow__node {
   background: hsl(0 0% 100%);
   color: hsl(240 10% 4%);
@@ -711,15 +616,60 @@ html {
   fill: hsl(240 10% 4%);
 }
 
-/* Mobile Responsive Styles for Glass Effect & Diagrams */
-@media (max-width: 768px) {
+/* ==============================
+   Light Mode Overrides
+   ============================== */
 
-  /* Reduce glass container padding on mobile */
+.light .bg-card {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  border-color: hsl(var(--border));
+}
+
+.light .hover\:shadow-xl:hover {
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.15), 0 12px 24px -8px rgb(0 0 0 / 0.1);
+}
+
+.light .bg-secondary\/30 {
+  background-color: hsl(var(--secondary));
+}
+
+.light .text-muted-foreground {
+  color: hsl(var(--muted-foreground));
+}
+
+.light .border-border {
+  border-color: hsl(var(--border));
+}
+
+.light button,
+.light a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.light nav button,
+.light nav a {
+  color: hsl(215 25% 25%);
+  font-weight: 500;
+}
+
+.light nav button:hover,
+.light nav a:hover {
+  color: hsl(var(--primary));
+}
+
+.light section {
+  background-color: hsl(var(--background));
+}
+
+/* ==============================
+   Responsive / Mobile
+   ============================== */
+
+@media (max-width: 768px) {
   .bg-card\/30.backdrop-blur-lg {
     padding: 1rem !important;
   }
 
-  /* ReactFlow mobile optimizations */
   .react-flow__node {
     padding: 8px 12px;
     font-size: 10px;
@@ -745,20 +695,16 @@ html {
     height: 12px;
   }
 
-  /* Diagram container height reduction on mobile */
   .react-flow {
     min-height: 350px !important;
   }
 
-  /* Glass section padding adjustments */
   section .rounded-3xl {
     border-radius: 1rem;
   }
 }
 
 @media (max-width: 480px) {
-
-  /* Extra small screens */
   .react-flow__node {
     padding: 6px 10px;
     font-size: 9px;
@@ -774,12 +720,10 @@ html {
     min-height: 300px !important;
   }
 
-  /* Reduce glass border radius on very small screens */
   .rounded-3xl {
     border-radius: 0.75rem !important;
   }
 
-  /* Reduce shadow on mobile for performance */
   .shadow-2xl {
     box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.1), 0 4px 10px -4px rgb(0 0 0 / 0.1) !important;
   }
@@ -800,26 +744,27 @@ html {
   }
 }
 
-/* Landscape mode on mobile */
 @media (max-height: 500px) and (orientation: landscape) {
   .react-flow {
     min-height: 250px !important;
   }
 }
-/* ---break---
-*/
+
+/* Meteor animation */
 @theme inline {
   @keyframes meteor {
-  0% {
-    transform: rotate(var(--angle)) translateX(0);
-    opacity: 1;
+    0% {
+      transform: rotate(var(--angle)) translateX(0);
+      opacity: 1;
     }
-  70% {
-    opacity: 1;
+
+    70% {
+      opacity: 1;
     }
-  100% {
-    transform: rotate(var(--angle)) translateX(-500px);
-    opacity: 0;
+
+    100% {
+      transform: rotate(var(--angle)) translateX(-500px);
+      opacity: 0;
     }
   }
 }
