@@ -56,6 +56,12 @@ export const portfolioKnowledge = {
 
     certifications: [
         {
+            title: "Claude Code in Action",
+            issuer: "Anthropic",
+            year: "2026",
+            description: "Completed Claude Code in Action course. Certificate No: wigb5d6n7gvu"
+        },
+        {
             title: "DevOps: Planning to Production",
             issuer: "Geeks for Geeks",
             year: "2025",
