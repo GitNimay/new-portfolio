@@ -13,6 +13,7 @@ const BlogDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const post = blogPosts.find((p) => p.slug === slug);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [readingProgress, setReadingProgress] = useState(0);
   const { isMagicActive } = useMagicBackground();
 
   const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
@@ -22,6 +23,17 @@ const BlogDetail = () => {
   useEffect(() => {
     setIsLoaded(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const updateScrollProgress = () => {
+      const currentScroll = window.scrollY;
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (scrollHeight) {
+        setReadingProgress((currentScroll / scrollHeight) * 100);
+      }
+    };
+
+    window.addEventListener('scroll', updateScrollProgress);
+    return () => window.removeEventListener('scroll', updateScrollProgress);
   }, [slug]);
 
   const tocItems = useMemo(() => {
@@ -91,11 +103,11 @@ const BlogDetail = () => {
               if (imgMatch) {
                 return (
                   <div key={pIndex} className="my-10 flex flex-col items-center group animate-fade-in">
-                    <div className="max-w-sm w-full overflow-hidden rounded-xl shadow-sm border border-border/50 bg-muted/20">
+                    <div className="w-full max-w-4xl overflow-hidden rounded-xl shadow-md border border-border/50 bg-muted/20">
                       <img
                         src={imgMatch[2]}
                         alt={imgMatch[1]}
-                        className="w-full max-h-[400px] object-contain mx-auto"
+                        className="w-full h-auto object-contain mx-auto"
                       />
                     </div>
                     {imgMatch[1] && (
@@ -138,6 +150,11 @@ const BlogDetail = () => {
       />
       {/* Navigation */}
       <header className={`border-b sticky top-0 z-50 transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border-white/10" : "border-border bg-background/95 backdrop-blur-sm shadow-sm"}`}>
+        {/* Reading Progress Bar */}
+        <div 
+          className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-primary to-primary/40 transition-all duration-150 ease-out z-[51]"
+          style={{ width: `${readingProgress}%` }}
+        />
         <div className="max-w-6xl mx-auto px-4 md:px-6 py-4">
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
@@ -174,7 +191,7 @@ const BlogDetail = () => {
                 ))}
               </div>
               
-              <h1 className="text-3xl md:text-5xl font-black mb-8 leading-tight tracking-tight text-foreground">
+              <h1 className="text-4xl md:text-6xl font-black mb-8 leading-[1.1] tracking-tight text-foreground">
                 {post.title}
               </h1>
 
@@ -197,12 +214,12 @@ const BlogDetail = () => {
                 </div>
               </div>
 
-              {/* Featured Image - Shorter & Clean */}
-              <div className="mb-10 rounded-xl overflow-hidden shadow-lg border border-border max-w-2xl mx-auto">
+              {/* Featured Image - Responsive and Elegant */}
+              <div className="mb-12 rounded-2xl overflow-hidden shadow-2xl border border-border">
                 <img 
                   src={post.image} 
                   alt={post.title} 
-                  className="w-full h-[300px] md:h-[350px] object-cover" 
+                  className="w-full aspect-[16/9] md:aspect-[21/9] object-cover hover:scale-105 transition-transform duration-700" 
                 />
               </div>
             </div>
