@@ -147,6 +147,7 @@ const BlogDetail = () => {
         description={post.summary}
         ogImage={post.image}
         ogType="article"
+        canonical={`https://nimesh-kulkarni.vercel.app/blogs/${post.slug}`}
       />
       {/* Navigation */}
       <header className={`border-b sticky top-0 z-50 transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border-white/10" : "border-border bg-background/95 backdrop-blur-sm shadow-sm"}`}>

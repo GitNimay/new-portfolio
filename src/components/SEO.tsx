@@ -16,7 +16,7 @@ const defaultSEO = {
   keywords: 'DevOps, CI/CD, Docker, AWS, Kubernetes, Jenkins, Git, Linux, Infrastructure as Code, IaC, Cloud Infrastructure, Automation, Deployment, Containerization, Microservices',
   ogImage: '/og-image.jpg',
   ogType: 'website',
-  canonical: 'https://yourdomain.com',
+  canonical: 'https://nimesh-kulkarni.vercel.app',
 };
 
 const SEO = ({
@@ -28,7 +28,7 @@ const SEO = ({
   canonical,
   noindex = false,
 }: SEOProps) => {
-  const baseUrl = 'https://nimeshkulkarni.com'; // Replace with actual domain if known, or use window.location.origin
+  const baseUrl = 'https://nimesh-kulkarni.vercel.app';
   const finalTitle = title ? `${title} | Nimesh Kulkarni` : defaultSEO.title;
   const finalDescription = description || defaultSEO.description;
   const finalKeywords = keywords || defaultSEO.keywords;
@@ -43,7 +43,7 @@ const SEO = ({
   
   // Ensure canonical is absolute
   let finalCanonical = canonical || defaultSEO.canonical;
-  if (!finalCanonical || finalCanonical === 'https://yourdomain.com') {
+  if (!finalCanonical || finalCanonical === 'https://nimesh-kulkarni.vercel.app') {
     finalCanonical = typeof window !== 'undefined' ? window.location.href : baseUrl;
   }
 

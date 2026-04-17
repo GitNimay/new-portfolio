@@ -3,8 +3,8 @@ import { BlogPost } from "@/types/blog";
 export const blogPosts: BlogPost[] = [
   {
     id: '1',
-    title: 'Winning YI IDS 6.0: Why Execution Matters Most',
-    slug: 'winning-yi-ids-6-0-hackathon',
+    title: 'Winning YI IDS 6.0',
+    slug: 'yi-ids-6-win',
     summary: 'A look at how we built InterviewXpert, tested it with 100+ students, and won 1st place at the YI IDS 6.0 competition.',
     date: '2026-04-17',
     readTime: '8 min',

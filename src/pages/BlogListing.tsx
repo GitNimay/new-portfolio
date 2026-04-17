@@ -105,6 +105,7 @@ const BlogListing = () => {
       <SEO 
         title="Blog"
         description="A collection of hand-picked articles for developers, by developers. Deep dives into DevOps, AI, and more."
+        canonical="https://nimesh-kulkarni.vercel.app/blogs"
       />
       {/* Navigation Bar */}
       <header className={`border-b sticky top-0 z-50 transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border-white/10" : "border-border bg-background/95 backdrop-blur-sm"}`}>
