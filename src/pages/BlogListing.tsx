@@ -198,9 +198,17 @@ const BlogListing = () => {
                     <div className="aspect-[16/10] overflow-hidden relative bg-muted">
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
 
-                      <div className={`w-full h-full flex items-center justify-center bg-gradient-to-br ${index % 2 === 0 ? 'from-indigo-500/20 via-purple-500/20 to-pink-500/20' : 'from-blue-500/20 via-teal-500/20 to-emerald-500/20'}`}>
-                        <Sparkles className="w-12 h-12 text-muted-foreground/20 group-hover:scale-110 transition-transform duration-700" />
-                      </div>
+                      {post.image ? (
+                        <img
+                          src={post.image}
+                          alt={post.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                      ) : (
+                        <div className={`w-full h-full flex items-center justify-center bg-gradient-to-br ${index % 2 === 0 ? 'from-indigo-500/20 via-purple-500/20 to-pink-500/20' : 'from-blue-500/20 via-teal-500/20 to-emerald-500/20'}`}>
+                          <Sparkles className="w-12 h-12 text-muted-foreground/20 group-hover:scale-110 transition-transform duration-700" />
+                        </div>
+                      )}
 
                       {/* Floating Badges */}
                       <div className="absolute top-4 left-4 z-20 flex gap-2">
