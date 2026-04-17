@@ -28,12 +28,24 @@ const SEO = ({
   canonical,
   noindex = false,
 }: SEOProps) => {
+  const baseUrl = 'https://nimeshkulkarni.com'; // Replace with actual domain if known, or use window.location.origin
   const finalTitle = title ? `${title} | Nimesh Kulkarni` : defaultSEO.title;
   const finalDescription = description || defaultSEO.description;
   const finalKeywords = keywords || defaultSEO.keywords;
-  const finalOgImage = ogImage || defaultSEO.ogImage;
+  
+  // Ensure image URL is absolute for WhatsApp/Social Media
+  let finalOgImage = ogImage || defaultSEO.ogImage;
+  if (finalOgImage.startsWith('/')) {
+    finalOgImage = `${baseUrl}${finalOgImage}`;
+  }
+  
   const finalOgType = ogType || defaultSEO.ogType;
-  const finalCanonical = canonical || defaultSEO.canonical;
+  
+  // Ensure canonical is absolute
+  let finalCanonical = canonical || defaultSEO.canonical;
+  if (!finalCanonical || finalCanonical === 'https://yourdomain.com') {
+    finalCanonical = typeof window !== 'undefined' ? window.location.href : baseUrl;
+  }
 
   return (
     <Helmet>

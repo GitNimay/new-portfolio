@@ -11,6 +11,7 @@ import { useMagicBackground } from "@/context/MagicBackgroundContext";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SEO from "@/components/SEO";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -101,6 +102,10 @@ const BlogListing = () => {
 
   return (
     <div ref={containerRef} className={`min-h-screen transition-colors duration-500 ${isMagicActive ? "bg-transparent" : "bg-background"}`}>
+      <SEO 
+        title="Blog"
+        description="A collection of hand-picked articles for developers, by developers. Deep dives into DevOps, AI, and more."
+      />
       {/* Navigation Bar */}
       <header className={`border-b sticky top-0 z-50 transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border-white/10" : "border-border bg-background/95 backdrop-blur-sm"}`}>
         <div className="max-w-6xl mx-auto px-4 md:px-6 py-4">

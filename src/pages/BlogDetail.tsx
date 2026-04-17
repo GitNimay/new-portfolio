@@ -7,6 +7,7 @@ import AnimatedLogo from "@/components/AnimatedLogo";
 import { useEffect, useState, useMemo } from "react";
 import { useMagicBackground } from "@/context/MagicBackgroundContext";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
+import SEO from "@/components/SEO";
 
 const BlogDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -129,6 +130,12 @@ const BlogDetail = () => {
 
   return (
     <div className={`min-h-screen ${isLoaded ? 'animate-fade-in' : ''} ${isMagicActive ? "bg-transparent" : "bg-background"}`}>
+      <SEO 
+        title={post.title}
+        description={post.summary}
+        ogImage={post.image}
+        ogType="article"
+      />
       {/* Navigation */}
       <header className={`border-b sticky top-0 z-50 transition-all duration-500 ${isMagicActive ? "bg-card/30 backdrop-blur-lg border-white/10" : "border-border bg-background/95 backdrop-blur-sm shadow-sm"}`}>
         <div className="max-w-6xl mx-auto px-4 md:px-6 py-4">
