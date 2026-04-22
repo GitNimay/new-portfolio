@@ -96,6 +96,6 @@ Get in touch!
 ---
 
 <div align="center">
-  <p>Built with ❤️ by Nimesh Kulkarni</p>
+  <p>Built by Nimesh Kulkarni</p>
   <p>© 2026 All rights reserved.</p>
 </div>
