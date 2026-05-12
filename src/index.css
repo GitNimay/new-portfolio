@@ -129,6 +129,8 @@ html {
   opacity: 0;
   transform: translateY(40px);
   will-change: transform, opacity;
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 620px;
 }
 
 /* Touch optimization */

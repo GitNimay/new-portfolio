@@ -12,6 +12,7 @@ import { MatrixText } from "@/components/ui/matrix-text";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { SparklesText } from "@/components/ui/sparkles-text";
 import { cn } from "@/lib/utils";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 
 const email = "nimesh.kulkarni2004@gmail.com";
@@ -21,6 +22,7 @@ const Hero = () => {
   const [showGreeting, setShowGreeting] = useState(false);
   const [greetingMessage, setGreetingMessage] = useState("");
   const { isMagicActive } = useMagicBackground();
+  const reducedMotion = useReducedMotion();
 
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
@@ -28,6 +30,8 @@ const Hero = () => {
   const socialRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
+    if (reducedMotion) return;
+
     const tl = gsap.timeline();
 
     // Image Setup & Entrance
@@ -59,9 +63,11 @@ const Hero = () => {
       );
     }
 
-  }, { scope: containerRef });
+  }, { scope: containerRef, dependencies: [reducedMotion] });
 
   useEffect(() => {
+    if (reducedMotion) return;
+
     const greetings = [
       "What's up",
       "How are you",
@@ -92,7 +98,7 @@ const Hero = () => {
       clearTimeout(initialTimeout);
       clearInterval(interval);
     };
-  }, []);
+  }, [reducedMotion]);
 
   return (
     <section
@@ -118,7 +124,7 @@ const Hero = () => {
 
             <div
               ref={imageRef}
-              className="w-48 h-60 md:w-64 md:h-80 rounded-[50%] border-4 border-primary/30 overflow-hidden shadow-2xl relative cursor-pointer"
+              className="w-48 h-60 md:w-64 md:h-80 rounded-[50%] border-4 border-primary/30 overflow-hidden shadow-2xl relative cursor-pointer will-change-transform"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
@@ -129,13 +135,17 @@ const Hero = () => {
                   autoPlay
                   muted
                   playsInline
+                  preload="none"
+                  poster={profileImage}
                 />
               ) : (
                 <img
                   src={profileImage}
                   alt="Nimesh Kulkarni Profile"
                   className="w-full h-full object-cover"
-                  loading="lazy"
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
                 />
               )}
             </div>
@@ -239,7 +249,10 @@ const Hero = () => {
 
       {/* Scroll Down Indicator */}
       <div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:flex flex-col items-center gap-2 cursor-pointer z-20 animate-bounce"
+        className={cn(
+          "absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:flex flex-col items-center gap-2 cursor-pointer z-20",
+          !reducedMotion && "animate-bounce"
+        )}
         onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
       >
         <ChevronDown className="w-8 h-8 text-primary" />

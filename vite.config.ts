@@ -12,8 +12,10 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks: {
-          'vendor-ui': ['@radix-ui/react-dialog', '@radix-ui/react-tooltip', 'framer-motion'],
+          'vendor-motion': ['framer-motion', 'motion', 'gsap', '@gsap/react'],
+          'vendor-ui': ['@radix-ui/react-dialog', '@radix-ui/react-tooltip'],
           'vendor-forms': ['react-hook-form', 'zod', '@hookform/resolvers'],
+          'vendor-query': ['@tanstack/react-query'],
         }
       }
     },

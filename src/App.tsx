@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -7,10 +7,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { MusicProvider } from "./context/MusicContext";
 import { ErrorBoundary } from "./components/ErrorBoundary";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Analytics } from "@vercel/analytics/react";
 import { MagicBackgroundProvider } from "./context/MagicBackgroundContext";
 import { MagicThemeHandler } from "./components/MagicThemeHandler";
+import LazyLoadingFallback from "./components/LazyLoadingFallback";
 
 const Index = lazy(() => import("./pages/Index"));
 const BlogListing = lazy(() => import("./pages/BlogListing"));
@@ -18,13 +18,21 @@ const BlogDetail = lazy(() => import("./pages/BlogDetail"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const ChatBot = lazy(() => import("./components/ChatBot"));
 
-const PageSkeleton = () => (
-    <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="max-w-6xl w-full px-6">
-            <Skeleton className="h-screen w-full" />
-        </div>
-    </div>
-);
+const IdleMount = ({ children }: { children: ReactNode }) => {
+    const [shouldRender, setShouldRender] = useState(false);
+
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+
+        const requestIdle = window.requestIdleCallback ?? ((callback: IdleRequestCallback) => window.setTimeout(callback, 1200));
+        const cancelIdle = window.cancelIdleCallback ?? window.clearTimeout;
+        const idleId = requestIdle(() => setShouldRender(true));
+
+        return () => cancelIdle(idleId);
+    }, []);
+
+    return shouldRender ? children : null;
+};
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -46,7 +54,7 @@ const App = () => (
                             <Toaster />
                             <Sonner />
                             <BrowserRouter>
-                                <Suspense fallback={<PageSkeleton />}>
+                                <Suspense fallback={<LazyLoadingFallback />}>
                                     <Routes>
                                         <Route path="/" element={<Index />} />
                                         <Route path="/blogs" element={<BlogListing />} />
@@ -57,9 +65,11 @@ const App = () => (
                                 </Suspense>
                             </BrowserRouter>
                             <Analytics />
-                            <Suspense fallback={null}>
-                                <ChatBot />
-                            </Suspense>
+                            <IdleMount>
+                                <Suspense fallback={null}>
+                                    <ChatBot />
+                                </Suspense>
+                            </IdleMount>
                         </TooltipProvider>
                     </MagicBackgroundProvider>
                 </MusicProvider>

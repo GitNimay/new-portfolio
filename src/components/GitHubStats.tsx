@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Github, Star, GitFork, Users, BookOpen, ExternalLink, RefreshCw, Calendar } from "lucide-react";
+import { Github, Star, GitFork, Users, BookOpen, ExternalLink, RefreshCw } from "lucide-react";
 import { useMagicBackground } from "@/context/MagicBackgroundContext";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
+
+const GITHUB_CACHE_TIME = 1000 * 60 * 15;
+const GITHUB_GC_TIME = 1000 * 60 * 45;
 
 interface GitHubRepo {
     stargazers_count: number;
@@ -80,7 +83,7 @@ const GitHubStats = () => {
         };
 
     // Comprehensive GraphQL query to fetch ALL data at once
-    const { data: githubData, isLoading, error, refetch } = useQuery<GitHubComprehensiveData>({
+    const { data: githubData, isLoading, error } = useQuery<GitHubComprehensiveData>({
         queryKey: ["githubComprehensive", username, selectedYear],
         queryFn: async () => {
             const fromDate = `${selectedYear}-01-01T00:00:00Z`;
@@ -154,11 +157,11 @@ const GitHubStats = () => {
 
             return data.data;
         },
-        staleTime: 0,
-        gcTime: 0,
-        refetchInterval: 60000,
-        refetchOnWindowFocus: true,
-        refetchOnMount: true,
+        staleTime: GITHUB_CACHE_TIME,
+        gcTime: GITHUB_GC_TIME,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        retry: 1,
         enabled: !!githubToken,
     });
 
@@ -187,17 +190,12 @@ const GitHubStats = () => {
 
             return { stars };
         },
-        staleTime: 0,
-        gcTime: 0,
-        refetchInterval: 60000,
-        refetchOnWindowFocus: true,
-        refetchOnMount: true,
+        staleTime: GITHUB_CACHE_TIME,
+        gcTime: GITHUB_GC_TIME,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        retry: 1,
     });
-
-    if (error) {
-        console.error('❌ Failed to load GitHub data:', error);
-        return null;
-    }
 
     const totalLoading = isLoading || starsLoading;
 
@@ -249,6 +247,8 @@ const GitHubStats = () => {
                                     src={user.avatarUrl}
                                     alt={user.name || user.login}
                                     className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover"
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                                 {totalLoading && (
                                     <div className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-full">
@@ -279,7 +279,7 @@ const GitHubStats = () => {
 
                 {/* Key Metrics Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-8">
-                    {stats.map((stat, index) => (
+                    {stats.map((stat) => (
                         <motion.div
                             key={stat.label}
                             initial={{ opacity: 0, y: 20 }}
@@ -402,6 +402,10 @@ const GitHubStats = () => {
                                         </div>
                                     </motion.div>
                                 </AnimatePresence>
+                            ) : error ? (
+                                <div className="text-muted-foreground text-sm text-center">
+                                    GitHub contribution data is temporarily unavailable.
+                                </div>
                             ) : (
                                 <div className="text-muted-foreground text-sm">
                                     No contribution data available

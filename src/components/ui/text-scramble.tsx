@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 interface TextScrambleProps {
     children: string;
@@ -19,10 +20,14 @@ export const TextScramble = ({
     className,
 }: TextScrambleProps) => {
     const [displayText, setDisplayText] = useState(children);
-    const [isAnimating, setIsAnimating] = useState(false);
+    const reducedMotion = useReducedMotion();
 
     useEffect(() => {
-        let frame = 0;
+        if (reducedMotion) {
+            setDisplayText(children);
+            return;
+        }
+
         const length = children.length;
         let currentIteration = 0;
 
@@ -63,7 +68,7 @@ export const TextScramble = ({
 
 
         return () => clearInterval(interval);
-    }, [children, duration, speed, characterSet]);
+    }, [children, duration, speed, characterSet, reducedMotion]);
 
     return <span className={className}>{displayText}</span>;
 };

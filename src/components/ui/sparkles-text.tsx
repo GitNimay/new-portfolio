@@ -1,6 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
+import { useReducedMotion } from "@/hooks/use-reduced-motion"
 import { motion, type Variants } from "motion/react"
 
 interface SparklesTextProps {
@@ -43,11 +44,12 @@ export function SparklesText({
     sparklesCount = 10,
     colors = { first: "#A07CFE", second: "#FE8FB5" },
 }: SparklesTextProps) {
+    const reducedMotion = useReducedMotion()
     const sparkles = Array.from({ length: sparklesCount })
 
     return (
         <span className={cn("relative inline-block", className)}>
-            {sparkles.map((_, index) => (
+            {!reducedMotion && sparkles.map((_, index) => (
                 <motion.span
                     key={index}
                     variants={sparkleVariants}

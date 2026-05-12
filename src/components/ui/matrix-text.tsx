@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 interface LetterState {
     char: string;
@@ -33,6 +34,7 @@ export const MatrixText = ({
         }))
     );
     const isAnimatingRef = useRef(false);
+    const reducedMotion = useReducedMotion();
 
     const getRandomChar = useCallback(
         () => (Math.random() > 0.5 ? "1" : "0"),
@@ -93,6 +95,8 @@ export const MatrixText = ({
     }, [animateLetter, text, letterInterval]);
 
     useEffect(() => {
+        if (reducedMotion) return;
+
         const timer = setTimeout(startAnimation, initialDelay);
 
         const interval = setInterval(() => {
@@ -103,7 +107,7 @@ export const MatrixText = ({
             clearTimeout(timer);
             clearInterval(interval);
         };
-    }, [startAnimation, initialDelay, triggerInterval]);
+    }, [startAnimation, initialDelay, triggerInterval, reducedMotion]);
 
     const motionVariants = useMemo(
         () => ({
@@ -119,30 +123,6 @@ export const MatrixText = ({
         []
     );
 
-    const words = useMemo(() => {
-        let currentWord: LetterState[] = [];
-        const result: LetterState[][] = [];
-
-        letters.forEach((letter, index) => {
-            // Attach the original index to the letter object for keying if needed, or just iterate linearly
-            // Actually, we can just slice the array. But 'letters' is the state.
-            // Let's rebuild the structure based on letters array state.
-            if (letter.isSpace) {
-                if (currentWord.length > 0) {
-                    result.push(currentWord);
-                    currentWord = [];
-                }
-                result.push([letter]); // Space is its own "word" or separated
-            } else {
-                currentWord.push(letter);
-            }
-        });
-        if (currentWord.length > 0) {
-            result.push(currentWord);
-        }
-        return result;
-    }, [letters]);
-
     return (
         <div
             className={cn(
@@ -151,28 +131,6 @@ export const MatrixText = ({
             )}
             aria-label="Matrix text animation"
         >
-            {/* Iterate through words instead of flat letters */}
-            {text.split(" ").map((wordStr, wordIndex) => {
-                // We need to map back to the flat letters array.
-                // This is tricky because "text" splits vs "letters" state index.
-                // Let's assume text structure doesn't change.
-                // Calculate start index for this word.
-                // Actually, simpler loop:
-                let charCount = 0;
-                const wordsWithIndices = text.split(" ").map(w => {
-                    const start = charCount;
-                    charCount += w.length + 1; // +1 for space (except last? text.split separates by space)
-                    // Actually, generic splitting might be safer by just iterating 'letters'
-                    return { word: w, start };
-                });
-
-                /* 
-                   Better approach: Just iterate 'letters' state and buffer words.
-                   But we need to render them wrapped in divs.
-                */
-                return null;
-            })}
-
             {(() => {
                 let globalIndex = 0;
                 return text.split(" ").map((wordText, wordIndex) => {
@@ -181,7 +139,6 @@ export const MatrixText = ({
 
                     // Determine if there is a space after this word (unless it's the last one)
                     const hasSpaceDiff = (globalIndex < letters.length && letters[globalIndex].isSpace);
-                    const spaceLetter = hasSpaceDiff ? letters[globalIndex] : null;
                     if (hasSpaceDiff) globalIndex++;
 
                     return (

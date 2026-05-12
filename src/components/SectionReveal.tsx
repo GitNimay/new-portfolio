@@ -2,6 +2,7 @@ import { useRef, type ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,8 +18,10 @@ interface SectionRevealProps {
  */
 const SectionReveal = ({ children, delay = 0, className = "" }: SectionRevealProps) => {
     const ref = useRef<HTMLDivElement>(null);
+    const reducedMotion = useReducedMotion();
 
     useGSAP(() => {
+        if (reducedMotion) return;
         if (!ref.current) return;
 
         gsap.fromTo(
@@ -41,7 +44,7 @@ const SectionReveal = ({ children, delay = 0, className = "" }: SectionRevealPro
                 },
             }
         );
-    }, { scope: ref });
+    }, { scope: ref, dependencies: [reducedMotion] });
 
     return (
         <div ref={ref} className={`section-reveal ${className}`}>

@@ -63,9 +63,9 @@ export const MagicThemeHandler = () => {
             }
             
             /* Glass Cards Global Style - ONLY apply to main content sections, PROTECT CHATBOT */
-            main .bg-card:not(.fixed):not(.z-\[60\] *),
-            section .bg-card:not(.fixed):not(.z-\[60\] *),
-            .min-h-screen .bg-card:not(.fixed):not(.z-\[60\] *) {
+            main .bg-card:not(.fixed):not(.z-\\[60\\] *),
+            section .bg-card:not(.fixed):not(.z-\\[60\\] *),
+            .min-h-screen .bg-card:not(.fixed):not(.z-\\[60\\] *) {
                 background-color: hsl(0 0% 10% / 0.3) !important;
                 backdrop-filter: blur(12px) !important;
                 border: 1px solid hsl(var(--primary) / 0.2) !important;
@@ -74,9 +74,9 @@ export const MagicThemeHandler = () => {
             }
 
             /* Top shine for cards - MATCH ABOVE SELECTORS */
-            main .bg-card:not(.fixed):not(.z-\[60\] *)::before,
-            section .bg-card:not(.fixed):not(.z-\[60\] *)::before,
-            .min-h-screen .bg-card:not(.fixed):not(.z-\[60\] *)::before {
+            main .bg-card:not(.fixed):not(.z-\\[60\\] *)::before,
+            section .bg-card:not(.fixed):not(.z-\\[60\\] *)::before,
+            .min-h-screen .bg-card:not(.fixed):not(.z-\\[60\\] *)::before {
                 content: '';
                 position: absolute;
                 top: 0;

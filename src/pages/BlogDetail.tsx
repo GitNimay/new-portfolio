@@ -108,6 +108,8 @@ const BlogDetail = () => {
                         src={imgMatch[2]}
                         alt={imgMatch[1]}
                         className="w-full h-auto object-contain mx-auto"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                     {imgMatch[1] && (
@@ -221,6 +223,9 @@ const BlogDetail = () => {
                   src={post.image} 
                   alt={post.title} 
                   className="w-full aspect-[16/9] md:aspect-[21/9] object-cover hover:scale-105 transition-transform duration-700" 
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
                 />
               </div>
             </div>

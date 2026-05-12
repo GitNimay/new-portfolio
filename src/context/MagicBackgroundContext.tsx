@@ -21,6 +21,7 @@ const ShaderBackground: React.FC<{ isActive: boolean }> = ({ isActive }) => {
     const animationFrameRef = useRef<number>();
     const rendererRef = useRef<WebGLRenderer | null>(null);
     const pointersRef = useRef<PointerHandler | null>(null);
+    const isVisibleRef = useRef(true);
 
     // WebGL Renderer class
     class WebGLRenderer {
@@ -47,7 +48,13 @@ void main(){gl_Position=position;}`;
         constructor(canvas: HTMLCanvasElement, scale: number) {
             this.canvas = canvas;
             this.scale = scale;
-            this.gl = canvas.getContext('webgl2')!;
+            this.gl = canvas.getContext('webgl2', {
+                alpha: false,
+                antialias: false,
+                depth: false,
+                stencil: false,
+                powerPreference: 'low-power',
+            })!;
             this.gl.viewport(0, 0, canvas.width * scale, canvas.height * scale);
             this.shaderSource = defaultShaderSource;
         }
@@ -262,7 +269,7 @@ void main(){gl_Position=position;}`;
         if (!canvasRef.current) return;
 
         const canvas = canvasRef.current;
-        const dpr = Math.max(1, 0.5 * window.devicePixelRatio);
+        const dpr = Math.min(1, Math.max(0.6, window.devicePixelRatio * 0.5));
 
         canvas.width = window.innerWidth * dpr;
         canvas.height = window.innerHeight * dpr;
@@ -279,7 +286,9 @@ void main(){gl_Position=position;}`;
         rendererRef.current.updatePointerCount(pointersRef.current.count);
         rendererRef.current.updatePointerCoords(pointersRef.current.coords);
         rendererRef.current.updateMove(pointersRef.current.move);
-        rendererRef.current.render(now);
+        if (isVisibleRef.current) {
+            rendererRef.current.render(now);
+        }
         animationFrameRef.current = requestAnimationFrame(loop);
     }, []);
 
@@ -287,7 +296,7 @@ void main(){gl_Position=position;}`;
         if (!isActive || !canvasRef.current) return;
 
         const canvas = canvasRef.current;
-        const dpr = Math.max(1, 0.5 * window.devicePixelRatio);
+        const dpr = Math.min(1, Math.max(0.6, window.devicePixelRatio * 0.5));
 
         rendererRef.current = new WebGLRenderer(canvas, dpr);
         pointersRef.current = new PointerHandler(canvas, dpr);
@@ -303,10 +312,16 @@ void main(){gl_Position=position;}`;
 
         loop(0);
 
+        const handleVisibilityChange = () => {
+            isVisibleRef.current = document.visibilityState === 'visible';
+        };
+
         window.addEventListener('resize', resize);
+        document.addEventListener('visibilitychange', handleVisibilityChange);
 
         return () => {
             window.removeEventListener('resize', resize);
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
             if (animationFrameRef.current) {
                 cancelAnimationFrame(animationFrameRef.current);
             }

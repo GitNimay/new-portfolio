@@ -209,6 +209,8 @@ const BlogListing = () => {
                           src={post.image}
                           alt={post.title}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          loading={index < 3 ? "eager" : "lazy"}
+                          decoding="async"
                         />
                       ) : (
                         <div className={`w-full h-full flex items-center justify-center bg-gradient-to-br ${index % 2 === 0 ? 'from-indigo-500/20 via-purple-500/20 to-pink-500/20' : 'from-blue-500/20 via-teal-500/20 to-emerald-500/20'}`}>

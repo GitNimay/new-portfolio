@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
-import { Moon, Sun, Menu, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { Menu, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AnimatedLogo from "@/components/AnimatedLogo";
-import { useTheme } from "@/hooks/use-theme";
 import BottomNavbar from "@/components/BottomNavbar";
 import MobileNavbar from "@/components/MobileNavbar";
 import Playlist from "@/components/Playlist";
@@ -12,27 +11,8 @@ import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 
 
 const Navigation = () => {
-    const [scrolled, setScrolled] = useState(false);
-    const [mounted, setMounted] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { theme, toggleTheme, resolvedTheme } = useTheme();
     const { isMagicActive, toggleMagic } = useMagicBackground();
-
-    useEffect(() => {
-        setMounted(true);
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 50);
-        };
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
-    // Prevent hydration mismatch by using resolvedTheme only after mount if needed, 
-    // but here we just want to avoid showing the wrong icon. 
-    // resolvedTheme is undefined on server, so 'dark' fallback is okay for initial state if strictly needed,
-    // but usually better to wait for mount to show toggle to avoid flicker.
-    // For this specific snippets, let's keep it simple.
-    const currentTheme = mounted ? resolvedTheme : "dark";
 
     return (
         <>
