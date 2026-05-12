@@ -192,7 +192,7 @@ const Hero = () => {
                 isMagicActive ? "bg-black/20 border-white/20 hover:bg-black/40 text-white" : ""
               )}>
                 <a
-                  href="https://drive.google.com/file/d/1kzQ-DhDhpaiZpOIcWLLwrBJMv5_Ggu-a/view?usp=sharing"
+                  href="https://docs.google.com/document/d/1vdAgBVN_NtRVD_xuQ0jGvg1Cmpwm_6GS/edit?usp=sharing&ouid=116826189459599851989&rtpof=true&sd=true"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2"
